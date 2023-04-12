@@ -21,11 +21,7 @@
 
 | [김지은<br>(FE, 팀장)] | [김미리<br>(FE)] | [오다경<br>(FE)]| [양도열<br>(BE, 팀장)] | [김태진<br>(BE)] | [김예진<br>(BE)] |
 | :---: | :---: | :---: | :---: | :---: | :---: |
-|<img src="https://user-images.githubusercontent.com/77611460/231422765-ef24ec68-6325-473f-85e6-47c4c760c77a.jpg" alt="jieun" width="120">|
-||
-||
-||
-||
+|<img src="https://user-images.githubusercontent.com/77611460/231422765-ef24ec68-6325-473f-85e6-47c4c760c77a.jpg" alt="jieun" width="120">| <img src="https://user-images.githubusercontent.com/77611460/231422765-ef24ec68-6325-473f-85e6-47c4c760c77a.jpg" alt="miri" width="120">| <img src="https://user-images.githubusercontent.com/77611460/231423719-aaddad26-d8fa-438e-8707-b1e8c1e1e695.png" alt="dakyung" width="120">| <img src="https://user-images.githubusercontent.com/77611460/231423741-6a7b19b2-e25e-4e03-8782-0159f1bf05ec.jpg" alt="doyeol" width="120">| <img src="https://user-images.githubusercontent.com/77611460/231423728-bfda1caf-fe13-400b-b3ae-f4ed3bda1b65.jpg" alt="taejin" width="120">| <img src="https://user-images.githubusercontent.com/77611460/231422765-ef24ec68-6325-473f-85e6-47c4c760c77a.jpg" alt="yejin" width="120">
 
 
 
@@ -75,7 +71,7 @@
 ## :sloth: Git
 ### :wood: Branch
 `master` : 배포 브랜치 <br/>
-`develope` : 
+`develope` : 작업 
 
 
 
