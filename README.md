@@ -71,7 +71,7 @@
 ## :sloth: Git
 ### :wood: Branch
 `master` : 배포 브랜치 <br/>
-`develope` : 작업 
+`develope` : 작업 브랜치 <br/>
 
 
 
