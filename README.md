@@ -21,7 +21,11 @@
 
 | [김지은<br>(FE, 팀장)] | [김미리<br>(FE)] | [오다경<br>(FE)]| [양도열<br>(BE, 팀장)] | [김태진<br>(BE)] | [김예진<br>(BE)] |
 | :---: | :---: | :---: | :---: | :---: | :---: |
-
+|<img src="https://user-images.githubusercontent.com/77611460/231422765-ef24ec68-6325-473f-85e6-47c4c760c77a.jpg" alt="jieun" width="120">|
+||
+||
+||
+||
 
 
 
