@@ -1,0 +1,8 @@
+{
+  "eslint.validate": ["html", "javascript", "javascriptreact"],
+  "eslint.alwaysShowStatus": true,
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": { "source.fixAll.eslint": true },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "files.autoSave": "onWindowChange"
+}
