@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import { BiSearchAlt } from 'react-icons/bi';
 import { FiMenu } from 'react-icons/fi';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Logo from '../images/logo.png';
 
 const HeaderBox = styled.div`
@@ -43,6 +45,7 @@ const Container = styled.div`
 
   .menu {
     cursor: pointer;
+    flex-shrink: 0;
   }
 `;
 
@@ -54,13 +57,14 @@ const SearchBox = styled.div`
   background: #fff;
   padding: 5px;
   border-radius: 3px;
-  border: 1px solid rgba(0, 0, 0, 0.2);
 
-  // ToDo - 230414 : input 클릭 시 div에 라인 효과 주기
-  :hover {
-    border: 1px solid rgba(95, 149, 248);
-    box-shadow: rgba(3, 102, 214, 0.3) 0px 0px 0px 3px;
-  }
+  border: ${props =>
+    props.focus === true
+      ? '1px solid rgba(95, 149, 248)'
+      : '1px solid rgba(0, 0, 0, 0.2)'};
+
+  box-shadow: ${props =>
+    props.focus === true ? 'rgba(3, 102, 214, 0.3) 0px 0px 0px 3px' : null};
 
   .search {
     border: none;
@@ -76,7 +80,7 @@ const SearchBox = styled.div`
   }
 `;
 
-const SignUp = styled.button`
+const Logout = styled.button`
   display: inline-block;
   width: 70px;
   height: 40px;
@@ -84,6 +88,7 @@ const SignUp = styled.button`
   border: 1px solid rgba(95, 149, 248);
   border-radius: 5px;
   color: white;
+  margin-left: 10px;
 
   :hover {
     cursor: pointer;
@@ -91,37 +96,45 @@ const SignUp = styled.button`
   }
 `;
 
-const SignIn = styled(SignUp)`
-  background-color: rgba(228, 235, 243);
-  color: rgba(95, 149, 248);
-  border: 1px solid rgba(95, 149, 248);
-  margin-left: 10px;
-  margin-right: 5px;
+function HeaderLogin({ setLogout }) {
+  const [focus, setFocus] = useState(false);
 
-  :hover {
-    cursor: pointer;
-    background-color: rgb(187, 210, 231);
+  function searchFocus() {
+    setFocus(true);
   }
-`;
 
-function Header() {
+  function searchBlur() {
+    setFocus(false);
+  }
+
+  // function GoHome() {
+  //   navigate('/');
+  // }
+
   return (
     <HeaderBox>
       <Container>
         <FiMenu className="menu" size="30" />
-        <a href="https://stackoverflow.com/">
+        <a href="/">
           <img src={Logo} className="logoImg" alt="로고사진" />
         </a>
         <span className="questions">All Questions</span>
-        <SearchBox>
+        <SearchBox focus={focus}>
           <BiSearchAlt size="25" fill="#888" />
-          <input type="text" className="search" placeholder="Search..." />
+          <input
+            onFocus={searchFocus}
+            onBlur={searchBlur}
+            type="text"
+            className="search"
+            placeholder="Search..."
+          />
         </SearchBox>
-        <SignIn type="button">Log in</SignIn>
-        <SignUp type="button">Sign up</SignUp>
+        <Logout onClick={setLogout} type="button">
+          Log out
+        </Logout>
       </Container>
     </HeaderBox>
   );
 }
 
-export default Header;
+export default HeaderLogin;
