@@ -1,5 +1,4 @@
 import './App.css';
-import styled, { createGlobalStyle } from 'styled-components';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { useState } from 'react';
 import HeaderLogout from './components/HeaderLogout';
