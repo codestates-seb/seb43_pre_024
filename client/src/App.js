@@ -1,17 +1,18 @@
 import './App.css';
-import { createGlobalStyle } from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { useState } from 'react';
 import HeaderLogout from './components/HeaderLogout';
 import HeaderLogin from './components/HeaderLogin';
 import Footer from './components/Footer';
+import Navbar from './components/Navbar';
 import AllQuestions from './pages/AllQuestions';
 import Home from './pages/Home';
 import LogIn from './pages/LogIn';
 import MyPage from './pages/MyPage';
 import QuestionDetail from './pages/QuestionDetail';
 import SignUp from './pages/SignUp';
-import WriteQuestion from './pages/WriteQuestion';
+import NewQuestion from './pages/NewQuestion';
 
 const router = createBrowserRouter([
   {
@@ -26,8 +27,8 @@ const router = createBrowserRouter([
   },
   {
     // 질문 작성 페이지
-    path: '/write-question',
-    element: <WriteQuestion />,
+    path: '/new-question',
+    element: <NewQuestion />,
   },
   {
     // 질문 상세 페이지
@@ -69,13 +70,15 @@ function App() {
       ) : (
         <HeaderLogout setLogin={() => onLogin()} />
       )}
-
       <div
         style={{
           paddingTop: 70,
-          maxWidth: 900,
+          display: 'flex',
+          flexDirection: 'row',
+          paddingLeft: 20,
         }}
       >
+        <Navbar />
         <RouterProvider router={router} />
       </div>
       <Footer />

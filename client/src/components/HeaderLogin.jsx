@@ -31,8 +31,9 @@ const Container = styled.div`
   .questions {
     margin-left: 10px;
     margin-right: 20px;
-    width: 120px;
+    width: 90px;
     padding: 10px;
+    text-align: center;
     color: rgba(0, 0, 0, 0.7);
 
     :hover {
@@ -46,6 +47,12 @@ const Container = styled.div`
   .menu {
     cursor: pointer;
     flex-shrink: 0;
+    padding: 10px;
+
+    :hover {
+      background-color: rgba(0, 0, 0, 0.1);
+      border-radius: 50%;
+    }
   }
 `;
 
