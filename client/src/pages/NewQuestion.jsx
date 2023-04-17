@@ -1,4 +1,4 @@
-function WriteQuestion() {
+function NewQuestion() {
   return (
     <>
       <div>hi</div>
@@ -7,4 +7,4 @@ function WriteQuestion() {
   );
 }
 
-export default WriteQuestion;
+export default NewQuestion;

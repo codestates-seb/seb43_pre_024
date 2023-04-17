@@ -12,7 +12,7 @@ import LogIn from './pages/LogIn';
 import MyPage from './pages/MyPage';
 import QuestionDetail from './pages/QuestionDetail';
 import SignUp from './pages/SignUp';
-import WriteQuestion from './pages/WriteQuestion';
+import NewQuestion from './pages/NewQuestion';
 
 const router = createBrowserRouter([
   {
@@ -27,8 +27,8 @@ const router = createBrowserRouter([
   },
   {
     // 질문 작성 페이지
-    path: '/write-question',
-    element: <WriteQuestion />,
+    path: '/new-question',
+    element: <NewQuestion />,
   },
   {
     // 질문 상세 페이지
