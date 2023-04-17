@@ -1,4 +1,4 @@
-package com.notfound4.Answer;
+package com.notfound4.Answer.Entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
