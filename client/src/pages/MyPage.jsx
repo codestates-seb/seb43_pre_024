@@ -1,5 +1,10 @@
 function MyPage() {
-  return <></>;
+  return (
+    <>
+      <div>hi</div>
+      <div>hi</div>
+    </>
+  );
 }
 
 export default MyPage;

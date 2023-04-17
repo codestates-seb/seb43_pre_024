@@ -1,8 +1,10 @@
 import './App.css';
 import { createGlobalStyle } from 'styled-components';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { useState } from 'react';
 import HeaderLogout from './components/HeaderLogout';
 import HeaderLogin from './components/HeaderLogin';
+import Footer from './components/Footer';
 import AllQuestions from './pages/AllQuestions';
 import Home from './pages/Home';
 import LogIn from './pages/LogIn';
@@ -49,18 +51,25 @@ const router = createBrowserRouter([
   },
 ]);
 
-const GlobalStyle = createGlobalStyle`
-  *{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-`;
-
 function App() {
+  const [login, setLogin] = useState(false);
+
+  function onLogin() {
+    setLogin(true);
+  }
+
+  function onLogout() {
+    setLogin(false);
+  }
+
   return (
     <div className="App">
-      <HeaderLogin />
+      {login ? (
+        <HeaderLogin setLogout={() => onLogout()} />
+      ) : (
+        <HeaderLogout setLogin={() => onLogin()} />
+      )}
+
       <div
         style={{
           paddingTop: 70,
@@ -69,6 +78,7 @@ function App() {
       >
         <RouterProvider router={router} />
       </div>
+      <Footer />
     </div>
   );
 }

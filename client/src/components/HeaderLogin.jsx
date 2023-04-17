@@ -45,6 +45,7 @@ const Container = styled.div`
 
   .menu {
     cursor: pointer;
+    flex-shrink: 0;
   }
 `;
 
@@ -95,13 +96,15 @@ const Logout = styled.button`
   }
 `;
 
-function HeaderLogin() {
+function HeaderLogin({ setLogout }) {
   const [focus, setFocus] = useState(false);
-  // const navigate = useNavigate();
 
   function searchFocus() {
     setFocus(true);
-    console.log(focus);
+  }
+
+  function searchBlur() {
+    setFocus(false);
   }
 
   // function GoHome() {
@@ -112,7 +115,7 @@ function HeaderLogin() {
     <HeaderBox>
       <Container>
         <FiMenu className="menu" size="30" />
-        <a href="https://naver.com">
+        <a href="/">
           <img src={Logo} className="logoImg" alt="로고사진" />
         </a>
         <span className="questions">All Questions</span>
@@ -120,12 +123,15 @@ function HeaderLogin() {
           <BiSearchAlt size="25" fill="#888" />
           <input
             onFocus={searchFocus}
+            onBlur={searchBlur}
             type="text"
             className="search"
             placeholder="Search..."
           />
         </SearchBox>
-        <Logout type="button">Log out</Logout>
+        <Logout onClick={setLogout} type="button">
+          Log out
+        </Logout>
       </Container>
     </HeaderBox>
   );

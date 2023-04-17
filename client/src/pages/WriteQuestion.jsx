@@ -1,5 +1,10 @@
 function WriteQuestion() {
-  return <></>;
+  return (
+    <>
+      <div>hi</div>
+      <div>hi</div>
+    </>
+  );
 }
 
 export default WriteQuestion;

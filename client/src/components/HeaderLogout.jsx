@@ -1,11 +1,12 @@
 import styled from 'styled-components';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { BiSearchAlt } from 'react-icons/bi';
 import { FiMenu } from 'react-icons/fi';
 import Logo from '../images/logo.png';
 
 const HeaderBox = styled.div`
-  width: 100%;
+  min-width: 100%;
   height: 70px;
   position: fixed;
   top: 0;
@@ -44,6 +45,7 @@ const Container = styled.div`
 
   .menu {
     cursor: pointer;
+    flex-shrink: 0;
   }
 `;
 
@@ -55,13 +57,14 @@ const SearchBox = styled.div`
   background: #fff;
   padding: 5px;
   border-radius: 3px;
-  border: 1px solid rgba(0, 0, 0, 0.2);
 
-  // ToDo - 230414 : input 클릭 시 div에 라인 효과 주기
-  :hover {
-    border: 1px solid rgba(95, 149, 248);
-    box-shadow: rgba(3, 102, 214, 0.3) 0px 0px 0px 3px;
-  }
+  border: ${props =>
+    props.focus === true
+      ? '1px solid rgba(95, 149, 248)'
+      : '1px solid rgba(0, 0, 0, 0.2)'};
+
+  box-shadow: ${props =>
+    props.focus === true ? 'rgba(3, 102, 214, 0.3) 0px 0px 0px 3px' : null};
 
   .search {
     border: none;
@@ -105,20 +108,38 @@ const SignIn = styled(SignUp)`
   }
 `;
 
-function HeaderLogout() {
+function HeaderLogout({ login, setLogin }) {
+  const [focus, setFocus] = useState(false);
+
+  function searchFocus() {
+    setFocus(true);
+  }
+
+  function searchBlur() {
+    setFocus(false);
+  }
+
   return (
     <HeaderBox>
       <Container>
         <FiMenu className="menu" size="30" />
-        <a href="https://stackoverflow.com/">
+        <a href="/">
           <img src={Logo} className="logoImg" alt="로고사진" />
         </a>
         <span className="questions">All Questions</span>
-        <SearchBox>
+        <SearchBox focus={focus}>
           <BiSearchAlt size="25" fill="#888" />
-          <input type="text" className="search" placeholder="Search..." />
+          <input
+            onFocus={searchFocus}
+            onBlur={searchBlur}
+            type="text"
+            className="search"
+            placeholder="Search..."
+          />
         </SearchBox>
-        <SignIn type="button">Log in</SignIn>
+        <SignIn onClick={setLogin} type="button">
+          Log in
+        </SignIn>
         <SignUp type="button">Sign up</SignUp>
       </Container>
     </HeaderBox>
