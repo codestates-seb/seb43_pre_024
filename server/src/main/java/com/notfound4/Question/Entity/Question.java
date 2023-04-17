@@ -23,13 +23,12 @@ public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long questionId;     //질문ID
-    @Column
     @ManyToOne
     @JoinColumn(name = "memberId")
-    private Member member;     //멤버ID
-    @Column
+    private Member member;     //Member- 멤버ID와 매핑
+    @Column(length = 50, nullable = false)
     private String title;     //질문 제목
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String content;     //질문 내용
     @Column
     @CreatedDate
@@ -38,10 +37,15 @@ public class Question {
     @LastModifiedDate
     private LocalDateTime modifiedAt;     //수정 시간
     @Column
-    private Integer views;     //조회수
+    private Integer views = 0;     //조회수
     @Column
     private Long acceptedAnswerId;     //채택된 답변
 
+    // Answer 와 매핑
     @OneToMany(mappedBy = "question")
     private List<Answer> answerList = new ArrayList<>();
+
+    // Like 와 매핑
+    @OneToMany(mappedBy = "question")
+    private List<Like> likeList = new ArrayList<>();
 }

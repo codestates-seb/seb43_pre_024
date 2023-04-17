@@ -22,24 +22,22 @@ public class Answer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long answerId;  // 답변 ID
 
-    @Column
     @ManyToOne
     @JoinColumn(name = "questionId")
-    private Question question;    // 질문 ID, 질문 매핑
+    private Question question;    // Question - 질문 ID와 매핑
 
-    @Column
     @ManyToOne
     @JoinColumn(name = "memberId")
-    private Member member;  // 멤버 ID, 멤버 매핑
+    private Member member;  // Member - 멤버 ID와 매핑
 
-    @Column(nullable = false, columnDefinition = "TEXT")
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String content; // 답변 내용
 
     @CreatedDate
-    @Column(nullable = false)
+    @Column
     private LocalDateTime createdAt;    // 답변 생성 시간
 
     @LastModifiedDate
-    @Column(nullable = false)
+    @Column
     private LocalDateTime modifiedAt;   // 답변 수정 시간
 }

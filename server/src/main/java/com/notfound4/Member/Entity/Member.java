@@ -1,6 +1,7 @@
 package com.notfound4.Member.Entity;
 
 import com.notfound4.Answer.Entity.Answer;
+import com.notfound4.Question.Entity.Like;
 import com.notfound4.Question.Entity.Question;
 import lombok.Getter;
 import lombok.Setter;
@@ -32,7 +33,7 @@ public class Member {
     @Column(length = 100, nullable = false)
     private String password;
 
-    @Column(name = "profile_image", nullable = false)
+    @Column(name = "profile_image")
     private byte[] profileImage;
 
     @Enumerated(value = EnumType.STRING)
@@ -47,14 +48,25 @@ public class Member {
     @Column(name = "modified_at")
     private LocalDateTime modifiedAt;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    private List<String> role = new ArrayList<>();
+//    @ElementCollection(fetch = FetchType.EAGER)
+//    private List<String> role = new ArrayList<>();
 
+    // Answer 와 매핑
     @OneToMany(mappedBy = "member")
     private List<Answer> answerList = new ArrayList<>();
 
+    // Question 와 매핑
     @OneToMany(mappedBy = "member")
     private List<Question> questionList = new ArrayList<>();
+
+    // Log 와 매핑
+    @OneToMany(mappedBy = "member")
+    private List<Log> logList = new ArrayList<>();
+
+    // Like 와 매핑
+    @OneToMany(mappedBy = "member")
+    private List<Like> likeList = new ArrayList<>();
+
 
     public enum Status {
         ACTIVE("활동중"),
