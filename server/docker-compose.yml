@@ -1,0 +1,16 @@
+version:  "3.8"
+services:
+  pharmacy-recommendation-database:
+    container_name: notfound-database
+    build:
+      dockerfile: Dockerfile
+      context: ./database
+    image: f431f2c54069/notfound-database
+    environment:
+      - MARIADB_DATABASE=notfound
+      - MARIADB_ROOT_PASSWORD=${SPRING_DATASOURCE_PASSWORD}
+    volumes:
+      - ./database/config:/etc/mysql/conf.d
+    #      - ./database/init:/docker-entrypoint-initdb.d
+    ports:
+      - "3307:3306"
