@@ -63,11 +63,6 @@ function App() {
     setLogin(false);
   }
 
-  const Display = createGlobalStyle`
-    display: flex;
-    flex-direction: row;
-  `;
-
   return (
     <div className="App">
       {login ? (
@@ -83,7 +78,6 @@ function App() {
           paddingLeft: 20,
         }}
       >
-        <Display />
         <Navbar />
         <RouterProvider router={router} />
       </div>
