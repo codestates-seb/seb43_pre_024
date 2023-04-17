@@ -1,5 +1,7 @@
 package com.notfound4.Member.Entity;
 
+import com.notfound4.Answer.Entity.Answer;
+import com.notfound4.Question.Entity.Question;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
@@ -19,7 +21,7 @@ public class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long memberId;
+    private Long memberId;
 
     @Column(length = 30, nullable = false)
     private String name;
@@ -47,6 +49,12 @@ public class Member {
 
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> role = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    private List<Answer> answerList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    private List<Question> questionList = new ArrayList<>();
 
     public enum Status {
         ACTIVE("활동중"),

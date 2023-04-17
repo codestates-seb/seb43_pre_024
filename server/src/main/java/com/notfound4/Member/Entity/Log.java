@@ -15,6 +15,8 @@ public class Log {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long log_id;     //로그ID
     @Column
+    @OneToMany
+    @JoinColumn(name = "memberId")
     private Long member_id;     //사용자ID
     @Column
     private Long login;     //로그인/로그아웃
