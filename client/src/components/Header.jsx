@@ -112,7 +112,7 @@ function Header() {
         <a href="https://stackoverflow.com/">
           <img src={Logo} className="logoImg" alt="로고사진" />
         </a>
-        <span className="questions">All Questions</span>
+        <span className="questions">Top Questions</span>
         <SearchBox>
           <BiSearchAlt size="25" fill="#888" />
           <input type="text" className="search" placeholder="Search..." />
