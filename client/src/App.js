@@ -1,10 +1,11 @@
 import './App.css';
-import { createGlobalStyle } from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { useState } from 'react';
 import HeaderLogout from './components/HeaderLogout';
 import HeaderLogin from './components/HeaderLogin';
 import Footer from './components/Footer';
+import Navbar from './components/Navbar';
 import AllQuestions from './pages/AllQuestions';
 import Home from './pages/Home';
 import LogIn from './pages/LogIn';
@@ -62,6 +63,11 @@ function App() {
     setLogin(false);
   }
 
+  const Display = createGlobalStyle`
+    display: flex;
+    flex-direction: row;
+  `;
+
   return (
     <div className="App">
       {login ? (
@@ -69,13 +75,16 @@ function App() {
       ) : (
         <HeaderLogout setLogin={() => onLogin()} />
       )}
-
       <div
         style={{
           paddingTop: 70,
-          maxWidth: 900,
+          display: 'flex',
+          flexDirection: 'row',
+          paddingLeft: 20,
         }}
       >
+        <Display />
+        <Navbar />
         <RouterProvider router={router} />
       </div>
       <Footer />
