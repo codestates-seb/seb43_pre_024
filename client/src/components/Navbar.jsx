@@ -1,10 +1,11 @@
 import styled from 'styled-components';
 import { useState } from 'react';
 import { FaGlobeAsia } from 'react-icons/fa';
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import { Routes, Route, Link } from 'react-router-dom';
 import Home from '../pages/Home';
 import AllQuestions from '../pages/AllQuestions';
 import MyPage from '../pages/MyPage';
+import NewQuestion from '../pages/NewQuestion';
 
 const NavBox = styled.div`
   width: 250px;
@@ -126,7 +127,7 @@ function Navbar() {
   }
 
   return (
-    <BrowserRouter>
+    <>
       <NavBox>
         <Link to="/">
           <HomeBtn
@@ -147,7 +148,8 @@ function Navbar() {
               questionsActive={questionsActive}
               type="button"
             >
-              <FaGlobeAsia className="globe" /> Questions
+              <FaGlobeAsia className="globe" />
+              Questions
             </QuestionsBtn>
           </Link>
           <button type="button" className="navMenu borderNone">
@@ -174,10 +176,10 @@ function Navbar() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/all-questions" element={<AllQuestions />} />
+        <Route path="/new-question" element={<NewQuestion />} />
         <Route path="/mypage" element={<MyPage />} />
       </Routes>
-    </BrowserRouter>
+    </>
   );
 }
-
 export default Navbar;
