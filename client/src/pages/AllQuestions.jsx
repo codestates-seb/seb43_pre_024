@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import useFetch from '../util/useFetch';
 
 const Box = styled.div`
@@ -135,6 +136,7 @@ const ContentsBox = styled.div`
 `;
 
 function AllQuestions() {
+  const navigate = useNavigate();
   const { datas, isPending, error } = useFetch(`
   http://localhost:3001/questions`);
 
@@ -168,7 +170,11 @@ function AllQuestions() {
             <h2>All Questions</h2>
           </div>
           <div className="buttonBox">
-            <button type="button" className="askBtn">
+            <button
+              type="button"
+              className="askBtn"
+              onClick={() => navigate('/new-question')}
+            >
               Ask Question
             </button>
           </div>
