@@ -1,7 +1,7 @@
 ---
 name: "[FEAT]"
 about: pre-project-024-NotFound404
-title: "[JOB]"
+title: "[feat]"
 labels: ''
 assignees: ''
 
