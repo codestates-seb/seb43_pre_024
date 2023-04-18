@@ -1,7 +1,9 @@
 import styled from 'styled-components';
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import { BiSearchAlt } from 'react-icons/bi';
 import { FiMenu } from 'react-icons/fi';
 import { useState } from 'react';
+import Home from '../pages/Home';
 import Logo from '../images/logo.png';
 
 const HeaderBox = styled.div`
@@ -114,28 +116,36 @@ function HeaderLogin({ setLogout }) {
   }
 
   return (
-    <HeaderBox>
-      <Container>
-        <FiMenu className="menu" size="30" />
-        <a href="/">
-          <img src={Logo} className="logoImg" alt="로고사진" />
-        </a>
-        <span className="questions">All Questions</span>
-        <SearchBox focus={focus}>
-          <BiSearchAlt size="25" fill="#888" />
-          <input
-            onFocus={searchFocus}
-            onBlur={searchBlur}
-            type="text"
-            className="search"
-            placeholder="Search..."
-          />
-        </SearchBox>
-        <Logout onClick={setLogout} type="button">
-          Log out
-        </Logout>
-      </Container>
-    </HeaderBox>
+    <BrowserRouter>
+      <HeaderBox>
+        <Container>
+          <FiMenu className="menu" size="30" />
+          <a href="/">
+            <img src={Logo} className="logoImg" alt="로고사진" />
+          </a>
+          <span className="questions">All Questions</span>
+          <SearchBox focus={focus}>
+            <BiSearchAlt size="25" fill="#888" />
+            <input
+              onFocus={searchFocus}
+              onBlur={searchBlur}
+              type="text"
+              className="search"
+              placeholder="Search..."
+            />
+          </SearchBox>
+          <Link to="/">
+            <Logout onClick={setLogout} type="button">
+              Log out
+            </Logout>
+          </Link>
+        </Container>
+      </HeaderBox>
+
+      <Routes>
+        <Route path="/" element={<Home />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

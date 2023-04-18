@@ -1,8 +1,11 @@
 import styled from 'styled-components';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import { BiSearchAlt } from 'react-icons/bi';
 import { FiMenu } from 'react-icons/fi';
+import Home from '../pages/Home';
+import LogIn from '../pages/LogIn';
+import SignUpPage from '../pages/SignUpPage';
 import Logo from '../images/logo.png';
 
 const HeaderBox = styled.div`
@@ -127,29 +130,41 @@ function HeaderLogout({ login, setLogin }) {
   }
 
   return (
-    <HeaderBox>
-      <Container>
-        <FiMenu className="menu" size="30" />
-        <a href="/">
-          <img src={Logo} className="logoImg" alt="로고사진" />
-        </a>
-        <span className="questions">All Questions</span>
-        <SearchBox focus={focus}>
-          <BiSearchAlt size="25" fill="#888" />
-          <input
-            onFocus={searchFocus}
-            onBlur={searchBlur}
-            type="text"
-            className="search"
-            placeholder="Search..."
-          />
-        </SearchBox>
-        <SignIn onClick={setLogin} type="button">
-          Log in
-        </SignIn>
-        <SignUp type="button">Sign up</SignUp>
-      </Container>
-    </HeaderBox>
+    <BrowserRouter>
+      <HeaderBox>
+        <Container>
+          <FiMenu className="menu" size="30" />
+          <a href="/">
+            <img src={Logo} className="logoImg" alt="로고사진" />
+          </a>
+          <span className="questions">All Questions</span>
+          <SearchBox focus={focus}>
+            <BiSearchAlt size="25" fill="#888" />
+            <input
+              onFocus={searchFocus}
+              onBlur={searchBlur}
+              type="text"
+              className="search"
+              placeholder="Search..."
+            />
+          </SearchBox>
+          <Link to="/login">
+            <SignIn onClick={setLogin} type="button">
+              Log in
+            </SignIn>
+          </Link>
+          <Link to="/signup">
+            <SignUp type="button">Sign up</SignUp>
+          </Link>
+        </Container>
+      </HeaderBox>
+
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<LogIn />} />
+        <Route path="/signup" element={<SignUpPage />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

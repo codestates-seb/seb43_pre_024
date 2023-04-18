@@ -73,7 +73,6 @@ const TitleBox = styled.div`
   }
 
   .sortBtnBox {
-    position: relative;
     border: 1px solid black;
     height: 40px;
     width: 240px;
@@ -81,16 +80,13 @@ const TitleBox = styled.div`
     align-items: center;
     justify-content: center;
     border-radius: 5px;
-    z-index: 5;
   }
 `;
 
 const HotBtn = styled.button`
-  position: relative;
   border: none;
   width: 80px;
   height: 40px;
-  z-index: 1;
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
   cursor: pointer;
@@ -100,11 +96,9 @@ const HotBtn = styled.button`
 `;
 
 const NewBtn = styled.button`
-  position: relative;
   border: none;
   width: 80px;
   height: 40px;
-  z-index: 1;
   border-left: 1px solid black;
   border-right: 1px solid black;
 
@@ -113,11 +107,9 @@ const NewBtn = styled.button`
 `;
 
 const TopBtn = styled.button`
-  position: relative;
   border: none;
   width: 80px;
   height: 40px;
-  z-index: 1;
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
   cursor: pointer;
@@ -128,9 +120,40 @@ const TopBtn = styled.button`
 
 const ContentsBox = styled.div`
   width: 100%;
-  height: 80%;
-  border: 1px solid black;
+  height: 100%;
+  border: 1px solid green;
   padding: 20px;
+  box-sizing: border-box;
+`;
+
+const QuestionBox = styled.div`
+  border: 1px solid red;
+  width: 100%;
+  height: 200px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  border: 1px solid red;
+  box-sizing: border-box;
+`;
+
+const CountBox = styled.div`
+  width: 20%;
+  border: 1px solid blue;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+`;
+
+const QuestionMain = styled.div`
+  width: 80%;
+  border: 1px solid green;
+  box-sizing: border-box;
+`;
+
+const QuestionProfile = styled.div`
+  width: 100%;
+  border: 1px solid black;
   box-sizing: border-box;
 `;
 
@@ -203,7 +226,36 @@ function AllQuestions() {
         </div>
       </TitleBox>
       <ContentsBox>
-        <h2>질문 목록</h2>
+        {datas
+          ? datas.map(data => {
+              return (
+                <QuestionBox>
+                  <CountBox>
+                    <div className="likes">
+                      <span className="likesValue">{data.likes}</span>
+                      <span className="likesText">likes</span>
+                    </div>
+                    <div className="answers">
+                      <span className="answersValue">{data.answer_cnt}</span>
+                      <span className="answersText">answers</span>
+                    </div>
+                    <div className="views">
+                      <span className="viewsValue">{data.views}</span>
+                      <span className="viewsText">views</span>
+                    </div>
+                  </CountBox>
+                  <QuestionMain>
+                    {data.title}
+                    {data.content}
+                  </QuestionMain>
+                  <QuestionProfile>
+                    {data.name}
+                    {data.createdAt}
+                  </QuestionProfile>
+                </QuestionBox>
+              );
+            })
+          : null}
       </ContentsBox>
     </Box>
   );
