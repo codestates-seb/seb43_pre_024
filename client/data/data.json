@@ -1,0 +1,59 @@
+{        
+  "questions_cnt" : [
+    {
+      "cnt" : 5
+    }
+  ],
+    "questions" : [
+        {          
+          "questionId" : 1,
+          "title" : "질문 제목1",
+          "content" : "질문 내용1",
+          "name" : "김지은",
+          "likes" : "0",
+          "answer_cnt" : "2",
+          "views" : "1",
+          "created_at" : "2023-04-18"
+        },
+        {          
+          "questionId" : 2,
+          "title" : "질문 제목2",
+          "content" : "질문 내용2",
+          "name" : "김미리",
+          "likes" : "2",
+          "answer_cnt" : "0",
+          "views" : "10",
+          "created_at" : "시간"
+        },
+        {          
+          "questionId" : 3,
+          "title" : "질문 제목3",
+          "content" : "질문 내용3",
+          "name" : "오다경",
+          "likes" : "0",
+          "answer_cnt" : "7",
+          "views" : "4",
+          "created_at" : "시간"
+        },
+        {          
+          "questionId" : 4,
+          "title" : "질문 제목4",
+          "content" : "질문 내용4",
+          "name" : "양도열",
+          "likes" : "8",
+          "answer_cnt" : "4",
+          "views" : "26",
+          "created_at" : "시간"
+        },
+        {          
+          "questionId" : 5,
+          "title" : "질문 제목5",
+          "content" : "질문 내용5",
+          "name" : "김태진",
+          "likes" : "5",
+          "answer_cnt" : "2",
+          "views" : "308",
+          "created_at" : "시간"
+        }
+    ]
+}
