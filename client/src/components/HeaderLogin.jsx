@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import { BiSearchAlt } from 'react-icons/bi';
 import { FiMenu } from 'react-icons/fi';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import Logo from '../images/logo.png';
 
 const HeaderBox = styled.div`
@@ -113,10 +112,6 @@ function HeaderLogin({ setLogout }) {
   function searchBlur() {
     setFocus(false);
   }
-
-  // function GoHome() {
-  //   navigate('/');
-  // }
 
   return (
     <HeaderBox>

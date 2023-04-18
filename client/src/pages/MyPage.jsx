@@ -1,9 +1,14 @@
+import styled from 'styled-components';
+
+const MypageBox = styled.div`
+  width: calc(100% - 250px);
+`;
+
 function MyPage() {
   return (
-    <>
-      <div>hi</div>
-      <div>hi</div>
-    </>
+    <MypageBox>
+      <div>Mypage</div>
+    </MypageBox>
   );
 }
 

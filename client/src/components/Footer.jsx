@@ -5,6 +5,7 @@ import logo from '../images/logo-stackoverflow.png';
 const FooterBox = styled.div`
   display: flex;
   justify-content: center;
+  position: sticky;
   width: 100%;
   height: 340px;
   background: rgba(234, 234, 234);
@@ -120,7 +121,7 @@ function Footer() {
             </li>
           </ul>
         </UlBox>
-        <span className="teamName">@404NotFound</span>
+        <span className="teamName">@NotFound404</span>
       </Container>
     </FooterBox>
   );
