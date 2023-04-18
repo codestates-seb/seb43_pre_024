@@ -1,15 +1,14 @@
 import styled from 'styled-components';
 
 const Box = styled.div`
-  width: 100%;
+  width: calc(100% - 250px);
   border: 1px solid red;
 `;
 
 function AllQuestions() {
   return (
     <Box>
-      <div>hi</div>
-      <h2>안녕</h2>
+      <h2>AllQuestions</h2>
     </Box>
   );
 }
