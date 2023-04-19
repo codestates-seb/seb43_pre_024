@@ -6,13 +6,13 @@ import useFetch from '../util/useFetch';
 import MyPage from '../pages/MyPage';
 
 const PagingBox = styled.div`
-  width: 50%;
+  width: 35%;
   display: flex;
   justify-content: center;
   flex-direction: row;
   position: absolute;
-  bottom: 8%;
-  left: 23%;
+  bottom: -8%;
+  left: 30%;
 
   .left {
     padding-top: 5px;
@@ -26,12 +26,13 @@ const PagingBox = styled.div`
     display: flex;
     flex-direction: row;
     font-size: 1.2rem;
-    justify-content: center;
     align-items: center;
+    width: 100%;
+    justify-content: space-evenly;
+    margin: 0;
 
     li {
       list-style: none;
-      margin: 1rem;
       width: 30px;
       height: 30px;
       display: flex;
@@ -57,6 +58,7 @@ const Container = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
+  position: relative;
 `;
 
 function Paging() {

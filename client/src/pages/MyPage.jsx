@@ -4,22 +4,25 @@ import useFetch from '../util/useFetch';
 import profileImg from '../images/profileImg.jpeg';
 
 const MypageBox = styled.div`
-  width: calc(100% - 250px);
+  width: 100%;
+  height: 100%;
   box-sizing: border-box;
-  padding: 10rem 5rem 3rem 5rem;
+  padding: 3% 0 0 8%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  position: relative;
 `;
 
 const ProfileBox = styled.div`
   width: 100%;
   box-sizing: border-box;
-  height: 40%;
+  height: 300px;
   display: flex;
   align-items: center;
-  padding-left: 10%;
+  padding-left: 100px;
+  margin-top: 3%;
 `;
 
 const ProfileImg = styled.div`
@@ -71,13 +74,13 @@ const ProfileDetail = styled.div`
 `;
 
 const ContentBox = styled.div`
-  width: 90%;
   box-sizing: border-box;
+  width: 100%;
+  padding-left: 6rem;
   height: 50%;
-  padding: 4rem;
   display: flex;
   flex-direction: column;
-  margin-top: 5rem;
+  margin-top: 4%;
 `;
 
 const TabBox = styled.div`
@@ -119,8 +122,8 @@ const QuestionsBox = styled.div`
   border-top: 1px solid rgb(176, 171, 171);
   border-right: 1px solid rgb(176, 171, 171);
   border-radius: 5px;
-  height: 50%;
   box-sizing: border-box;
+  width: 80%;
 
   .questionBox {
     border-bottom: 1px solid rgb(176, 171, 171);
@@ -170,6 +173,7 @@ const AnswersBox = styled.div`
   border-right: 1px solid rgb(176, 171, 171);
   border-radius: 5px;
   height: 90%;
+  width: 80%;
   box-sizing: border-box;
 
   .questionBox {
@@ -215,16 +219,14 @@ const AnswersBox = styled.div`
 `;
 
 const BtnBox = styled.div`
-  width: 100%;
   box-sizing: border-box;
-  height: 10%;
   display: flex;
   align-items: center;
   justify-content: end;
-  padding-right: 1rem;
+  padding-right: 6rem;
   position: absolute;
-  bottom: 5%;
-  right: 15%;
+  bottom: -9%;
+  right: 0;
 
   .secession {
     border: none;
@@ -239,6 +241,26 @@ const BtnBox = styled.div`
   }
 `;
 
+const SecessionAlertBack = styled.div`
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 30%;
+  border: 1px solid black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 4;
+`;
+
+const SecessionAlertBox = styled.div`
+  width: 30%;
+  height: 30%;
+  border: 1px solid green;
+`;
+
 function MyPage({
   pageData,
   pageAnswersData,
@@ -251,8 +273,8 @@ function MyPage({
   http://localhost:3001/user`);
 
   const [user, setUsers] = useState([]);
-  // const [questionsActive, setQuestionsActive] = useState(true);
-  // const [answersActive, setAnswersActive] = useState(false);
+  const [secession, setSecession] = useState(false);
+  const [alert, setAlert] = useState(false);
 
   function activeQuestions() {
     setQuestionsActive(true);
@@ -262,6 +284,18 @@ function MyPage({
   function activeAnswers() {
     setQuestionsActive(false);
     setAnswersActive(true);
+  }
+
+  function onSecession() {
+    setSecession(true);
+  }
+
+  function onAlert() {
+    setAlert(!alert);
+  }
+
+  function offAlert() {
+    setAlert(false);
   }
 
   useEffect(() => {
@@ -353,10 +387,19 @@ function MyPage({
         ) : null}
       </ContentBox>
       <BtnBox>
-        <button type="button" className="secession">
+        <button type="button" className="secession" onClick={onAlert}>
           secession
         </button>
       </BtnBox>
+      {alert ? (
+        <SecessionAlertBack>
+          <SecessionAlertBox>
+            <button onClick={onAlert} type="button">
+              취소
+            </button>
+          </SecessionAlertBox>
+        </SecessionAlertBack>
+      ) : null}
     </MypageBox>
   );
 }
