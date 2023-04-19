@@ -1,12 +1,12 @@
 import styled from 'styled-components';
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { BiSearchAlt } from 'react-icons/bi';
 import { FiMenu } from 'react-icons/fi';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import Logo from '../images/logo.png';
 
 const HeaderBox = styled.div`
-  min-width: 100%;
+  width: 100%;
   height: 70px;
   position: fixed;
   top: 0;
@@ -20,7 +20,7 @@ const HeaderBox = styled.div`
 `;
 
 const Container = styled.div`
-  width: 1264px;
+  width: 1400px;
   display: flex;
   align-items: center;
 
@@ -28,13 +28,19 @@ const Container = styled.div`
     width: 190px;
   }
 
+  a {
+    text-decoration: none;
+  }
+
   .questions {
     margin-left: 10px;
     margin-right: 20px;
-    width: 150px;
-    text-align: center;
+    width: 100px;
     padding: 10px;
+    text-align: center;
     color: rgba(0, 0, 0, 0.7);
+    flex-shrink: 0;
+    display: block;
 
     :hover {
       background-color: rgba(0, 0, 0, 0.1);
@@ -87,7 +93,7 @@ const SearchBox = styled.div`
   }
 `;
 
-const SignUp = styled.button`
+const LogoutOrSignUp = styled.button`
   display: inline-block;
   width: 70px;
   height: 40px;
@@ -95,6 +101,7 @@ const SignUp = styled.button`
   border: 1px solid rgba(95, 149, 248);
   border-radius: 5px;
   color: white;
+  margin-left: 10px;
 
   :hover {
     cursor: pointer;
@@ -102,7 +109,7 @@ const SignUp = styled.button`
   }
 `;
 
-const SignIn = styled(SignUp)`
+const SignIn = styled(LogoutOrSignUp)`
   background-color: rgba(228, 235, 243);
   color: rgba(95, 149, 248);
   border: 1px solid rgba(95, 149, 248);
@@ -115,7 +122,7 @@ const SignIn = styled(SignUp)`
   }
 `;
 
-function HeaderLogout({ login, setLogin }) {
+function Header({ isLogin, changeLoginStatus }) {
   const [focus, setFocus] = useState(false);
 
   function searchFocus() {
@@ -133,7 +140,9 @@ function HeaderLogout({ login, setLogin }) {
         <a href="/">
           <img src={Logo} className="logoImg" alt="로고사진" />
         </a>
-        <span className="questions">All Questions</span>
+        <Link to="all-questions">
+          <span className="questions">All Questions</span>
+        </Link>
         <SearchBox focus={focus}>
           <BiSearchAlt size="25" fill="#888" />
           <input
@@ -144,13 +153,23 @@ function HeaderLogout({ login, setLogin }) {
             placeholder="Search..."
           />
         </SearchBox>
-        <SignIn onClick={setLogin} type="button">
-          Log in
-        </SignIn>
-        <SignUp type="button">Sign up</SignUp>
+        {isLogin ? (
+          <LogoutOrSignUp type="button" onClick={changeLoginStatus}>
+            Log out
+          </LogoutOrSignUp>
+        ) : (
+          <SignIn type="button" onClick={changeLoginStatus}>
+            Log in
+          </SignIn>
+        )}
+        {isLogin === false && (
+          <Link to="signup">
+            <LogoutOrSignUp type="button">Sign up</LogoutOrSignUp>
+          </Link>
+        )}
       </Container>
     </HeaderBox>
   );
 }
 
-export default HeaderLogout;
+export default Header;
