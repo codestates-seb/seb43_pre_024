@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const SignUpBox = styled.div`
   padding: 0;
@@ -70,6 +70,12 @@ const InputBox = styled.div`
     border: 1px solid #0a95ff;
     box-shadow: 0 0 0 3px #b7defc;
   }
+
+  .errorMessage {
+    margin-top: -13px;
+    font-size: 0.8rem;
+    color: #0a95ff;
+  }
 `;
 
 const SignUpBtn = styled.button`
@@ -86,11 +92,21 @@ const SignUpBtn = styled.button`
   }
 `;
 
-function SignUp() {
+function SignUpPage() {
   const [nameIsFocused, setNameIsFocused] = useState(false);
   const [emailIsFocused, setEmailIsFocused] = useState(false);
   const [pwIsFocused, setPwIsFocused] = useState(false);
+  const [pwChIsFocused, setChPwIsFocused] = useState(false);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [passwordCheck, setPasswordCheck] = useState('');
+  const [userData, setUserData] = useState([]);
+  const [emailErrorMeassage, setEmailErrorMeassage] = useState('');
+  const [pwErrorMeassage, setPwErrorMeassage] = useState('');
+  const [pwCheckErrorMeassage, setPwCheckErrorMeassage] = useState('');
 
+  // display name input 클릭 시 div 포커스 효과
   const nameHandleFocus = () => {
     setNameIsFocused(true);
   };
@@ -99,6 +115,7 @@ function SignUp() {
     setNameIsFocused(false);
   };
 
+  // email input 클릭 시 div 포커스 효과
   const emailHandleFocus = () => {
     setEmailIsFocused(true);
   };
@@ -107,6 +124,7 @@ function SignUp() {
     setEmailIsFocused(false);
   };
 
+  // password input 클릭 시 div 포커스 효과
   const handleFocus = () => {
     setPwIsFocused(true);
   };
@@ -114,6 +132,90 @@ function SignUp() {
   const handleBlur = () => {
     setPwIsFocused(false);
   };
+
+  // password Check input 클릭 시 div 포커스 효과
+  const pwCheckHandleFocus = () => {
+    setChPwIsFocused(true);
+  };
+
+  const pwCheckHandleBlur = () => {
+    setChPwIsFocused(false);
+  };
+
+  const user = {
+    name,
+    email,
+    password,
+  };
+
+  useEffect(() => {
+    fetch('http://localhost:4000/users/')
+      .then(response => response.json())
+      .then(data => setUserData(data));
+  }, []);
+
+  const handleSubmit = () => {
+    fetch('http://localhost:4000/users/')
+      .then(response => response.json())
+      .then(data => setUserData(data));
+
+    if (
+      userData.some(m => {
+        return m.name === name;
+      })
+    ) {
+      alert('이미 존재하는 display name입니다.');
+      return;
+    }
+
+    if (
+      userData.some(m => {
+        return m.email === email;
+      })
+    ) {
+      alert('이미 존재하는 이메일입니다.');
+      return;
+    }
+
+    if (
+      emailErrorMeassage.length !== 0 ||
+      name.length === 0 ||
+      email.length === 0 ||
+      password.length === 0 ||
+      pwCheckErrorMeassage.length !== 0
+    ) {
+      return;
+    }
+
+    fetch('http://localhost:4000/users/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(user),
+    }).then(response => response.json());
+  };
+
+  // 이메일 유효성 체크
+  useEffect(() => {
+    if (!email.includes('@') && email.length > 6) {
+      setEmailErrorMeassage('이메일 형식을 확인해주세요.');
+    } else setEmailErrorMeassage('');
+  }, [email]);
+
+  // 패스워드 유효성 체크
+  useEffect(() => {
+    if ((password.length > 3 && password.length < 7) || password.length > 20) {
+      setPwErrorMeassage('7자에서 20자 이내로 비밀번호를 입력해주세요.');
+    } else setPwErrorMeassage('');
+  }, [password]);
+
+  // 패스워드 유효성 체크
+  useEffect(() => {
+    if (password !== passwordCheck) {
+      setPwCheckErrorMeassage('비밀번호를 다시 한번 확인해주세요.');
+    } else setPwCheckErrorMeassage('');
+  }, [password, passwordCheck]);
 
   return (
     <SignUpBox>
@@ -169,6 +271,8 @@ function SignUp() {
                 <input
                   onFocus={nameHandleFocus}
                   onBlur={nameHandleBlur}
+                  onChange={e => setName(e.target.value)}
+                  maxLength="10"
                   type="displayName"
                   id="displayName"
                 />
@@ -184,11 +288,13 @@ function SignUp() {
                 <input
                   onFocus={emailHandleFocus}
                   onBlur={emailHandleBlur}
+                  onChange={e => setEmail(e.target.value)}
                   type="email"
                   id="email"
                 />
               </div>
             </label>
+            <p className="errorMessage">{emailErrorMeassage}</p>
           </div>
           <div className="inputArea">
             <label htmlFor="password">
@@ -199,17 +305,46 @@ function SignUp() {
                 <input
                   onFocus={handleFocus}
                   onBlur={handleBlur}
+                  onChange={e => setPassword(e.target.value)}
+                  maxLength="20"
                   type="password"
                   id="password"
                 />
               </div>
             </label>
+            <p className="errorMessage">{pwErrorMeassage}</p>
           </div>
-          <SignUpBtn type="submit">Sign up</SignUpBtn>
+          {password.length > 6 ? (
+            <div className="inputArea">
+              <label htmlFor="password">
+                Password Check
+                <div
+                  className={
+                    pwChIsFocused ? 'inputFocus focused' : 'inputFocus'
+                  }
+                >
+                  <input
+                    onFocus={pwCheckHandleFocus}
+                    onBlur={pwCheckHandleBlur}
+                    onChange={e => setPasswordCheck(e.target.value)}
+                    maxLength="20"
+                    type="password"
+                    id="password"
+                  />
+                </div>
+              </label>
+              <p className="errorMessage">{pwCheckErrorMeassage}</p>
+            </div>
+          ) : (
+            ''
+          )}
+          <SignUpBtn onClick={handleSubmit} type="submit">
+            Sign up
+          </SignUpBtn>
         </InputBox>
       </div>
     </SignUpBox>
   );
 }
 
-export default SignUp;
+export default SignUpPage;
