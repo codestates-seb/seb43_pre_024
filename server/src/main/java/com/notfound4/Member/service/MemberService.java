@@ -3,6 +3,7 @@ package com.notfound4.Member.service;
 
 import com.notfound4.Member.Entity.Member;
 import com.notfound4.Member.repository.MemberRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -10,16 +11,19 @@ import java.util.Optional;
 @Service
 public class MemberService {
     private final MemberRepository memberRepository;
-
-    public MemberService(MemberRepository memberRepository) {
+    private final PasswordEncoder passwordEncoder;
+    public MemberService(MemberRepository memberRepository,
+                         PasswordEncoder passwordEncoder) {
         this.memberRepository = memberRepository;
+        this.passwordEncoder = passwordEncoder;
 
     }
 
     // 예외 처리
     public Member createMember(Member member) {
         verifyExistsEmail(member.getEmail());
-
+        String encryptedPassword = passwordEncoder.encode(member.getPassword());
+        member.setPassword(encryptedPassword);
         return memberRepository.save(member);
     }
 
@@ -29,7 +33,7 @@ public class MemberService {
         Optional.ofNullable(member.getName())
                 .ifPresent(name -> findMember.setName(name));
         Optional.ofNullable(member.getPassword())
-                .ifPresent(password -> findMember.setPassword(password));
+                .ifPresent(password -> findMember.setPassword(passwordEncoder.encode(password)));
 
         return memberRepository.save(findMember);
     }
