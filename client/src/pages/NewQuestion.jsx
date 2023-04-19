@@ -3,7 +3,6 @@ import { useState } from 'react';
 import MDEditor from '@uiw/react-md-editor';
 
 const NewQuestionStyle = styled.div`
-  width: 100%;
   display: flex;
   flex-direction: column;
   text-align: left;
@@ -27,6 +26,10 @@ function NewQuestion() {
         value={title}
         setValue={setTitle}
         hasNextButton={currentStep === 0}
+        disabled={currentStep < 0}
+        onClickNext={() => {
+          setCurrentStep(1);
+        }}
       />
       <QuestionInputBox
         title="What are the details of your problem? "
@@ -35,6 +38,14 @@ function NewQuestion() {
         value={body}
         setValue={setBody}
         hasNextButton={currentStep === 1}
+        disabled={currentStep < 1}
+        onClickNext={() => {
+          if (title.length < 20) {
+            alert('20자 이상 입력해주세요.');
+          } else {
+            setCurrentStep(2);
+          }
+        }}
       />
       <button
         type="button"
@@ -68,9 +79,10 @@ function QuestionInputBox(props) {
     setValue,
     hasNextButton,
     onClickNext,
+    disabled,
   } = props;
   return (
-    <>
+    <div style={{ opacity: disabled ? 0.5 : 1 }}>
       <h4>{title}</h4>
       <p>{description}</p>
       {inputType === 'text' && (
@@ -79,10 +91,20 @@ function QuestionInputBox(props) {
           placeholder={placeholder}
           value={value}
           onChange={e => setValue(e.target.value)}
+          style={{ width: '100%' }}
+          disabled={disabled}
         />
       )}
       {inputType === 'md-editor' && (
-        <MDEditor value={value} onChange={setValue} />
+        <MDEditor
+          value={value}
+          style={{ width: '100%' }}
+          onChange={event => {
+            if (!disabled) {
+              setValue(event);
+            }
+          }}
+        />
       )}
       {hasNextButton && (
         <button
@@ -93,7 +115,7 @@ function QuestionInputBox(props) {
           Next
         </button>
       )}
-    </>
+    </div>
   );
 }
 export default NewQuestion;
