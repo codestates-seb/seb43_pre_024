@@ -24,11 +24,16 @@ function Paging() {
 
   const [user, setUsers] = useState([]);
   const [questions, setQuestions] = useState([]);
+  const [answers, setAnswers] = useState([]);
+
+  const [questionsActive, setQuestionsActive] = useState(true);
+  const [answersActive, setAnswersActive] = useState(false);
 
   useEffect(() => {
     if (isPending) {
       setUsers(datas[0]);
       setQuestions(user.questions);
+      setAnswers(user.answers);
     }
   }, [datas, isPending, user]);
 
@@ -50,25 +55,64 @@ function Paging() {
 
   function handlePageChange(pageCnt) {
     setPage(pageCnt);
-    console.log(page);
   }
 
   const pageData = dataPerPage[page - 1];
-  console.log(pageData);
+
+  const answersCount = answers ? answers.length : 0;
+  const answersPerPage = 2;
+  const answersTotalPage = answersCount / answersPerPage;
+
+  const [answersPage, setAnswersPage] = useState(1);
+
+  const dataPerAnswersPage = [];
+
+  for (let i = 0; i < answersTotalPage; i += 1) {
+    const temp = [];
+    for (let j = 0; j < 2; j += 1) {
+      if (i * 2 + j < answersCount) temp.push(answers[i * 2 + j]);
+    }
+    dataPerAnswersPage.push(temp);
+  }
+
+  function handleAnswersPageChange(pageCnt) {
+    setAnswersPage(pageCnt);
+  }
+
+  const pageAnswersData = dataPerAnswersPage[answersPage - 1];
 
   return (
     <Container>
-      <MyPage pageData={pageData} />
+      <MyPage
+        pageData={pageData}
+        pageAnswersData={pageAnswersData}
+        questionsActive={questionsActive}
+        setQuestionsActive={setQuestionsActive}
+        answersActive={answersActive}
+        setAnswersActive={setAnswersActive}
+      />
       <PagingBox>
-        <Pagination
-          activePage={page}
-          itemsCountPerPage={questionsPerPage}
-          totalItemsCount={questionsCount}
-          pageRangeDisplayed={totalPage}
-          prevPageText="-"
-          nextPageText="+"
-          onChange={e => handlePageChange(e)}
-        />
+        {questionsActive ? (
+          <Pagination
+            activePage={page}
+            itemsCountPerPage={questionsPerPage}
+            totalItemsCount={questionsCount}
+            pageRangeDisplayed={totalPage}
+            prevPageText="-"
+            nextPageText="+"
+            onChange={e => handlePageChange(e)}
+          />
+        ) : (
+          <Pagination
+            activePage={answersPage}
+            itemsCountPerPage={answersPerPage}
+            totalItemsCount={answersCount}
+            pageRangeDisplayed={answersTotalPage}
+            prevPageText="-"
+            nextPageText="+"
+            onChange={e => handleAnswersPageChange(e)}
+          />
+        )}
       </PagingBox>
     </Container>
   );

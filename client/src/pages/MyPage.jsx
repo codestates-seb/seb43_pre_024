@@ -235,13 +235,20 @@ const BtnBox = styled.div`
   }
 `;
 
-function MyPage({ pageData }) {
+function MyPage({
+  pageData,
+  pageAnswersData,
+  setQuestionsActive,
+  setAnswersActive,
+  questionsActive,
+  answersActive,
+}) {
   const { datas, isPending, error } = useFetch(`
   http://localhost:3001/user`);
 
   const [user, setUsers] = useState([]);
-  const [questionsActive, setQuestionsActive] = useState(true);
-  const [answersActive, setAnswersActive] = useState(false);
+  // const [questionsActive, setQuestionsActive] = useState(true);
+  // const [answersActive, setAnswersActive] = useState(false);
 
   function activeQuestions() {
     setQuestionsActive(true);
@@ -319,8 +326,8 @@ function MyPage({ pageData }) {
         ) : null}
         {answersActive ? (
           <AnswersBox>
-            {pageData
-              ? pageData.map(answer => {
+            {pageAnswersData
+              ? pageAnswersData.map(answer => {
                   return (
                     <div key={answer.questionId} className="questionBox">
                       <div className="detailBox">
