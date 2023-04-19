@@ -6,6 +6,7 @@ import Home from '../pages/Home';
 import AllQuestions from '../pages/AllQuestions';
 import MyPage from '../pages/MyPage';
 import NewQuestion from '../pages/NewQuestion';
+import SignUp from '../pages/SignUp';
 
 const NavBox = styled.div`
   width: 250px;
@@ -178,6 +179,7 @@ function Navbar() {
         <Route path="/all-questions" element={<AllQuestions />} />
         <Route path="/new-question" element={<NewQuestion />} />
         <Route path="/mypage" element={<MyPage />} />
+        <Route path="/signup" element={<SignUp />} />
       </Routes>
     </>
   );

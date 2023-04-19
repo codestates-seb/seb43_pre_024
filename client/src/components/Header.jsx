@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { BiSearchAlt } from 'react-icons/bi';
 import { FiMenu } from 'react-icons/fi';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import Logo from '../images/logo.png';
 
 const HeaderBox = styled.div`
@@ -19,7 +20,7 @@ const HeaderBox = styled.div`
 `;
 
 const Container = styled.div`
-  width: 1264px;
+  width: 1400px;
   display: flex;
   align-items: center;
 
@@ -27,13 +28,19 @@ const Container = styled.div`
     width: 190px;
   }
 
+  a {
+    text-decoration: none;
+  }
+
   .questions {
     margin-left: 10px;
     margin-right: 20px;
-    width: 90px;
+    width: 100px;
     padding: 10px;
     text-align: center;
     color: rgba(0, 0, 0, 0.7);
+    flex-shrink: 0;
+    display: block;
 
     :hover {
       background-color: rgba(0, 0, 0, 0.1);
@@ -133,7 +140,9 @@ function Header({ isLogin, changeLoginStatus }) {
         <a href="/">
           <img src={Logo} className="logoImg" alt="로고사진" />
         </a>
-        <span className="questions">All Questions</span>
+        <Link to="all-questions">
+          <span className="questions">All Questions</span>
+        </Link>
         <SearchBox focus={focus}>
           <BiSearchAlt size="25" fill="#888" />
           <input
@@ -154,7 +163,9 @@ function Header({ isLogin, changeLoginStatus }) {
           </SignIn>
         )}
         {isLogin === false && (
-          <LogoutOrSignUp type="button">Sign up</LogoutOrSignUp>
+          <Link to="signup">
+            <LogoutOrSignUp type="button">Sign up</LogoutOrSignUp>
+          </Link>
         )}
       </Container>
     </HeaderBox>

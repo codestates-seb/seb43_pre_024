@@ -15,7 +15,7 @@ function App() {
       navigate('/'); // go to home when sign outed
     } else {
       setLogin(true);
-      navigate('/all-questions'); // go to all questions page when sign in
+      navigate('/login'); // go to all questions page when sign in
     }
   }
 
