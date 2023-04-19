@@ -17,6 +17,7 @@ const HeaderBox = styled.div`
   box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px,
     rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
   border-top: 3px solid orange;
+  z-index: 10;
 `;
 
 const Container = styled.div`
