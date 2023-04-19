@@ -5,7 +5,6 @@ import profileImg from '../images/profileImg.jpeg';
 
 const MypageBox = styled.div`
   width: calc(100% - 250px);
-  border: 1px solid green;
   box-sizing: border-box;
   padding: 3rem 5rem 3rem 5rem;
   display: flex;
@@ -18,14 +17,13 @@ const ProfileBox = styled.div`
   width: 100%;
   box-sizing: border-box;
   height: 40%;
-  border: 1px solid black;
   display: flex;
   align-items: center;
   padding-left: 10%;
 `;
 
 const ProfileImg = styled.div`
-  width: 25%;
+  width: 20%;
   height: 100%;
   box-sizing: border-box;
   display: flex;
@@ -37,7 +35,7 @@ const ProfileImg = styled.div`
   .profileImg {
     width: 100%;
     position: absolute;
-    z-index: 1;
+    z-index: -1;
     border-radius: 5px;
     box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 12px;
   }
@@ -54,6 +52,7 @@ const ProfileDetail = styled.div`
     font-size: 1.5rem;
     padding-bottom: 1rem;
     margin-bottom: 10px;
+    margin-left: 5px;
   }
 
   .countBox {
@@ -72,50 +71,152 @@ const ProfileDetail = styled.div`
 `;
 
 const ContentBox = styled.div`
-  width: 100%;
+  width: 90%;
   box-sizing: border-box;
   height: 50%;
-  border: 1px solid black;
+  padding: 4rem;
+  display: flex;
+  flex-direction: column;
 `;
 
 const TabBox = styled.div`
   box-sizing: border-box;
-  border: 1px solid black;
+  margin-left: 20px;
 `;
 
 const QuestionsBtn = styled.button`
   border: none;
-  background-color: rgb(168, 198, 232);
-  color: white;
-  padding: 1rem;
-  font-size: 1.3rem;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
-`;
-
-const AnswerssBtn = styled.button`
-  border: none;
   background-color: ${props =>
     props.questionsActive === true
-      ? 'rgb(107, 147, 149)'
+      ? 'rgb(107, 147, 249)'
       : 'rgb(168, 198, 232)'};
   color: white;
   padding: 1rem;
+  width: 140px;
   font-size: 1.3rem;
   border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  cursor: pointer;
+  margin-right: 10px;
+`;
+
+const AnswersBtn = styled.button`
+  border: none;
+  background-color: ${props =>
+    props.answersActive === true ? 'rgb(107, 147, 249)' : 'rgb(168, 198, 232)'};
+  color: white;
+  padding: 1rem;
+  width: 140px;
+  font-size: 1.3rem;
+  border-top-left-radius: 5px;
+  cursor: pointer;
   border-top-right-radius: 5px;
 `;
 
 const QuestionsBox = styled.div`
-  border: 1px solid black;
+  border-left: 1px solid rgb(176, 171, 171);
+  border-top: 1px solid rgb(176, 171, 171);
+  border-right: 1px solid rgb(176, 171, 171);
+  border-radius: 5px;
+  height: 90%;
   box-sizing: border-box;
+
+  .questionBox {
+    border-bottom: 1px solid rgb(176, 171, 171);
+    box-sizing: border-box;
+    height: 50%;
+    padding: 1rem;
+
+    .title {
+      font-size: 1.4rem;
+      color: rgb(57, 116, 194);
+      margin-top: 5px;
+
+      :hover {
+        color: rgb(77, 139, 221);
+      }
+    }
+  }
+
+  .detailBox {
+    font-size: 1.1rem;
+  }
+
+  .likes {
+    font-weight: bold;
+  }
+
+  .answerCnt {
+    margin-left: 12px;
+    margin-right: 12px;
+    color: rgb(94, 98, 101);
+  }
+
+  .views {
+    color: rgb(94, 98, 101);
+  }
+
+  .createdAt {
+    text-align: right;
+    margin-top: 30px;
+    color: rgb(61, 66, 70);
+  }
+`;
+
+const AnswersBox = styled.div`
+  border-left: 1px solid rgb(176, 171, 171);
+  border-top: 1px solid rgb(176, 171, 171);
+  border-right: 1px solid rgb(176, 171, 171);
+  border-radius: 5px;
+  height: 90%;
+  box-sizing: border-box;
+
+  .questionBox {
+    border-bottom: 1px solid rgb(176, 171, 171);
+    box-sizing: border-box;
+    height: 50%;
+    padding: 1rem;
+
+    .title {
+      font-size: 1.4rem;
+      color: rgb(57, 116, 194);
+      margin-top: 5px;
+
+      :hover {
+        color: rgb(77, 139, 221);
+      }
+    }
+  }
+
+  .detailBox {
+    font-size: 1.1rem;
+  }
+
+  .likes {
+    font-weight: bold;
+  }
+
+  .answerCnt {
+    margin-left: 12px;
+    margin-right: 12px;
+    color: rgb(94, 98, 101);
+  }
+
+  .views {
+    color: rgb(94, 98, 101);
+  }
+
+  .createdAt {
+    text-align: right;
+    margin-top: 30px;
+    color: rgb(61, 66, 70);
+  }
 `;
 
 const BtnBox = styled.div`
   width: 100%;
   box-sizing: border-box;
   height: 10%;
-  border: 1px solid black;
   display: flex;
   align-items: center;
   justify-content: end;
@@ -141,6 +242,8 @@ function MyPage() {
   const [user, setUsers] = useState([]);
   const [questionsActive, setQuestionsActive] = useState(true);
   const [answersActive, setAnswersActive] = useState(false);
+  const [questions, setQuestions] = useState([]);
+  const [answers, setAnswers] = useState([]);
 
   function activeQuestions() {
     setQuestionsActive(true);
@@ -155,6 +258,8 @@ function MyPage() {
   useEffect(() => {
     if (isPending) {
       setUsers(datas[0]);
+      setQuestions(user.questions);
+      setAnswers(user.answers);
     }
   }, [datas, isPending, user]);
 
@@ -168,11 +273,10 @@ function MyPage() {
           <div className="nameBox">{user.name}</div>
           <div className="countBox">
             <span className="countQuestions">
-              <b>{user.questions ? user.questions.length : 0}</b>&nbsp;
-              questions&nbsp;
+              <b>{questions ? questions.length : null}</b>&nbsp;questions&nbsp;
             </span>
             <span className="countQuestions">
-              <b>{user.answers ? user.answers.length : 0}</b>&nbsp;answers
+              <b>{answers ? answers.length : null}</b>&nbsp;answers
             </span>
           </div>
         </ProfileDetail>
@@ -186,17 +290,35 @@ function MyPage() {
           >
             Questions
           </QuestionsBtn>
-          <AnswerssBtn
+          <AnswersBtn
             type="button"
             onClick={() => activeAnswers()}
             answersActive={answersActive}
           >
             Answers
-          </AnswerssBtn>
+          </AnswersBtn>
         </TabBox>
-        <QuestionsBox>
-          <h2>dkfj</h2>
-        </QuestionsBox>
+        {questionsActive ? (
+          <QuestionsBox>
+            {questions
+              ? questions.map(question => {
+                  return (
+                    <div key={question.questionId} className="questionBox">
+                      <div className="detailBox">
+                        <span className="likes">{question.likes} likes</span>
+                        <span className="answerCnt">
+                          {question.answer_cnt} answers
+                        </span>
+                        <span className="views">{question.views} views</span>
+                      </div>
+                      <div className="title">{question.title}</div>
+                      <div className="createdAt">{question.created_at}</div>
+                    </div>
+                  );
+                })
+              : null}
+          </QuestionsBox>
+        ) : null}
       </ContentBox>
       <BtnBox>
         <button type="button" className="secession">
