@@ -6,7 +6,7 @@ import profileImg from '../images/profileImg.jpeg';
 const MypageBox = styled.div`
   width: calc(100% - 250px);
   box-sizing: border-box;
-  padding: 3rem 5rem 3rem 5rem;
+  padding: 10rem 5rem 3rem 5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -77,6 +77,7 @@ const ContentBox = styled.div`
   padding: 4rem;
   display: flex;
   flex-direction: column;
+  margin-top: 5rem;
 `;
 
 const TabBox = styled.div`
@@ -118,13 +119,14 @@ const QuestionsBox = styled.div`
   border-top: 1px solid rgb(176, 171, 171);
   border-right: 1px solid rgb(176, 171, 171);
   border-radius: 5px;
-  height: 90%;
+  height: 50%;
   box-sizing: border-box;
+  border: 1px solid green;
 
   .questionBox {
     border-bottom: 1px solid rgb(176, 171, 171);
     box-sizing: border-box;
-    height: 50%;
+    height: 100%;
     padding: 1rem;
 
     .title {
@@ -221,6 +223,9 @@ const BtnBox = styled.div`
   align-items: center;
   justify-content: end;
   padding-right: 1rem;
+  position: absolute;
+  bottom: 5%;
+  right: 15%;
 
   .secession {
     border: none;

@@ -1,19 +1,60 @@
 import styled from 'styled-components';
 import Pagination from 'react-js-pagination';
 import { useState, useEffect } from 'react';
+import { BiChevronLeft, BiChevronRight } from 'react-icons/bi';
 import useFetch from '../util/useFetch';
 import MyPage from '../pages/MyPage';
 
 const PagingBox = styled.div`
-  width: 100%;
-  border: 1px solid black;
+  width: 50%;
   display: flex;
   justify-content: center;
   flex-direction: row;
+  position: absolute;
+  bottom: 8%;
+  left: 23%;
+
+  .left {
+    padding-top: 5px;
+  }
+
+  .right {
+    padding-top: 5px;
+  }
+
+  .pagination {
+    display: flex;
+    flex-direction: row;
+    font-size: 1.2rem;
+    justify-content: center;
+    align-items: center;
+
+    li {
+      list-style: none;
+      margin: 1rem;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 5px;
+      background-color: rgb(107, 147, 249);
+
+      :hover {
+        background-color: rgb(77, 139, 221);
+      }
+
+      a {
+        text-decoration: none;
+        color: white;
+      }
+    }
+  }
 `;
 
 const Container = styled.div`
   width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
 `;
@@ -98,8 +139,8 @@ function Paging() {
             itemsCountPerPage={questionsPerPage}
             totalItemsCount={questionsCount}
             pageRangeDisplayed={totalPage}
-            prevPageText="-"
-            nextPageText="+"
+            prevPageText={<BiChevronLeft className="left" size="30" />}
+            nextPageText={<BiChevronRight className="right" size="30" />}
             onChange={e => handlePageChange(e)}
           />
         ) : (
@@ -108,8 +149,8 @@ function Paging() {
             itemsCountPerPage={answersPerPage}
             totalItemsCount={answersCount}
             pageRangeDisplayed={answersTotalPage}
-            prevPageText="-"
-            nextPageText="+"
+            prevPageText={<BiChevronLeft className="left" size="30" />}
+            nextPageText={<BiChevronRight className="right" size="30" />}
             onChange={e => handleAnswersPageChange(e)}
           />
         )}
