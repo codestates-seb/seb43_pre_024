@@ -345,7 +345,7 @@ function AllQuestions() {
                       <span className="likesValue">{data.likes}</span>
                       <span className="likesText">likes</span>
                     </div>
-                    <Answers accepted={data.accepted}>
+                    <Answers accepted={data.accepted_answer}>
                       {data.accepted === true ? <GoCheck size="30" /> : null}
                       <span className="answersValue">{data.answer_cnt}</span>
                       <span className="answersText">answers</span>

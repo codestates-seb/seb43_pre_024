@@ -23,7 +23,6 @@
     "react/react-in-jsx-scope": "off",
     "no-unused-vars": "warn",
     "no-console": "warn",
-    "global-require": 0,
     "react/jsx-props-no-spreading": [1, { "custom": "ignore" }],
     "import/no-extraneous-dependencies": 0
 } }

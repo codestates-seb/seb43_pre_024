@@ -14,7 +14,7 @@
           "answer_cnt" : "2",
           "views" : "1",
           "created_at" : "2023-04-18 13:52",
-          "accepted" : true
+          "accepted_answer" : true
         },
         {          
           "questionId" : 2,
@@ -25,7 +25,7 @@
           "answer_cnt" : "0",
           "views" : "10",
           "created_at" : "2023-04-17 15:52",
-          "accepted" : true
+          "accepted_answer" : true
         },
         {          
           "questionId" : 3,
@@ -36,7 +36,7 @@
           "answer_cnt" : "7",
           "views" : "4",
           "created_at" : "2023-04-08 17:52",
-          "accepted" : false
+          "accepted_answer" : false
         },
         {          
           "questionId" : 4,
@@ -47,7 +47,7 @@
           "answer_cnt" : "4",
           "views" : "26",
           "created_at" : "2023-04-12 09:52",
-          "accepted" : true
+          "accepted_answer" : true
         },
         {          
           "questionId" : 5,
@@ -58,7 +58,49 @@
           "answer_cnt" : "2",
           "views" : "308",
           "created_at" : "2023-04-29 12:52",
-          "accepted" : false
+          "accepted_answer" : false
         }
+    ],
+    "user" : [
+      {
+        "profile_image" : "이미지",
+        "name" : "jieuny0314",
+        "questions" : [
+                {
+                    "questionId" : 1,
+                    "title" : "Why is processing a sorted array faster than processing an unsorted array?",
+                    "likes" : "15",
+                    "answer_cnt" : "46",
+                    "views" : "134",
+                    "created_at" : "2023-04-29 12:52"
+                },
+                {
+                  "questionId" : 2,
+                  "title" : "How do I delete a Git branch locally and remotely?",
+                  "likes" : "16",
+                  "answer_cnt" : "73",
+                  "views" : "92",
+                  "created_at" : "2023-04-29 12:52"
+              }
+        ],
+        "answers" : [
+          {
+              "questionrId" : 14,
+              "title" : "How do I undo the most recent local commits in Git?",
+              "likes" : "120",
+              "answer_cnt" : "8",
+              "views" : "64",
+              "created_at" : "2023-04-29 12:52"
+          },
+          {
+            "questionId" : 15,
+            "title" : "Which JSON content type do I use",
+            "likes" : "5",
+            "answer_cnt" : "3",
+            "views" : "7",
+            "created_at" : "2023-04-29 12:52"
+          }
+        ]
+      }
     ]
 }
