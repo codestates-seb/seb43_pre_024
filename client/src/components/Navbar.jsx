@@ -5,7 +5,7 @@ import { Routes, Route, Link } from 'react-router-dom';
 import Home from '../pages/Home';
 import AllQuestions from '../pages/AllQuestions';
 import MyPage from '../pages/MyPage';
-import NewQuestion from '../pages/NewQuestion';
+import { NewQuestion, LimitTags } from '../pages/NewQuestion';
 
 const NavBox = styled.div`
   width: 250px;

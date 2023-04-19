@@ -1,6 +1,9 @@
+import Autocomplete from '@mui/material/Autocomplete';
+import TextField from '@mui/material/TextField';
 import styled from 'styled-components';
 import { useState } from 'react';
 import MDEditor from '@uiw/react-md-editor';
+import { colors } from '@mui/material';
 
 const NewQuestionStyle = styled.div`
   display: flex;
@@ -28,7 +31,11 @@ function NewQuestion() {
         hasNextButton={currentStep === 0}
         disabled={currentStep < 0}
         onClickNext={() => {
-          setCurrentStep(1);
+          if (title.length < 10) {
+            alert('10자 이상 입력해주세요.');
+          } else {
+            setCurrentStep(1);
+          }
         }}
       />
       <QuestionInputBox
@@ -40,14 +47,32 @@ function NewQuestion() {
         hasNextButton={currentStep === 1}
         disabled={currentStep < 1}
         onClickNext={() => {
-          if (title.length < 20) {
-            alert('20자 이상 입력해주세요.');
+          if (title.length < 10) {
+            alert('10자 이상 입력해주세요.');
           } else {
             setCurrentStep(2);
           }
         }}
       />
+      <QuestionInputBox
+        title="Tags"
+        inputType="tags"
+        description="Add up to 5 tags to describe what your question is about. Start typing to see suggestions."
+        placeholder="e.g. javascript, react, java, python, c++"
+        value={tags}
+        setValue={setTags}
+        disabled={currentStep < 2}
+        hasNextButton={false}
+      />
       <button
+        style={{
+          width: '150px',
+          height: '40px',
+          background: '#0A95FF',
+          color: 'white',
+          borderRadius: '5px',
+          border: 'none',
+        }}
         type="button"
         onClick={() => {
           console.log('title', title);
@@ -58,6 +83,14 @@ function NewQuestion() {
         Post your question
       </button>
       <button
+        style={{
+          width: '150px',
+          height: '40px',
+          background: 'beige',
+          color: 'red',
+          borderRadius: '5px',
+          border: 'none',
+        }}
         type="button"
         onClick={() => {
           setTitle('');
@@ -106,6 +139,18 @@ function QuestionInputBox(props) {
           }}
         />
       )}
+      {inputType === 'tags' && (
+        <LimitTags
+          type="text"
+          placeholder={placeholder}
+          style={{ width: '100%' }}
+          onChange={event => {
+            if (!disabled) {
+              setValue(event);
+            }
+          }}
+        />
+      )}
       {hasNextButton && (
         <button
           type="button"
@@ -118,4 +163,34 @@ function QuestionInputBox(props) {
     </div>
   );
 }
-export default NewQuestion;
+function LimitTags(props) {
+  const { placeholder } = props;
+  const tagsList = [
+    { label: 'JavaScript' },
+    { label: 'React' },
+    { label: 'Java' },
+    { label: 'Python' },
+    { label: 'C++' },
+  ];
+  const [tags, setTags] = useState([]);
+
+  return (
+    <Autocomplete
+      multiple
+      limitTags={2}
+      id="multiple-limit-tags"
+      options={tagsList}
+      getOptionLabel={option => option.title}
+      defaultValue={[tagsList[0]]}
+      onChange={(event, newValue) => {
+        setTags(newValue);
+      }}
+      renderInput={params => (
+        <TextField {...params} label="Tags" placeholder={placeholder} />
+      )}
+      sx={{ width: '500px' }}
+    />
+  );
+}
+
+export { NewQuestion, LimitTags };
