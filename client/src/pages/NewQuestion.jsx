@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { useState } from 'react';
+import MDEditor from '@uiw/react-md-editor';
 
 const NewQuestionStyle = styled.div`
   width: 100%;
@@ -13,6 +14,7 @@ function NewQuestion() {
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
   const [tags, setTags] = useState('');
+  const [currentStep, setCurrentStep] = useState(0);
 
   return (
     <NewQuestionStyle>
@@ -24,6 +26,15 @@ function NewQuestion() {
         placeholder="e.g. Is there an R function for finding the index of an element in a vector?"
         value={title}
         setValue={setTitle}
+        hasNextButton={currentStep === 0}
+      />
+      <QuestionInputBox
+        title="What are the details of your problem? "
+        inputType="md-editor"
+        description="Introduce the problem and expand on what you put in the title. Minimum 20 characters."
+        value={body}
+        setValue={setBody}
+        hasNextButton={currentStep === 1}
       />
       <button
         type="button"
@@ -48,7 +59,16 @@ function NewQuestion() {
 }
 
 function QuestionInputBox(props) {
-  const { title, description, inputType, placeholder, value, setValue } = props;
+  const {
+    title,
+    description,
+    inputType,
+    placeholder,
+    value,
+    setValue,
+    hasNextButton,
+    onClickNext,
+  } = props;
   return (
     <>
       <h4>{title}</h4>
@@ -60,6 +80,18 @@ function QuestionInputBox(props) {
           value={value}
           onChange={e => setValue(e.target.value)}
         />
+      )}
+      {inputType === 'md-editor' && (
+        <MDEditor value={value} onChange={setValue} />
+      )}
+      {hasNextButton && (
+        <button
+          type="button"
+          onClick={onClickNext}
+          style={{ marginTop: '5px' }}
+        >
+          Next
+        </button>
       )}
     </>
   );
