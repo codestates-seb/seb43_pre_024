@@ -104,7 +104,7 @@ const UsersBtn = styled.button`
     props.usersActive === true ? '#F2F2F3' : 'white'};
 `;
 
-function Navbar() {
+function Navbar({ login }) {
   const [homeActive, setHomeActive] = useState(false);
   const [questionsActive, setQuestionsActive] = useState(false);
   const [usersActive, setUsersActive] = useState(false);
@@ -125,6 +125,9 @@ function Navbar() {
     setUsersActive(true);
     setHomeActive(false);
     setQuestionsActive(false);
+    if (!login) {
+      alert('로그인을 먼저 해주세요!');
+    }
   }
 
   return (
