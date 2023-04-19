@@ -34,7 +34,7 @@ function App() {
           flexDirection: 'row',
         }}
       >
-        <Navbar />
+        <Navbar login={login} />
       </div>
       <Footer />
     </div>
