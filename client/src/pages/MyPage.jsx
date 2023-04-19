@@ -235,15 +235,13 @@ const BtnBox = styled.div`
   }
 `;
 
-function MyPage() {
+function MyPage({ pageData }) {
   const { datas, isPending, error } = useFetch(`
   http://localhost:3001/user`);
 
   const [user, setUsers] = useState([]);
   const [questionsActive, setQuestionsActive] = useState(true);
   const [answersActive, setAnswersActive] = useState(false);
-  const [questions, setQuestions] = useState([]);
-  const [answers, setAnswers] = useState([]);
 
   function activeQuestions() {
     setQuestionsActive(true);
@@ -258,8 +256,6 @@ function MyPage() {
   useEffect(() => {
     if (isPending) {
       setUsers(datas[0]);
-      setQuestions(user.questions);
-      setAnswers(user.answers);
     }
   }, [datas, isPending, user]);
 
@@ -273,10 +269,10 @@ function MyPage() {
           <div className="nameBox">{user.name}</div>
           <div className="countBox">
             <span className="countQuestions">
-              <b>{questions ? questions.length : null}</b>&nbsp;questions&nbsp;
+              <b>{pageData ? pageData.length : null}</b>&nbsp;questions&nbsp;
             </span>
             <span className="countQuestions">
-              <b>{answers ? answers.length : null}</b>&nbsp;answers
+              <b>{pageData ? pageData.length : null}</b>&nbsp;answers
             </span>
           </div>
         </ProfileDetail>
@@ -300,8 +296,8 @@ function MyPage() {
         </TabBox>
         {questionsActive ? (
           <QuestionsBox>
-            {questions
-              ? questions.map(question => {
+            {pageData
+              ? pageData.map(question => {
                   return (
                     <div key={question.questionId} className="questionBox">
                       <div className="detailBox">
@@ -323,8 +319,8 @@ function MyPage() {
         ) : null}
         {answersActive ? (
           <AnswersBox>
-            {answers
-              ? answers.map(answer => {
+            {pageData
+              ? pageData.map(answer => {
                   return (
                     <div key={answer.questionId} className="questionBox">
                       <div className="detailBox">

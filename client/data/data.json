@@ -81,7 +81,47 @@
                   "answer_cnt" : "73",
                   "views" : "92",
                   "created_at" : "2023-04-25 17:03"
-              }
+                },
+                {
+                  "questionId" : 3,
+                  "title" : "How do I delete a Git branch locally and remotely?",
+                  "likes" : "16",
+                  "answer_cnt" : "73",
+                  "views" : "92",
+                  "created_at" : "2023-04-25 17:03"
+                },
+                {
+                  "questionId" : 4,
+                  "title" : "How do I delete a Git branch locally and remotely?",
+                  "likes" : "16",
+                  "answer_cnt" : "73",
+                  "views" : "92",
+                  "created_at" : "2023-04-25 17:03"
+                },
+                {
+                  "questionId" : 5,
+                  "title" : "How do I delete a Git branch locally and remotely?",
+                  "likes" : "16",
+                  "answer_cnt" : "73",
+                  "views" : "92",
+                  "created_at" : "2023-04-25 17:03"
+                },
+                {
+                  "questionId" : 6,
+                  "title" : "How do I delete a Git branch locally and remotely?",
+                  "likes" : "16",
+                  "answer_cnt" : "73",
+                  "views" : "92",
+                  "created_at" : "2023-04-25 17:03"
+                },
+                {
+                  "questionId" : 7,
+                  "title" : "How do I delete a Git branch locally and remotely?",
+                  "likes" : "16",
+                  "answer_cnt" : "73",
+                  "views" : "92",
+                  "created_at" : "2023-04-25 17:03"
+                }
         ],
         "answers" : [
           {

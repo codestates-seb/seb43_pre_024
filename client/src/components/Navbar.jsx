@@ -4,6 +4,7 @@ import { FaGlobeAsia } from 'react-icons/fa';
 import { Routes, Route, Link } from 'react-router-dom';
 import Home from '../pages/Home';
 import AllQuestions from '../pages/AllQuestions';
+import Paging from './Paging';
 import MyPage from '../pages/MyPage';
 import NewQuestion from '../pages/NewQuestion';
 import SignUp from '../pages/SignUp';
@@ -180,7 +181,7 @@ function Navbar({ login }) {
         <Route path="/" element={<Home />} />
         <Route path="/all-questions" element={<AllQuestions />} />
         <Route path="/new-question" element={<NewQuestion />} />
-        <Route path="/mypage" element={<MyPage />} />
+        <Route path="/mypage" element={<Paging />} />
         <Route path="/signup" element={<SignUp />} />
       </Routes>
     </>
