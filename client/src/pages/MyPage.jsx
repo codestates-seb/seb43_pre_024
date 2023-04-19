@@ -312,12 +312,37 @@ function MyPage() {
                         <span className="views">{question.views} views</span>
                       </div>
                       <div className="title">{question.title}</div>
-                      <div className="createdAt">{question.created_at}</div>
+                      <div className="createdAt">
+                        asked &nbsp;{question.created_at}
+                      </div>
                     </div>
                   );
                 })
               : null}
           </QuestionsBox>
+        ) : null}
+        {answersActive ? (
+          <AnswersBox>
+            {answers
+              ? answers.map(answer => {
+                  return (
+                    <div key={answer.questionId} className="questionBox">
+                      <div className="detailBox">
+                        <span className="likes">{answer.likes} likes</span>
+                        <span className="answerCnt">
+                          {answer.answer_cnt} answers
+                        </span>
+                        <span className="views">{answer.views} views</span>
+                      </div>
+                      <div className="title">{answer.title}</div>
+                      <div className="createdAt">
+                        asked &nbsp;{answer.created_at}
+                      </div>
+                    </div>
+                  );
+                })
+              : null}
+          </AnswersBox>
         ) : null}
       </ContentBox>
       <BtnBox>

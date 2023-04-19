@@ -80,7 +80,7 @@
                   "likes" : "16",
                   "answer_cnt" : "73",
                   "views" : "92",
-                  "created_at" : "2023-04-29 12:52"
+                  "created_at" : "2023-04-25 17:03"
               }
         ],
         "answers" : [
@@ -90,15 +90,15 @@
               "likes" : "120",
               "answer_cnt" : "8",
               "views" : "64",
-              "created_at" : "2023-04-29 12:52"
+              "created_at" : "2023-12-03 18:30"
           },
           {
             "questionId" : 15,
-            "title" : "Which JSON content type do I use",
+            "title" : "Which JSON content type do I use?",
             "likes" : "5",
             "answer_cnt" : "3",
             "views" : "7",
-            "created_at" : "2023-04-29 12:52"
+            "created_at" : "2023-06-02 02:10"
           }
         ]
       }
