@@ -105,7 +105,7 @@ function Footer() {
                 <li className="stackLi">JavaScript</li>
                 <li className="stackLi">Java</li>
                 <li className="stackLi">Spring</li>
-                <li className="stackLi">MySQL</li>
+                <li className="stackLi">Docker</li>
               </ul>
             </li>
             <li className="footerLi">
