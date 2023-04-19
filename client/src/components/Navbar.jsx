@@ -125,9 +125,6 @@ function Navbar({ login }) {
     setUsersActive(true);
     setHomeActive(false);
     setQuestionsActive(false);
-    if (!login) {
-      alert('로그인을 먼저 해주세요!');
-    }
   }
 
   return (
@@ -159,16 +156,18 @@ function Navbar({ login }) {
           <button type="button" className="navMenu borderNone">
             Tags
           </button>
-          <Link to="/mypage">
-            <UsersBtn
-              type="button"
-              onClick={() => activeUsers()}
-              usersActive={usersActive}
-              className="navMenu"
-            >
-              Users
-            </UsersBtn>
-          </Link>
+          {login === true ? (
+            <Link to="/mypage">
+              <UsersBtn
+                type="button"
+                onClick={() => activeUsers()}
+                usersActive={usersActive}
+                className="navMenu"
+              >
+                Users
+              </UsersBtn>
+            </Link>
+          ) : null}
           <button type="button" className="navMenu borderNone">
             Companies
           </button>
