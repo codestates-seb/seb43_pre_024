@@ -121,7 +121,6 @@ const QuestionsBox = styled.div`
   border-radius: 5px;
   height: 50%;
   box-sizing: border-box;
-  border: 1px solid green;
 
   .questionBox {
     border-bottom: 1px solid rgb(176, 171, 171);
