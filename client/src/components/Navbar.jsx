@@ -1,10 +1,12 @@
 import styled from 'styled-components';
 import { useState } from 'react';
 import { FaGlobeAsia } from 'react-icons/fa';
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import { Routes, Route, Link } from 'react-router-dom';
 import Home from '../pages/Home';
 import AllQuestions from '../pages/AllQuestions';
 import MyPage from '../pages/MyPage';
+import NewQuestion from '../pages/NewQuestion';
+import SignUp from '../pages/SignUp';
 
 const NavBox = styled.div`
   width: 250px;
@@ -102,7 +104,7 @@ const UsersBtn = styled.button`
     props.usersActive === true ? '#F2F2F3' : 'white'};
 `;
 
-function Navbar() {
+function Navbar({ login }) {
   const [homeActive, setHomeActive] = useState(false);
   const [questionsActive, setQuestionsActive] = useState(false);
   const [usersActive, setUsersActive] = useState(false);
@@ -126,7 +128,7 @@ function Navbar() {
   }
 
   return (
-    <BrowserRouter>
+    <>
       <NavBox>
         <Link to="/">
           <HomeBtn
@@ -147,22 +149,25 @@ function Navbar() {
               questionsActive={questionsActive}
               type="button"
             >
-              <FaGlobeAsia className="globe" /> Questions
+              <FaGlobeAsia className="globe" />
+              Questions
             </QuestionsBtn>
           </Link>
           <button type="button" className="navMenu borderNone">
             Tags
           </button>
-          <Link to="/mypage">
-            <UsersBtn
-              type="button"
-              onClick={() => activeUsers()}
-              usersActive={usersActive}
-              className="navMenu"
-            >
-              Users
-            </UsersBtn>
-          </Link>
+          {login === true ? (
+            <Link to="/mypage">
+              <UsersBtn
+                type="button"
+                onClick={() => activeUsers()}
+                usersActive={usersActive}
+                className="navMenu"
+              >
+                Users
+              </UsersBtn>
+            </Link>
+          ) : null}
           <button type="button" className="navMenu borderNone">
             Companies
           </button>
@@ -174,10 +179,11 @@ function Navbar() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/all-questions" element={<AllQuestions />} />
+        <Route path="/new-question" element={<NewQuestion />} />
         <Route path="/mypage" element={<MyPage />} />
+        <Route path="/signup" element={<SignUp />} />
       </Routes>
-    </BrowserRouter>
+    </>
   );
 }
-
 export default Navbar;
