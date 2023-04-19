@@ -180,7 +180,7 @@ function LimitTags(props) {
       limitTags={2}
       id="multiple-limit-tags"
       options={tagsList}
-      getOptionLabel={option => option.title}
+      getOptionLabel={option => option.label}
       defaultValue={[tagsList[0]]}
       onChange={(event, newValue) => {
         setTags(newValue);
