@@ -4,6 +4,7 @@ import com.notfound4.Answer.Entity.Answer;
 import com.notfound4.Answer.Repository.AnswerRepository;
 import com.notfound4.Question.Entity.Question;
 import com.notfound4.Question.Repository.QuestionRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,6 +46,9 @@ public class AnswerService {
     public void deleteAnswer(long answerId) {
         Optional<Answer> optionalAnswer = repository.findById(answerId);
         Answer findAnswer = optionalAnswer.orElseThrow(() -> new RuntimeException("not found answer"));
+
+        // 답변에 달린 댓글 삭제 필요
+
 
         repository.deleteById(answerId);
     }
