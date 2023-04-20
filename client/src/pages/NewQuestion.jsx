@@ -6,16 +6,36 @@ const NewQuestionStyle = styled.div`
   display: flex;
   flex-direction: column;
   text-align: left;
-  padding: 20px;
+  padding: 20px 50px;
+  background-color: #fafafa;
+  width: 100%;
+`;
+
+const ButtonListStyle = styled.div`
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
 `;
 
 const ButtonStyle = styled.button`
   width: 150px;
   height: 40px;
-  background: ${props => props.style?.background || '#0a95ff'};
-  color: ${props => props.style?.color || 'white'};
+  background: ${props =>
+    props.buttonType === 'danger' ? '#ffffff' : '#0a95ff'};
+  color: ${props => (props.buttonType === 'danger' ? 'red' : 'white')};
   border-radius: 5px;
   border: none;
+  :hover {
+    cursor: pointer;
+    background: ${props =>
+      props.buttonType === 'danger' ? '#fff2f2' : '#0055aa'};
+    color: ${props => (props.buttonType === 'danger' ? '#f00' : 'white')};
+  }
+  :active {
+    background: ${props =>
+      props.buttonType === 'danger' ? '#ffcccc' : '#003366'};
+    color: ${props => (props.buttonType === 'danger' ? '#c00' : 'white')};
+  }
 `;
 
 function NewQuestion() {
@@ -26,7 +46,7 @@ function NewQuestion() {
 
   return (
     <NewQuestionStyle>
-      <h2>Ask a public question</h2>
+      <h1>Ask a public question</h1>
       <QuestionInputBox
         title="Title"
         inputType="text"
@@ -70,7 +90,7 @@ function NewQuestion() {
         disabled={currentStep < 2}
         hasNextButton={false}
       />
-      <div>
+      <ButtonListStyle>
         <ButtonStyle
           type="button"
           onClick={() => {
@@ -83,17 +103,14 @@ function NewQuestion() {
         </ButtonStyle>
         <ButtonStyle
           type="button"
-          style={{
-            background: 'beige',
-            color: 'red',
-          }}
+          buttonType="danger"
           onClick={() => {
             setTitle('');
           }}
         >
           Discard draft
         </ButtonStyle>
-      </div>
+      </ButtonListStyle>
     </NewQuestionStyle>
   );
 }
