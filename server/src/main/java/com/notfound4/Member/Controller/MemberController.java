@@ -6,8 +6,6 @@ import com.notfound4.Member.Entity.Member;
 import com.notfound4.Member.Dto.MemberDto;
 import com.notfound4.Member.Mapper.MemberMapper;
 import com.notfound4.Member.Service.MemberService;
-import com.notfound4.Question.Entity.Question;
-import com.notfound4.QuestionResponseDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -17,8 +15,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
 
 @RestController
 @RequestMapping("/users")
@@ -69,21 +65,5 @@ public class MemberController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    // 마이페이지 질문 목록 조회
-    @GetMapping("/{user-id}/question")
-    public ResponseEntity getMyQuestions(@PathVariable("user-id") @Positive long memberId) {
-        List<Question> findMyQuestions = memberService.findMyQuestions(memberId);
-        List<QuestionResponseDto> responses = new ArrayList<>();
-        for (Question question : findMyQuestions) {
-            QuestionResponseDto response = new QuestionResponseDto();
-            response.setQuestion_id(question.getQuestionId());
-            response.setTitle(question.getTitle());
-            response.setContent(question.getContent());
-            response.setAccepted_answer_id(question.getAcceptedAnswerId());
-            response.setMember_id(question.getMember().getMemberId());
-            response.setViews(question.getViews());
-            responses.add(response);
-        }
-        return new ResponseEntity(responses, HttpStatus.OK);
-    }
+
 }
