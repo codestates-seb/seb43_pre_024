@@ -138,6 +138,15 @@ const QuestionsBox = styled.div`
       color: rgb(57, 116, 194);
       margin-top: 10px;
       margin-bottom: 10px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: normal;
+      line-height: 1.2;
+      text-align: left;
+      word-wrap: break-word;
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
 
       :hover {
         color: rgb(77, 139, 221);
@@ -210,6 +219,15 @@ const AnswersBox = styled.div`
       color: rgb(57, 116, 194);
       margin-top: 10px;
       margin-bottom: 10px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: normal;
+      line-height: 1.2;
+      text-align: left;
+      word-wrap: break-word;
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
 
       :hover {
         color: rgb(77, 139, 221);
