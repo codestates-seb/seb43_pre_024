@@ -12,6 +12,7 @@ const QuestionInputBoxStyle = styled.div`
   padding: 24px;
   border: #ccc 2px solid;
   border-radius: 5px;
+  max-width: 600px;
 `;
 
 const NewQuestionItemTitle = styled.div`
@@ -54,6 +55,9 @@ function QuestionInputBox(props) {
           value={value}
           style={{ width: '100%' }}
           onChange={event => {
+            if (disabled) {
+              alert('위 질문에 먼저 답변하세요.');
+            }
             if (!disabled) {
               setValue(event);
             }
@@ -65,11 +69,9 @@ function QuestionInputBox(props) {
           type="text"
           placeholder={placeholder}
           style={{ width: '100%' }}
-          onChange={event => {
-            if (!disabled) {
-              setValue(event);
-            }
-          }}
+          tags={value}
+          setTags={setValue}
+          disabled={disabled}
         />
       )}
       {hasNextButton && (
@@ -86,7 +88,7 @@ function QuestionInputBox(props) {
 }
 
 function LimitTags(props) {
-  const { placeholder } = props;
+  const { placeholder, tags, setTags, disabled } = props;
   const tagsList = [
     { label: 'JavaScript' },
     { label: 'React' },
@@ -94,7 +96,6 @@ function LimitTags(props) {
     { label: 'Python' },
     { label: 'C++' },
   ];
-  const [tags, setTags] = useState([]);
 
   return (
     <Autocomplete
@@ -103,9 +104,14 @@ function LimitTags(props) {
       id="multiple-limit-tags"
       options={tagsList}
       getOptionLabel={option => option.label}
-      defaultValue={[tagsList[0]]}
+      value={tags}
       onChange={(event, newValue) => {
-        setTags(newValue);
+        if (disabled) {
+          alert('위 질문에 먼저 답변하세요.');
+        }
+        if (!disabled) {
+          setTags(newValue);
+        }
       }}
       renderInput={params => (
         <TextField {...params} label="Tags" placeholder={placeholder} />
