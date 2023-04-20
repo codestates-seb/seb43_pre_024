@@ -26,7 +26,7 @@ const ProfileBox = styled.div`
 `;
 
 const ProfileImg = styled.div`
-  width: 20%;
+  width: 25%;
   height: 100%;
   box-sizing: border-box;
   display: flex;

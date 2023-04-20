@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { GoCheck } from 'react-icons/go';
 import { useNavigate } from 'react-router-dom';
 import { useInView } from 'react-intersection-observer';
@@ -7,13 +7,13 @@ import useFetch from '../util/useFetch';
 
 const Box = styled.div`
   width: calc(100% - 250px);
-  border: 1px solid red;
   display: flex;
   flex-direction: column;
   align-items: start;
   justify-content: center;
   box-sizing: border-box;
-  height: 1320px;
+  padding-left: 3rem;
+  position: relative;
 `;
 
 const TitleBox = styled.div`
@@ -136,7 +136,6 @@ const QuestionBox = styled.div`
   flex-direction: row;
   flex-wrap: wrap;
   box-sizing: border-box;
-  margin-bottom: 20px;
 `;
 
 const CountBox = styled.div`
@@ -208,7 +207,7 @@ const Answers = styled.div`
 
 const QuestionMain = styled.div`
   width: 80%;
-  height: 150px;
+  height: 160px;
   box-sizing: border-box;
   display: flex;
   justify-content: center;
@@ -218,6 +217,16 @@ const QuestionMain = styled.div`
     color: rgb(57, 116, 194);
     font-size: 1.7rem;
     margin-bottom: 5px;
+    margin-top: 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    line-height: 1.2;
+    text-align: left;
+    word-wrap: break-word;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
 
     :hover {
       color: rgb(77, 139, 221);
@@ -238,6 +247,26 @@ const QuestionMain = styled.div`
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
+    margin-bottom: 5px;
+  }
+
+  .tagsBox {
+    padding: 10px 0 10px 0;
+    color: rgb(57, 116, 194);
+
+    .tag {
+      background-color: rgb(227, 235, 243);
+      padding: 8px;
+      font-size: 1.1rem;
+      border-radius: 5px;
+      color: rgb(80, 114, 154);
+      margin-right: 10px;
+
+      :hover {
+        background-color: rgb(213, 226, 240);
+        color: rgb(66, 96, 129);
+      }
+    }
   }
 `;
 
@@ -259,13 +288,16 @@ const QuestionProfile = styled.div`
   }
 `;
 
+const Scroll = styled.div`
+  bottom: ${props => (props.inView === true ? '0px' : '10px')};
+  height: 10%;
+  width: 100%;
+`;
+
 function AllQuestions() {
   const navigate = useNavigate();
   const { datas, isPending, error } = useFetch(`
   http://localhost:3001/questions`);
-
-  const [questions, setQuestions] = useState([]);
-  const first = 0;
 
   const [hotActive, setHotActive] = useState(false);
   const [newActive, setNewActive] = useState(false);
@@ -288,6 +320,25 @@ function AllQuestions() {
     setNewActive(false);
     setTopActive(true);
   }
+
+  const [ref, inView] = useInView();
+
+  const datasCount = datas ? datas.length : 0;
+  const page = useRef(5);
+  const [print, setPrint] = useState([]);
+
+  useEffect(() => {
+    if (isPending) {
+      setPrint(datas.slice(0, page.current));
+      if (inView) {
+        page.current += 5;
+        setPrint(datas.slice(0, page.current));
+      }
+    }
+  }, [isPending, datas, inView]);
+  console.log(print);
+  console.log(page.current);
+  console.log(isPending);
 
   return (
     <Box>
@@ -336,8 +387,8 @@ function AllQuestions() {
         </div>
       </TitleBox>
       <ContentsBox>
-        {datas
-          ? datas.map(data => {
+        {print
+          ? print.slice(0, page.current).map(data => {
               return (
                 <QuestionBox>
                   <CountBox>
@@ -346,7 +397,9 @@ function AllQuestions() {
                       <span className="likesText">likes</span>
                     </div>
                     <Answers accepted={data.accepted_answer}>
-                      {data.accepted === true ? <GoCheck size="30" /> : null}
+                      {data.accepted_answer === true ? (
+                        <GoCheck size="30" />
+                      ) : null}
                       <span className="answersValue">{data.answer_cnt}</span>
                       <span className="answersText">answers</span>
                     </Answers>
@@ -358,6 +411,13 @@ function AllQuestions() {
                   <QuestionMain>
                     <span className="title">{data.title}</span>
                     <span className="content">{data.content}</span>
+                    <div className="tagsBox">
+                      {data.tagsList
+                        ? data.tagsList.map(tag => {
+                            return <span className="tag">{tag.label}</span>;
+                          })
+                        : null}
+                    </div>
                   </QuestionMain>
                   <QuestionProfile>
                     <span className="name">{data.name}</span>
@@ -371,6 +431,11 @@ function AllQuestions() {
             })
           : null}
       </ContentsBox>
+      {page.current < datasCount ? (
+        <Scroll inView={inView} ref={ref}>
+          dd
+        </Scroll>
+      ) : null}
     </Box>
   );
 }
