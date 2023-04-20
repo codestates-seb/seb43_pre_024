@@ -45,8 +45,10 @@ function NewQuestion() {
   const [tags, setTags] = useState([]);
   const [currentStep, setCurrentStep] = useState(0);
   const [isCorfirmOpen, setIsConfirmOpen] = useState(false);
+  const [confirmMessage, setConfirmMessage] = useState('');
 
   function onClickDiscardButton() {
+    setConfirmMessage('작성중인 내용을 모두 삭제하시겠습니까?');
     setIsConfirmOpen(true);
   }
 
@@ -132,7 +134,7 @@ function NewQuestion() {
       </NewQuestionStyle>
       {isCorfirmOpen && (
         <Confirm
-          message="확인해 봐야해"
+          message={confirmMessage}
           onConfirm={() => onConfirmDiscard()}
           onCancel={() => onCancelDiscard()}
         />
