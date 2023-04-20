@@ -3,9 +3,11 @@ import { useState } from 'react';
 import { FaGlobeAsia } from 'react-icons/fa';
 import { Routes, Route, Link } from 'react-router-dom';
 import Home from '../pages/Home';
+import Main from '../pages/Main';
 import AllQuestions from '../pages/AllQuestions';
+import Paging from './Paging';
 import MyPage from '../pages/MyPage';
-import NewQuestion from '../pages/NewQuestion';
+import { NewQuestion, LimitTags } from '../pages/NewQuestion';
 import SignUp from '../pages/SignUp';
 
 const NavBox = styled.div`
@@ -130,16 +132,30 @@ function Navbar({ login }) {
   return (
     <>
       <NavBox>
-        <Link to="/">
-          <HomeBtn
-            className="navHome li"
-            onClick={() => activeHome()}
-            homeActive={homeActive}
-            type="button"
-          >
-            Home
-          </HomeBtn>
-        </Link>
+        {login === true ? (
+          <Link to="/">
+            <HomeBtn
+              className="navHome li"
+              onClick={() => activeHome()}
+              homeActive={homeActive}
+              type="button"
+            >
+              Home
+            </HomeBtn>
+          </Link>
+        ) : (
+          <Link to="/main">
+            <HomeBtn
+              className="navHome li"
+              onClick={() => activeHome()}
+              homeActive={homeActive}
+              type="button"
+            >
+              Home
+            </HomeBtn>
+          </Link>
+        )}
+
         <div className="navTitle li">PUBLIC</div>
         <ul className="btnBox">
           <Link to="/all-questions">
@@ -178,9 +194,10 @@ function Navbar({ login }) {
 
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/main" element={<Main />} />
         <Route path="/all-questions" element={<AllQuestions />} />
         <Route path="/new-question" element={<NewQuestion />} />
-        <Route path="/mypage" element={<MyPage />} />
+        <Route path="/mypage" element={<Paging />} />
         <Route path="/signup" element={<SignUp />} />
       </Routes>
     </>
