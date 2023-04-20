@@ -1,14 +1,13 @@
 import styled from 'styled-components';
 
 const HomeBox = styled.div`
-  width: 80%;
+  width: calc(100% - 250px);
   border: 1px solid red;
 `;
 function Home() {
   return (
     <HomeBox>
-      <div>hi</div>
-      <div>hi</div>
+      <div>Home</div>
     </HomeBox>
   );
 }

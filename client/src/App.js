@@ -1,84 +1,40 @@
 import './App.css';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { useState } from 'react';
-import HeaderLogout from './components/HeaderLogout';
-import HeaderLogin from './components/HeaderLogin';
+import { useNavigate } from 'react-router-dom';
 import Footer from './components/Footer';
 import Navbar from './components/Navbar';
-import AllQuestions from './pages/AllQuestions';
-import Home from './pages/Home';
-import LogIn from './pages/LogIn';
-import MyPage from './pages/MyPage';
-import QuestionDetail from './pages/QuestionDetail';
-import SignUp from './pages/SignUp';
-import NewQuestion from './pages/NewQuestion';
-
-const router = createBrowserRouter([
-  {
-    // 메인 페이지
-    path: '/',
-    element: <Home />,
-  },
-  {
-    // 모든 질문 보기
-    path: '/all-questions',
-    element: <AllQuestions />,
-  },
-  {
-    // 질문 작성 페이지
-    path: '/new-question',
-    element: <NewQuestion />,
-  },
-  {
-    // 질문 상세 페이지
-    path: '/question/ :id',
-    element: <QuestionDetail />,
-  },
-  {
-    // 로그인 페이지
-    path: '/login',
-    element: <LogIn />,
-  },
-  {
-    // 회원가입 페이지
-    path: '/signup',
-    element: <SignUp />,
-  },
-  {
-    // 마이페이지
-    path: '/mypage',
-    element: <MyPage />,
-  },
-]);
+import Header from './components/Header';
 
 function App() {
   const [login, setLogin] = useState(false);
+  const navigate = useNavigate();
 
-  function onLogin() {
-    setLogin(true);
-  }
-
-  function onLogout() {
-    setLogin(false);
+  function changeLoginStatus() {
+    if (login === true) {
+      setLogin(false);
+      navigate('/'); // go to home when sign outed
+    } else {
+      setLogin(true);
+      navigate('/login'); // go to all questions page when sign in
+    }
   }
 
   return (
     <div className="App">
-      {login ? (
-        <HeaderLogin setLogout={() => onLogout()} />
-      ) : (
-        <HeaderLogout setLogin={() => onLogin()} />
-      )}
+      <Header
+        isLogin={login}
+        changeLoginStatus={() => {
+          changeLoginStatus();
+        }}
+      />
       <div
         style={{
           paddingTop: 70,
           display: 'flex',
           flexDirection: 'row',
-          paddingLeft: 20,
         }}
       >
-        <Navbar />
-        <RouterProvider router={router} />
+        <Navbar login={login} />
       </div>
       <Footer />
     </div>
