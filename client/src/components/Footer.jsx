@@ -9,7 +9,8 @@ const FooterBox = styled.div`
   width: 100%;
   height: 340px;
   background: rgba(234, 234, 234);
-  margin-top: 800px;
+  top: 0;
+  z-index: 5;
 `;
 
 const Container = styled.div`
@@ -105,7 +106,7 @@ function Footer() {
                 <li className="stackLi">JavaScript</li>
                 <li className="stackLi">Java</li>
                 <li className="stackLi">Spring</li>
-                <li className="stackLi">MySQL</li>
+                <li className="stackLi">Docker</li>
               </ul>
             </li>
             <li className="footerLi">

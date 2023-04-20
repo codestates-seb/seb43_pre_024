@@ -7,53 +7,156 @@
     "questions" : [
         {          
           "questionId" : 1,
-          "title" : "질문 제목1",
-          "content" : "질문 내용1",
+          "title" : "Why is processing a sorted array faster than processing an unsorted array?",
+          "content" : "I accidentally committed the wrong files to Git, but didn't push the commit to the server yet. \n How do I undo those commits from the local repository?",
           "name" : "김지은",
           "likes" : "0",
           "answer_cnt" : "2",
           "views" : "1",
-          "created_at" : "2023-04-18"
+          "created_at" : "2023-04-18 13:52",
+          "accepted_answer" : true
         },
         {          
           "questionId" : 2,
-          "title" : "질문 제목2",
-          "content" : "질문 내용2",
+          "title" : "How do I undo the most recent local commits in Git?",
+          "content" : "Failed Attempts to Delete a Remote Branch: \n $ git branch -d remotes/origin/bugfix error: branch 'remotes/origin/bugfix' not found. $ git branch -rd origin/bugfix Deleted remote branch origin/bugfix (was 2a14ef7).\n $ git push Deleted remote branch origin/bugfix (was 2a14ef7).",
           "name" : "김미리",
           "likes" : "2",
           "answer_cnt" : "0",
           "views" : "10",
-          "created_at" : "시간"
+          "created_at" : "2023-04-17 15:52",
+          "accepted_answer" : true
         },
         {          
           "questionId" : 3,
-          "title" : "질문 제목3",
-          "content" : "질문 내용3",
+          "title" : "How do I delete a Git branch locally and remotely?",
+          "content" : "There are many 'standards' for the JSON content type: application/json application/x-javascript text/javascript text/x-javascript text/x-json \n Which one do I use, and where? I assume security and browser support issues are a factor. Related: What MIME type if JSON is being returned by a REST API?",
           "name" : "오다경",
           "likes" : "0",
           "answer_cnt" : "7",
           "views" : "4",
-          "created_at" : "시간"
+          "created_at" : "2023-04-08 17:52",
+          "accepted_answer" : false
         },
         {          
           "questionId" : 4,
-          "title" : "질문 제목4",
-          "content" : "질문 내용4",
+          "title" : "Which JSON content type do I use?",
+          "content" : "How do I rename a local branch which has not yet been pushed to a remote repository?",
           "name" : "양도열",
           "likes" : "8",
           "answer_cnt" : "4",
           "views" : "26",
-          "created_at" : "시간"
+          "created_at" : "2023-04-12 09:52",
+          "accepted_answer" : true
         },
         {          
           "questionId" : 5,
-          "title" : "질문 제목5",
-          "content" : "질문 내용5",
+          "title" : "What does the 'yield' keyword do in Python?",
+          "content" : "I mistakenly added files to Git using the command: git add myfile.txt I have not yet run git commit. How do I undo this so that these changes will not be included in the commit?",
           "name" : "김태진",
           "likes" : "5",
           "answer_cnt" : "2",
           "views" : "308",
-          "created_at" : "시간"
+          "created_at" : "2023-04-29 12:52",
+          "accepted_answer" : false
         }
+    ],
+    "user" : [
+      {
+        "profile_image" : "이미지",
+        "name" : "jieuny0314",
+        "questions" : [
+                {
+                    "questionId" : 1,
+                    "title" : "Why is processing a sorted array faster than processing an unsorted array?",
+                    "likes" : "15",
+                    "answer_cnt" : "46",
+                    "views" : "134",
+                    "created_at" : "2023-04-29 12:52"
+                },
+                {
+                  "questionId" : 2,
+                  "title" : "How do I delete a Git branch locally and remotely?",
+                  "likes" : "16",
+                  "answer_cnt" : "73",
+                  "views" : "92",
+                  "created_at" : "2023-04-25 17:03"
+                },
+                {
+                  "questionId" : 3,
+                  "title" : "질문3",
+                  "likes" : "16",
+                  "answer_cnt" : "73",
+                  "views" : "92",
+                  "created_at" : "2023-04-25 17:03"
+                },
+                {
+                  "questionId" : 4,
+                  "title" : "질문4",
+                  "likes" : "16",
+                  "answer_cnt" : "73",
+                  "views" : "92",
+                  "created_at" : "2023-04-25 17:03"
+                },
+                {
+                  "questionId" : 5,
+                  "title" : "질문5",
+                  "likes" : "16",
+                  "answer_cnt" : "73",
+                  "views" : "92",
+                  "created_at" : "2023-04-25 17:03"
+                },
+                {
+                  "questionId" : 6,
+                  "title" : "질문6",
+                  "likes" : "16",
+                  "answer_cnt" : "73",
+                  "views" : "92",
+                  "created_at" : "2023-04-25 17:03"
+                },
+                {
+                  "questionId" : 7,
+                  "title" : "질문7",
+                  "likes" : "16",
+                  "answer_cnt" : "73",
+                  "views" : "92",
+                  "created_at" : "2023-04-25 17:03"
+                }
+        ],
+        "answers" : [
+          {
+              "questionId" : 14,
+              "title" : "답변1",
+              "likes" : "120",
+              "answer_cnt" : "8",
+              "views" : "64",
+              "created_at" : "2023-12-03 18:30"
+          },
+          {
+            "questionId" : 15,
+            "title" : "답변2",
+            "likes" : "5",
+            "answer_cnt" : "3",
+            "views" : "7",
+            "created_at" : "2023-06-02 02:10"
+          },
+          {
+            "questionId" : 16,
+            "title" : "답변3",
+            "likes" : "5",
+            "answer_cnt" : "3",
+            "views" : "7",
+            "created_at" : "2023-06-02 02:10"
+          },
+          {
+            "questionId" : 17,
+            "title" : "답변4",
+            "likes" : "5",
+            "answer_cnt" : "3",
+            "views" : "7",
+            "created_at" : "2023-06-02 02:10"
+          }
+        ]
+      }
     ]
 }
