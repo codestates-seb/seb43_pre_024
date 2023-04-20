@@ -2,12 +2,15 @@ package com.notfound4.Answer.Service;
 
 import com.notfound4.Answer.Entity.Answer;
 import com.notfound4.Answer.Repository.AnswerRepository;
+import com.notfound4.Comment.Entity.Comment;
+import com.notfound4.Comment.Repository.CommentRepository;
 import com.notfound4.Question.Entity.Question;
 import com.notfound4.Question.Repository.QuestionRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,10 +19,12 @@ import java.util.Optional;
 public class AnswerService {
     private final AnswerRepository repository;
     private final QuestionRepository questionRepository;
+    private final CommentRepository commentRepository;
 
-    public AnswerService(AnswerRepository repository, QuestionRepository questionRepository) {
+    public AnswerService(AnswerRepository repository, QuestionRepository questionRepository, CommentRepository commentRepository) {
         this.repository = repository;
         this.questionRepository = questionRepository;
+        this.commentRepository = commentRepository;
     }
 
     // 답변 등록
@@ -47,8 +52,12 @@ public class AnswerService {
         Optional<Answer> optionalAnswer = repository.findById(answerId);
         Answer findAnswer = optionalAnswer.orElseThrow(() -> new RuntimeException("not found answer"));
 
-        // 답변에 달린 댓글 삭제 필요
-
+        // 답변에 달린 댓글
+        Iterator comment = findAnswer.getCommentList().iterator();
+        while (comment.hasNext()) {
+            Comment findComment = (Comment) comment.next();
+            commentRepository.delete(findComment);
+        }
 
         repository.deleteById(answerId);
     }
