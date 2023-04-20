@@ -42,7 +42,7 @@ public class QuestionDto {
         private String name;
         private int likes;
         private int answer_cnt;
-        private boolean accepted_answer;
+        //private boolean accepted_answer;
         private int views;
         private LocalDateTime created_at;
     }
@@ -58,19 +58,12 @@ public class QuestionDto {
         private String content;
         private String name;
         private int likes;
+        private int views;
         private LocalDateTime created_at;
         private LocalDateTime modified_at;
+        private Long accepted_answer;
         private List<AnswerDto.Response> answerList;
-        private List<Comment> commentList;
+
     }
 
-    // 질문 확인 페이지 조회 시, 리턴할 Dto 에 포함될 댓글 Dto
-    @Getter
-    @AllArgsConstructor
-    public static class comment {
-        private int commentId;
-        private String name;
-        private String content;
-        private LocalDateTime created_at;
-    }
 }

@@ -5,12 +5,11 @@ import com.notfound4.Answer.Service.AnswerService;
 import com.notfound4.Member.Entity.Member;
 import com.notfound4.Question.Dto.QuestionDto;
 import com.notfound4.Question.Entity.Question;
-import com.notfound4.Question.Service.LikeService;
+import com.notfound4.Question.Service.QuestionLikeService;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import org.springframework.stereotype.Component;
 
-import javax.xml.stream.events.Comment;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -20,7 +19,7 @@ import java.util.List;
 public interface QuestionMapper {
 
     // 질문 리스트 (Total) - questions 에 각 question 매핑
-    default QuestionDto.Get questionToGetQuestion(Question question, LikeService likeService, AnswerService answerService) {
+    default QuestionDto.Get questionToGetQuestion(Question question, QuestionLikeService likeService, AnswerService answerService) {
         QuestionDto.Get getQuestion = new QuestionDto.Get();
         getQuestion.setQuestionId(question.getQuestionId());
         getQuestion.setTitle(question.getTitle());
@@ -28,14 +27,14 @@ public interface QuestionMapper {
         getQuestion.setName(question.getMember().getName());
         getQuestion.setLikes(likeService.likes(question));
         getQuestion.setAnswer_cnt(answerService.answers(question));
-        getQuestion.setAccepted_answer(question.getAcceptedAnswerId()!=null);
+        //getQuestion.setAccepted_answer(question.getAcceptedAnswerId()!=null);
         getQuestion.setViews(question.getViews());
         getQuestion.setCreated_at(question.getCreatedAt());
         return getQuestion;
     }
 
     // 질문 리스트 (Total) - questions List 를 위에 함수로 각 question 매핑
-    default List<QuestionDto.Get> questionsToGetQuestions(List<Question> question, LikeService likeService, AnswerService answerService) {
+    default List<QuestionDto.Get> questionsToGetQuestions(List<Question> question, QuestionLikeService likeService, AnswerService answerService) {
         List<QuestionDto.Get> response = new ArrayList<>();
         Iterator var = question.iterator();
 
@@ -59,17 +58,18 @@ public interface QuestionMapper {
 
     // 질문 확인 페이지 조회 시, 리턴 할 Dto 로 매핑
     default QuestionDto.getResponse questionToGetResponseQuestion(
-            Question question, int likes, List<AnswerDto.Response> answerList, List<Comment> commentList) {
+            Question question, int likes, List<AnswerDto.Response> answerList) {
         QuestionDto.getResponse response = new QuestionDto.getResponse();
         response.setQuestionId(question.getQuestionId());
         response.setTitle(question.getTitle());
         response.setContent(question.getContent());
         response.setName(question.getMember().getName());
         response.setLikes(likes);
+        response.setViews(question.getViews());
         response.setCreated_at(question.getCreatedAt());
         response.setModified_at(question.getModifiedAt());
+        response.setAccepted_answer(question.getAcceptedAnswerId());
         response.setAnswerList(answerList);
-        response.setCommentList(commentList);
         return response;
     }
 

@@ -29,7 +29,7 @@ spring:
     port: 6379
   jpa:
     hibernate:
-      ddl-auto: create  #create -> update
+      ddl-auto: update  #create -> update
     show-sql: true
 ---
 # run as prod environment

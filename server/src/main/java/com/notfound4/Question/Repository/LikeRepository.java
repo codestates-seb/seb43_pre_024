@@ -11,6 +11,6 @@ import java.util.Optional;
 @Repository
 public interface LikeRepository extends JpaRepository<Like, Long> {
     // 좋아요 갯수 카운트
-    @Query(value = "select count(*) from Like where question = :question")
+    //@Query(value = "select count() from Like where question = :question")
     int countByQuestion(Question question);
 }

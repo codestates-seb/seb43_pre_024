@@ -20,4 +20,9 @@ public class MemberService {
         Optional<Member> OptionalMember =  repository.findByEmail(email);
         return OptionalMember.orElseThrow(() -> new RuntimeException("not found member"));
     }
+
+    public Member findMemberById(Long memberId) {
+        Optional<Member> optionalMember = repository.findById(memberId);
+        return optionalMember.orElseThrow(() -> new RuntimeException("Member not found"));
+    }
 }
