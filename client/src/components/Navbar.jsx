@@ -13,9 +13,10 @@ import LogIn from '../pages/LogIn';
 
 const NavBox = styled.div`
   width: 250px;
-  height: 100vh;
+  height: 130vh;
   padding-top: 20px;
   color: rgba(99, 103, 109);
+  border-right: 1px solid rgb(202, 202, 202);
   display: flex;
   flex-direction: column;
   align-items: end;

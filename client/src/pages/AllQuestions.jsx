@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { GoCheck } from 'react-icons/go';
 import { useNavigate } from 'react-router-dom';
 import { useInView } from 'react-intersection-observer';
@@ -12,8 +12,8 @@ const Box = styled.div`
   align-items: start;
   justify-content: center;
   box-sizing: border-box;
-  height: 1320px;
-  border-left: 1px solid rgb(201, 201, 201);
+  padding-left: 3rem;
+  position: relative;
 `;
 
 const TitleBox = styled.div`
@@ -288,13 +288,16 @@ const QuestionProfile = styled.div`
   }
 `;
 
+const Scroll = styled.div`
+  bottom: ${props => (props.inView === true ? '0px' : '10px')};
+  height: 10%;
+  width: 100%;
+`;
+
 function AllQuestions() {
   const navigate = useNavigate();
   const { datas, isPending, error } = useFetch(`
   http://localhost:3001/questions`);
-
-  const [questions, setQuestions] = useState([]);
-  const first = 0;
 
   const [hotActive, setHotActive] = useState(false);
   const [newActive, setNewActive] = useState(false);
@@ -317,6 +320,25 @@ function AllQuestions() {
     setNewActive(false);
     setTopActive(true);
   }
+
+  const [ref, inView] = useInView();
+
+  const datasCount = datas ? datas.length : 0;
+  const page = useRef(5);
+  const [print, setPrint] = useState([]);
+
+  useEffect(() => {
+    if (isPending) {
+      setPrint(datas.slice(0, page.current));
+      if (inView) {
+        page.current += 5;
+        setPrint(datas.slice(0, page.current));
+      }
+    }
+  }, [isPending, datas, inView]);
+  console.log(print);
+  console.log(page.current);
+  console.log(isPending);
 
   return (
     <Box>
@@ -365,8 +387,8 @@ function AllQuestions() {
         </div>
       </TitleBox>
       <ContentsBox>
-        {datas
-          ? datas.map(data => {
+        {print
+          ? print.slice(0, page.current).map(data => {
               return (
                 <QuestionBox>
                   <CountBox>
@@ -409,6 +431,11 @@ function AllQuestions() {
             })
           : null}
       </ContentsBox>
+      {page.current < datasCount ? (
+        <Scroll inView={inView} ref={ref}>
+          dd
+        </Scroll>
+      ) : null}
     </Box>
   );
 }

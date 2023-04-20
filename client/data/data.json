@@ -84,6 +84,342 @@
             { "label" : "React"},
             { "label" : "C++"}
           ]
+        },
+        {          
+          "questionId" : 6,
+          "title" : "What does the 'yield' keyword do in Python?",
+          "content" : "I mistakenly added files to Git using the command: git add myfile.txt I have not yet run git commit. How do I undo this so that these changes will not be included in the commit?",
+          "name" : "김태진",
+          "likes" : "5",
+          "answer_cnt" : "2",
+          "views" : "308",
+          "created_at" : "2023-04-29 12:52",
+          "accepted_answer" : false,
+          "tagsList" : [
+            { "label" : "JavaScript"},
+            { "label" : "React"},
+            { "label" : "C++"}
+          ]
+        },
+        {          
+          "questionId" : 7,
+          "title" : "What does the 'yield' keyword do in Python?",
+          "content" : "I mistakenly added files to Git using the command: git add myfile.txt I have not yet run git commit. How do I undo this so that these changes will not be included in the commit?",
+          "name" : "김태진",
+          "likes" : "5",
+          "answer_cnt" : "2",
+          "views" : "308",
+          "created_at" : "2023-04-29 12:52",
+          "accepted_answer" : false,
+          "tagsList" : [
+            { "label" : "JavaScript"},
+            { "label" : "React"},
+            { "label" : "C++"}
+          ]
+        },
+        {          
+          "questionId" : 8,
+          "title" : "What does the 'yield' keyword do in Python?",
+          "content" : "I mistakenly added files to Git using the command: git add myfile.txt I have not yet run git commit. How do I undo this so that these changes will not be included in the commit?",
+          "name" : "김태진",
+          "likes" : "5",
+          "answer_cnt" : "2",
+          "views" : "308",
+          "created_at" : "2023-04-29 12:52",
+          "accepted_answer" : false,
+          "tagsList" : [
+            { "label" : "JavaScript"},
+            { "label" : "React"},
+            { "label" : "C++"}
+          ]
+        },
+        {          
+          "questionId" : 9,
+          "title" : "What does the 'yield' keyword do in Python?",
+          "content" : "I mistakenly added files to Git using the command: git add myfile.txt I have not yet run git commit. How do I undo this so that these changes will not be included in the commit?",
+          "name" : "김태진",
+          "likes" : "5",
+          "answer_cnt" : "2",
+          "views" : "308",
+          "created_at" : "2023-04-29 12:52",
+          "accepted_answer" : false,
+          "tagsList" : [
+            { "label" : "JavaScript"},
+            { "label" : "React"},
+            { "label" : "C++"}
+          ]
+        },
+        {          
+          "questionId" : 10,
+          "title" : "What does the 'yield' keyword do in Python?",
+          "content" : "I mistakenly added files to Git using the command: git add myfile.txt I have not yet run git commit. How do I undo this so that these changes will not be included in the commit?",
+          "name" : "김태진",
+          "likes" : "5",
+          "answer_cnt" : "2",
+          "views" : "308",
+          "created_at" : "2023-04-29 12:52",
+          "accepted_answer" : false,
+          "tagsList" : [
+            { "label" : "JavaScript"},
+            { "label" : "React"},
+            { "label" : "C++"}
+          ]
+        },
+        {          
+          "questionId" : 11,
+          "title" : "What does the 'yield' keyword do in Python?",
+          "content" : "I mistakenly added files to Git using the command: git add myfile.txt I have not yet run git commit. How do I undo this so that these changes will not be included in the commit?",
+          "name" : "김태진",
+          "likes" : "5",
+          "answer_cnt" : "2",
+          "views" : "308",
+          "created_at" : "2023-04-29 12:52",
+          "accepted_answer" : false,
+          "tagsList" : [
+            { "label" : "JavaScript"},
+            { "label" : "React"},
+            { "label" : "C++"}
+          ]
+        },
+        {          
+          "questionId" : 12,
+          "title" : "What does the 'yield' keyword do in Python?",
+          "content" : "I mistakenly added files to Git using the command: git add myfile.txt I have not yet run git commit. How do I undo this so that these changes will not be included in the commit?",
+          "name" : "김태진",
+          "likes" : "5",
+          "answer_cnt" : "2",
+          "views" : "308",
+          "created_at" : "2023-04-29 12:52",
+          "accepted_answer" : false,
+          "tagsList" : [
+            { "label" : "JavaScript"},
+            { "label" : "React"},
+            { "label" : "C++"}
+          ]
+        },
+        {          
+          "questionId" : 12,
+          "title" : "What does the 'yield' keyword do in Python?",
+          "content" : "I mistakenly added files to Git using the command: git add myfile.txt I have not yet run git commit. How do I undo this so that these changes will not be included in the commit?",
+          "name" : "김태진",
+          "likes" : "5",
+          "answer_cnt" : "2",
+          "views" : "308",
+          "created_at" : "2023-04-29 12:52",
+          "accepted_answer" : false,
+          "tagsList" : [
+            { "label" : "JavaScript"},
+            { "label" : "React"},
+            { "label" : "C++"}
+          ]
+        },
+        {          
+          "questionId" : 12,
+          "title" : "What does the 'yield' keyword do in Python?",
+          "content" : "I mistakenly added files to Git using the command: git add myfile.txt I have not yet run git commit. How do I undo this so that these changes will not be included in the commit?",
+          "name" : "김태진",
+          "likes" : "5",
+          "answer_cnt" : "2",
+          "views" : "308",
+          "created_at" : "2023-04-29 12:52",
+          "accepted_answer" : false,
+          "tagsList" : [
+            { "label" : "JavaScript"},
+            { "label" : "React"},
+            { "label" : "C++"}
+          ]
+        },
+        {          
+          "questionId" : 12,
+          "title" : "What does the 'yield' keyword do in Python?",
+          "content" : "I mistakenly added files to Git using the command: git add myfile.txt I have not yet run git commit. How do I undo this so that these changes will not be included in the commit?",
+          "name" : "김태진",
+          "likes" : "5",
+          "answer_cnt" : "2",
+          "views" : "308",
+          "created_at" : "2023-04-29 12:52",
+          "accepted_answer" : false,
+          "tagsList" : [
+            { "label" : "JavaScript"},
+            { "label" : "React"},
+            { "label" : "C++"}
+          ]
+        },
+        {          
+          "questionId" : 12,
+          "title" : "What does the 'yield' keyword do in Python?",
+          "content" : "I mistakenly added files to Git using the command: git add myfile.txt I have not yet run git commit. How do I undo this so that these changes will not be included in the commit?",
+          "name" : "김태진",
+          "likes" : "5",
+          "answer_cnt" : "2",
+          "views" : "308",
+          "created_at" : "2023-04-29 12:52",
+          "accepted_answer" : false,
+          "tagsList" : [
+            { "label" : "JavaScript"},
+            { "label" : "React"},
+            { "label" : "C++"}
+          ]
+        },
+        {          
+          "questionId" : 12,
+          "title" : "What does the 'yield' keyword do in Python?",
+          "content" : "I mistakenly added files to Git using the command: git add myfile.txt I have not yet run git commit. How do I undo this so that these changes will not be included in the commit?",
+          "name" : "김태진",
+          "likes" : "5",
+          "answer_cnt" : "2",
+          "views" : "308",
+          "created_at" : "2023-04-29 12:52",
+          "accepted_answer" : false,
+          "tagsList" : [
+            { "label" : "JavaScript"},
+            { "label" : "React"},
+            { "label" : "C++"}
+          ]
+        },
+        {          
+          "questionId" : 12,
+          "title" : "What does the 'yield' keyword do in Python?",
+          "content" : "I mistakenly added files to Git using the command: git add myfile.txt I have not yet run git commit. How do I undo this so that these changes will not be included in the commit?",
+          "name" : "김태진",
+          "likes" : "5",
+          "answer_cnt" : "2",
+          "views" : "308",
+          "created_at" : "2023-04-29 12:52",
+          "accepted_answer" : false,
+          "tagsList" : [
+            { "label" : "JavaScript"},
+            { "label" : "React"},
+            { "label" : "C++"}
+          ]
+        },
+        {          
+          "questionId" : 12,
+          "title" : "What does the 'yield' keyword do in Python?",
+          "content" : "I mistakenly added files to Git using the command: git add myfile.txt I have not yet run git commit. How do I undo this so that these changes will not be included in the commit?",
+          "name" : "김태진",
+          "likes" : "5",
+          "answer_cnt" : "2",
+          "views" : "308",
+          "created_at" : "2023-04-29 12:52",
+          "accepted_answer" : false,
+          "tagsList" : [
+            { "label" : "JavaScript"},
+            { "label" : "React"},
+            { "label" : "C++"}
+          ]
+        },
+        {          
+          "questionId" : 12,
+          "title" : "What does the 'yield' keyword do in Python?",
+          "content" : "I mistakenly added files to Git using the command: git add myfile.txt I have not yet run git commit. How do I undo this so that these changes will not be included in the commit?",
+          "name" : "김태진",
+          "likes" : "5",
+          "answer_cnt" : "2",
+          "views" : "308",
+          "created_at" : "2023-04-29 12:52",
+          "accepted_answer" : false,
+          "tagsList" : [
+            { "label" : "JavaScript"},
+            { "label" : "React"},
+            { "label" : "C++"}
+          ]
+        },
+        {          
+          "questionId" : 12,
+          "title" : "What does the 'yield' keyword do in Python?",
+          "content" : "I mistakenly added files to Git using the command: git add myfile.txt I have not yet run git commit. How do I undo this so that these changes will not be included in the commit?",
+          "name" : "김태진",
+          "likes" : "5",
+          "answer_cnt" : "2",
+          "views" : "308",
+          "created_at" : "2023-04-29 12:52",
+          "accepted_answer" : false,
+          "tagsList" : [
+            { "label" : "JavaScript"},
+            { "label" : "React"},
+            { "label" : "C++"}
+          ]
+        },
+        {          
+          "questionId" : 12,
+          "title" : "What does the 'yield' keyword do in Python?",
+          "content" : "I mistakenly added files to Git using the command: git add myfile.txt I have not yet run git commit. How do I undo this so that these changes will not be included in the commit?",
+          "name" : "김태진",
+          "likes" : "5",
+          "answer_cnt" : "2",
+          "views" : "308",
+          "created_at" : "2023-04-29 12:52",
+          "accepted_answer" : false,
+          "tagsList" : [
+            { "label" : "JavaScript"},
+            { "label" : "React"},
+            { "label" : "C++"}
+          ]
+        },
+        {          
+          "questionId" : 12,
+          "title" : "What does the 'yield' keyword do in Python?",
+          "content" : "I mistakenly added files to Git using the command: git add myfile.txt I have not yet run git commit. How do I undo this so that these changes will not be included in the commit?",
+          "name" : "김태진",
+          "likes" : "5",
+          "answer_cnt" : "2",
+          "views" : "308",
+          "created_at" : "2023-04-29 12:52",
+          "accepted_answer" : false,
+          "tagsList" : [
+            { "label" : "JavaScript"},
+            { "label" : "React"},
+            { "label" : "C++"}
+          ]
+        },
+        {          
+          "questionId" : 12,
+          "title" : "What does the 'yield' keyword do in Python?",
+          "content" : "I mistakenly added files to Git using the command: git add myfile.txt I have not yet run git commit. How do I undo this so that these changes will not be included in the commit?",
+          "name" : "김태진",
+          "likes" : "5",
+          "answer_cnt" : "2",
+          "views" : "308",
+          "created_at" : "2023-04-29 12:52",
+          "accepted_answer" : false,
+          "tagsList" : [
+            { "label" : "JavaScript"},
+            { "label" : "React"},
+            { "label" : "C++"}
+          ]
+        },
+        {          
+          "questionId" : 12,
+          "title" : "What does the 'yield' keyword do in Python?",
+          "content" : "I mistakenly added files to Git using the command: git add myfile.txt I have not yet run git commit. How do I undo this so that these changes will not be included in the commit?",
+          "name" : "김태진",
+          "likes" : "5",
+          "answer_cnt" : "2",
+          "views" : "308",
+          "created_at" : "2023-04-29 12:52",
+          "accepted_answer" : false,
+          "tagsList" : [
+            { "label" : "JavaScript"},
+            { "label" : "React"},
+            { "label" : "C++"}
+          ]
+        },
+        {          
+          "questionId" : 12,
+          "title" : "What does the 'yield' keyword do in Python?",
+          "content" : "I mistakenly added files to Git using the command: git add myfile.txt I have not yet run git commit. How do I undo this so that these changes will not be included in the commit?",
+          "name" : "김태진",
+          "likes" : "5",
+          "answer_cnt" : "2",
+          "views" : "308",
+          "created_at" : "2023-04-29 12:52",
+          "accepted_answer" : false,
+          "tagsList" : [
+            { "label" : "JavaScript"},
+            { "label" : "React"},
+            { "label" : "C++"}
+          ]
         }
     ],
     "user" : [
