@@ -218,6 +218,15 @@ const QuestionMain = styled.div`
     font-size: 1.7rem;
     margin-bottom: 5px;
     margin-top: 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    line-height: 1.2;
+    text-align: left;
+    word-wrap: break-word;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
 
     :hover {
       color: rgb(77, 139, 221);
