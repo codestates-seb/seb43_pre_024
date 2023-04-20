@@ -44,13 +44,12 @@ function NewQuestion() {
   const [body, setBody] = useState('');
   const [tags, setTags] = useState([]);
   const [currentStep, setCurrentStep] = useState(0);
+
+  // 컨펌 모달을 위한 상태들
   const [isCorfirmOpen, setIsConfirmOpen] = useState(false);
   const [confirmMessage, setConfirmMessage] = useState('');
-
-  function onClickDiscardButton() {
-    setConfirmMessage('작성중인 내용을 모두 삭제하시겠습니까?');
-    setIsConfirmOpen(true);
-  }
+  const [onClickConfirm, setOnClickConfirm] = useState(() => {});
+  const [onClickCancel, setOnClickCancel] = useState(() => {});
 
   function onConfirmDiscard() {
     setTitle('');
@@ -61,6 +60,13 @@ function NewQuestion() {
 
   function onCancelDiscard() {
     setIsConfirmOpen(false);
+  }
+
+  function onClickDiscardButton() {
+    setConfirmMessage('작성중인 내용을 모두 삭제하시겠습니까?');
+    setOnClickConfirm(() => onConfirmDiscard);
+    setOnClickCancel(() => onCancelDiscard);
+    setIsConfirmOpen(true);
   }
 
   return (
@@ -135,8 +141,8 @@ function NewQuestion() {
       {isCorfirmOpen && (
         <Confirm
           message={confirmMessage}
-          onConfirm={() => onConfirmDiscard()}
-          onCancel={() => onCancelDiscard()}
+          onConfirm={onClickConfirm}
+          onCancel={onClickCancel}
         />
       )}
     </>
