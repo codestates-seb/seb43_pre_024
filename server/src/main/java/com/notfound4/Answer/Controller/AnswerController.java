@@ -10,12 +10,16 @@ import com.notfound4.Question.Entity.Question;
 import com.notfound4.Question.Service.QuestionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Positive;
 import java.net.URI;
 
 @Slf4j
+@Validated
 @RestController
 @RequestMapping("/questions")
 public class AnswerController {
@@ -35,8 +39,8 @@ public class AnswerController {
 
     // 답변 등록
     @PostMapping("/{question_id}/answer")
-    public ResponseEntity answerPost(@PathVariable("question_id") long questionId,
-                                     @RequestBody AnswerDto.Post postAnswer) {
+    public ResponseEntity answerPost(@PathVariable("question_id") @Positive long questionId,
+                                     @Valid @RequestBody AnswerDto.Post postAnswer) {
 
         Question findQuestion = questionService.findQuestion(questionId);
         Member findMember = memberService.findMember(postAnswer.getEmail());
@@ -54,8 +58,8 @@ public class AnswerController {
 
     // 답변 수정
     @PatchMapping("/{question_id}/answer/edit")
-    public ResponseEntity answerPatch(@PathVariable("question_id") long questionId,
-                                      @RequestBody AnswerDto.Patch patchAnswer) {
+    public ResponseEntity answerPatch(@PathVariable("question_id") @Positive long questionId,
+                                      @Valid @RequestBody AnswerDto.Patch patchAnswer) {
 
         Member findMember = memberService.findMember(patchAnswer.getEmail());
         Answer answer = mapper.patchAnswerToAnswer(patchAnswer, findMember);
@@ -72,8 +76,8 @@ public class AnswerController {
 
     // 답변 삭제
     @DeleteMapping("/{question_id}/answer/{answer_id}")
-    public ResponseEntity answerDelete(@PathVariable("question_id") long questionId,
-                                       @PathVariable("answer_id") long answerId) {
+    public ResponseEntity answerDelete(@PathVariable("question_id") @Positive long questionId,
+                                       @PathVariable("answer_id") @Positive long answerId) {
 
         service.deleteAnswer(answerId);
 

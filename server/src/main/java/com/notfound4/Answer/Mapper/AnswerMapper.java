@@ -2,9 +2,12 @@ package com.notfound4.Answer.Mapper;
 
 import com.notfound4.Answer.Dto.AnswerDto;
 import com.notfound4.Answer.Entity.Answer;
+import com.notfound4.Comment.Dto.CommentDto;
+import com.notfound4.Comment.Entity.Comment;
+import com.notfound4.Comment.Mapper.CommentMapper;
+import com.notfound4.Comment.Service.CommentService;
 import com.notfound4.Member.Entity.Member;
 import com.notfound4.Question.Entity.Question;
-import org.hibernate.IdentifierLoadAccess;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
@@ -34,24 +37,27 @@ public interface AnswerMapper {
     }
 
     // 질문 확인 페이지 조회 시, 리턴 할 답변 리스트 Dto 로 각 매핑
-    default AnswerDto.Response answerToAnswerResponse(Answer answer) {
+    default AnswerDto.Response answerToAnswerResponse(Answer answer, List<CommentDto.Response> commentList) {
         AnswerDto.Response response = new AnswerDto.Response();
         response.setAnswerId(answer.getAnswerId());
         response.setName(answer.getMember().getName());
         response.setContent(answer.getContent());
         response.setCreated_at(answer.getCreatedAt());
-
+        response.setCommentList(commentList);
         return response;
     }
 
     // 질문 확인 페이지 조회 시, 리턴 할 답변 리스트 Dto 로 위 함수 이용해 각 매핑
-    default List<AnswerDto.Response> answerToAnswerListResponse(List<Answer> answerList) {
+    default List<AnswerDto.Response> answerToAnswerListResponse(
+            List<Answer> answerList, CommentService commentService, CommentMapper commentMapper) {
         List<AnswerDto.Response> answerListResponse = new ArrayList<>(answerList.size());
         Iterator answerObj = answerList.iterator();
 
         while(answerObj.hasNext()) {
             Answer answer = (Answer) answerObj.next();
-            answerListResponse.add(this.answerToAnswerResponse(answer));
+            List<Comment> commentList = commentService.findComments(answer.getAnswerId());
+            List<CommentDto.Response> responseList = commentMapper.commentsToCommentsResponse(commentList);
+            answerListResponse.add(this.answerToAnswerResponse(answer, responseList));
         }
 
         return answerListResponse;

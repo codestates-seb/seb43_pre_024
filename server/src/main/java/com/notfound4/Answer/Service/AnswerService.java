@@ -49,6 +49,12 @@ public class AnswerService {
         repository.deleteById(answerId);
     }
 
+    // 댓글 등록 시, 해당 answer 찾기
+    public Answer findAnswer(long answerId) {
+        Optional<Answer> optionalAnswer = repository.findById(answerId);
+        return optionalAnswer.orElseThrow(() -> new RuntimeException("not found answer"));
+    }
+
     // 질문 확인 페이지 조회 시, 질문에 대한 답변 리스트 가져오기
     public List<Answer> findAnswers(long questionId) {
         Optional<Question> optionalQuestion = questionRepository.findById(questionId);

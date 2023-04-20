@@ -1,5 +1,6 @@
 package com.notfound4.Answer.Entity;
 
+import com.notfound4.Comment.Entity.Comment;
 import com.notfound4.Member.Entity.Member;
 import com.notfound4.Question.Entity.Question;
 import lombok.Getter;
@@ -11,6 +12,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -40,4 +43,7 @@ public class Answer {
     @LastModifiedDate
     @Column
     private LocalDateTime modifiedAt;   // 답변 수정 시간
+
+    @OneToMany(mappedBy = "member")
+    private List<Comment> CommentList = new ArrayList<>();
 }
