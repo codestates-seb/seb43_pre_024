@@ -7,13 +7,13 @@ import useFetch from '../util/useFetch';
 
 const Box = styled.div`
   width: calc(100% - 250px);
-  border: 1px solid red;
   display: flex;
   flex-direction: column;
   align-items: start;
   justify-content: center;
   box-sizing: border-box;
   height: 1320px;
+  border-left: 1px solid rgb(201, 201, 201);
 `;
 
 const TitleBox = styled.div`
