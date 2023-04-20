@@ -136,7 +136,6 @@ const QuestionBox = styled.div`
   flex-direction: row;
   flex-wrap: wrap;
   box-sizing: border-box;
-  margin-bottom: 20px;
 `;
 
 const CountBox = styled.div`
@@ -208,7 +207,7 @@ const Answers = styled.div`
 
 const QuestionMain = styled.div`
   width: 80%;
-  height: 150px;
+  height: 160px;
   box-sizing: border-box;
   display: flex;
   justify-content: center;
@@ -218,6 +217,7 @@ const QuestionMain = styled.div`
     color: rgb(57, 116, 194);
     font-size: 1.7rem;
     margin-bottom: 5px;
+    margin-top: 20px;
 
     :hover {
       color: rgb(77, 139, 221);
@@ -238,6 +238,26 @@ const QuestionMain = styled.div`
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
+    margin-bottom: 5px;
+  }
+
+  .tagsBox {
+    padding: 10px 0 10px 0;
+    color: rgb(57, 116, 194);
+
+    .tag {
+      background-color: rgb(227, 235, 243);
+      padding: 8px;
+      font-size: 1.1rem;
+      border-radius: 5px;
+      color: rgb(80, 114, 154);
+      margin-right: 10px;
+
+      :hover {
+        background-color: rgb(213, 226, 240);
+        color: rgb(66, 96, 129);
+      }
+    }
   }
 `;
 
@@ -360,6 +380,13 @@ function AllQuestions() {
                   <QuestionMain>
                     <span className="title">{data.title}</span>
                     <span className="content">{data.content}</span>
+                    <div className="tagsBox">
+                      {data.tagsList
+                        ? data.tagsList.map(tag => {
+                            return <span className="tag">{tag.label}</span>;
+                          })
+                        : null}
+                    </div>
                   </QuestionMain>
                   <QuestionProfile>
                     <span className="name">{data.name}</span>
