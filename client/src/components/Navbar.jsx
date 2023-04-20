@@ -7,7 +7,7 @@ import Main from '../pages/Main';
 import AllQuestions from '../pages/AllQuestions';
 import Paging from './Paging';
 import MyPage from '../pages/MyPage';
-import { NewQuestion, LimitTags } from '../pages/NewQuestion';
+import NewQuestion from '../pages/NewQuestion';
 import SignUp from '../pages/SignUp';
 import LogIn from '../pages/LogIn';
 
