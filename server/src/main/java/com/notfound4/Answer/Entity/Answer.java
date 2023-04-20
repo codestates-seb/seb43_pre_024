@@ -23,11 +23,11 @@ public class Answer {
     private Long answerId;  // 답변 ID
 
     @ManyToOne
-    @JoinColumn(name = "questionId")
+    @JoinColumn(name = "questionId", nullable = false)
     private Question question;    // Question - 질문 ID와 매핑
 
     @ManyToOne
-    @JoinColumn(name = "memberId")
+    @JoinColumn(name = "memberId", nullable = false)
     private Member member;  // Member - 멤버 ID와 매핑
 
     @Column(columnDefinition = "TEXT", nullable = false)
