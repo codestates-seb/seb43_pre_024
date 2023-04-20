@@ -4,7 +4,7 @@ import mainImg from '../images/main_img.png';
 const MainBox = styled.div`
   display: flex;
   flex-direction: column;
-  algin-items: center;
+  align-items: center;
   justify-content: center;
   width: 100%;
 

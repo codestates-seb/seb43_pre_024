@@ -9,6 +9,7 @@ import Paging from './Paging';
 import MyPage from '../pages/MyPage';
 import { NewQuestion, LimitTags } from '../pages/NewQuestion';
 import SignUp from '../pages/SignUp';
+import LogIn from '../pages/LogIn';
 
 const NavBox = styled.div`
   width: 250px;
@@ -193,12 +194,13 @@ function Navbar({ login }) {
       </NavBox>
 
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Main />} />
         <Route path="/main" element={<Main />} />
         <Route path="/all-questions" element={<AllQuestions />} />
         <Route path="/new-question" element={<NewQuestion />} />
         <Route path="/mypage" element={<Paging />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route path="login" element={<LogIn />} />
       </Routes>
     </>
   );
