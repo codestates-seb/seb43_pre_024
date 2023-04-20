@@ -62,13 +62,15 @@ function Confirm({ message, onConfirm, onCancel }) {
       <ConfirmModal>
         <div className="confirm__message">{message}</div>
         <div className="confirm__buttons">
-          <button
-            className="confirm__button confirm__button--cancel"
-            onClick={onCancel}
-            type="button"
-          >
-            Cancel
-          </button>
+          {onCancel && (
+            <button
+              className="confirm__button confirm__button--cancel"
+              onClick={onCancel}
+              type="button"
+            >
+              Cancel
+            </button>
+          )}
           <button
             className="confirm__button confirm__button--confirm"
             onClick={onConfirm}

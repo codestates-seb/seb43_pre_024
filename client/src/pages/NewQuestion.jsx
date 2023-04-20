@@ -69,6 +69,19 @@ function NewQuestion() {
     setIsConfirmOpen(true);
   }
 
+  function onClickNextButton(text, minLength) {
+    if (text.length < minLength) {
+      setConfirmMessage(`${minLength}자 이상 입력해주세요.`);
+      setOnClickConfirm(() => () => {
+        setIsConfirmOpen(false);
+      });
+      setOnClickCancel(null);
+      setIsConfirmOpen(true);
+    } else {
+      setCurrentStep(currentStep + 1);
+    }
+  }
+
   return (
     <>
       <NewQuestionStyle>
@@ -82,13 +95,7 @@ function NewQuestion() {
           setValue={setTitle}
           hasNextButton={currentStep === 0}
           disabled={currentStep < 0}
-          onClickNext={() => {
-            if (title.length < 10) {
-              alert('10자 이상 입력해주세요.');
-            } else {
-              setCurrentStep(1);
-            }
-          }}
+          onClickNext={() => onClickNextButton(title, 10)}
         />
         <QuestionInputBox
           title="What are the details of your problem? "
@@ -98,13 +105,7 @@ function NewQuestion() {
           setValue={setBody}
           hasNextButton={currentStep === 1}
           disabled={currentStep < 1}
-          onClickNext={() => {
-            if (title.length < 10) {
-              alert('10자 이상 입력해주세요.');
-            } else {
-              setCurrentStep(2);
-            }
-          }}
+          onClickNext={() => onClickNextButton(body, 20)}
         />
         <QuestionInputBox
           title="Tags"
