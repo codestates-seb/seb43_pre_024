@@ -266,7 +266,7 @@ const SecessionAlertBox = styled.div`
   justify-content: center;
   border-radius: 5px;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  margin-bottom: 100px;
+  margin-bottom: 120px;
 
   .alertText {
     font-size: 1.5rem;
@@ -405,6 +405,9 @@ function MyPage({
                         <span className="views">{question.views} views</span>
                       </div>
                       <div className="title">{question.title}</div>
+                      <div className="tags">
+                        {console.log(question.tagsList)}
+                      </div>
                       <div className="createdAt">
                         asked &nbsp;{question.created_at}
                       </div>
