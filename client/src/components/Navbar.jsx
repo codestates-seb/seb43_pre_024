@@ -10,6 +10,7 @@ import MyPage from '../pages/MyPage';
 import NewQuestion from '../pages/NewQuestion';
 import SignUp from '../pages/SignUp';
 import LogIn from '../pages/LogIn';
+import QuestionDetail from '../pages/QuestionDetail';
 
 const NavBox = styled.div`
   width: 250px;
@@ -197,6 +198,7 @@ function Navbar({ login }) {
         <Route path="/" element={<Main />} />
         <Route path="/main" element={<Main />} />
         <Route path="/all-questions" element={<AllQuestions />} />
+        <Route path="/questions/:id" element={<QuestionDetail />} />
         <Route path="/new-question" element={<NewQuestion />} />
         <Route path="/mypage" element={<Paging />} />
         <Route path="/signup" element={<SignUp />} />
