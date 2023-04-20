@@ -10,6 +10,7 @@ const FooterBox = styled.div`
   height: 340px;
   background: rgba(234, 234, 234);
   top: 0;
+  z-index: 5;
 `;
 
 const Container = styled.div`

@@ -36,7 +36,7 @@ const ProfileImg = styled.div`
   margin-right: 3rem;
 
   .profileImg {
-    width: 100%;
+    width: 80%;
     position: absolute;
     z-index: -1;
     border-radius: 5px;
@@ -243,11 +243,10 @@ const BtnBox = styled.div`
 
 const SecessionAlertBack = styled.div`
   position: absolute;
-  bottom: 0;
+  top: 0;
   left: 0;
   width: 100%;
-  height: 30%;
-  border: 1px solid black;
+  height: 140%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -257,8 +256,61 @@ const SecessionAlertBack = styled.div`
 
 const SecessionAlertBox = styled.div`
   width: 30%;
-  height: 30%;
-  border: 1px solid green;
+  height: 20%;
+  background-color: white;
+  border-radius: 5px;
+  padding: 2rem;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  margin-bottom: 100px;
+
+  .alertText {
+    font-size: 1.5rem;
+    margin-left: 20px;
+  }
+
+  .btnBox {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: end;
+    width: 100%;
+    margin-top: 30px;
+  }
+
+  .onBtn,
+  .offBtn {
+    width: 80px;
+    padding: 10px;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 5px;
+    margin-left: 10px;
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
+      rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+  }
+
+  .onBtn {
+    background-color: rgb(77, 139, 221);
+    color: white;
+
+    :hover {
+      background-color: rgb(60, 110, 174);
+    }
+  }
+
+  .offBtn {
+    background-color: white;
+    color: rgb(77, 139, 221);
+
+    :hover {
+      background-color: rgb(242, 242, 242);
+    }
+  }
 `;
 
 function MyPage({
@@ -291,7 +343,7 @@ function MyPage({
   }
 
   function onAlert() {
-    setAlert(!alert);
+    setAlert(true);
   }
 
   function offAlert() {
@@ -394,9 +446,15 @@ function MyPage({
       {alert ? (
         <SecessionAlertBack>
           <SecessionAlertBox>
-            <button onClick={onAlert} type="button">
-              취소
-            </button>
+            <span className="alertText">Are you sure you want to leave?</span>
+            <div className="btnBox">
+              <button className="onBtn" onClick={onAlert} type="button">
+                YES
+              </button>
+              <button className="offBtn" onClick={offAlert} type="button">
+                NO
+              </button>
+            </div>
           </SecessionAlertBox>
         </SecessionAlertBack>
       ) : null}
