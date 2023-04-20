@@ -336,9 +336,6 @@ function AllQuestions() {
       }
     }
   }, [isPending, datas, inView]);
-  console.log(print);
-  console.log(page.current);
-  console.log(isPending);
 
   return (
     <Box>

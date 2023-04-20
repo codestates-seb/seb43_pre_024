@@ -12,7 +12,7 @@ const PagingBox = styled.div`
   flex-direction: row;
   position: absolute;
   bottom: -8%;
-  left: 30%;
+  left: 26%;
 
   .left {
     padding-top: 5px;
