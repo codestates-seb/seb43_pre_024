@@ -37,7 +37,7 @@ public class QuestionService {
     public List<Question> findQuestions(String tab) {
         List<Question> questionList;
 
-        // Todo : Hot: 좋아요 순 작업 필요
+        // Hot: 좋아요 순 작업 필요
         if (tab.equals("Hot")) {
             questionList = repository.findAll(Sort.by("questionId").descending());
         } else if (tab.equals("Top")) {
