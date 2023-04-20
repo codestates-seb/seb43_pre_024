@@ -1,13 +1,17 @@
-package com.notfound4.Member.service;
+package com.notfound4.Member.Service;
 
 
 import com.notfound4.Member.Entity.Member;
-import com.notfound4.Member.repository.MemberRepository;
+import com.notfound4.Member.Repository.MemberRepository;
+import com.notfound4.Question.Entity.Question;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
+@Transactional
 @Service
 public class MemberService {
     private final MemberRepository memberRepository;
@@ -42,6 +46,11 @@ public class MemberService {
         return findVerifiedMember(memberId);
     }
 
+    // AnswerController, QuestionController 전용 멤버 조회 (parameter가 email이기 떄문)
+    public Member findMember(String email) {
+        return findVerifiedMember(email);
+    }
+
     // status만 lock으로 변경후 저장
     public void deleteMember(long memberId) {
         Member findMember = findVerifiedMember(memberId);
@@ -59,6 +68,11 @@ public class MemberService {
         return findMember;
     }
 
+    private Member findVerifiedMember(String email) {
+        Optional<Member> optionalMember = memberRepository.findByEmail(email);
+        Member findMember = optionalMember.orElseThrow(() -> new RuntimeException("Member not found"));
+        return findMember;
+    }
 
     private void verifyExistsEmail(String email) {
         Optional<Member> member = memberRepository.findByEmail(email);
@@ -66,4 +80,6 @@ public class MemberService {
             // 예외처리 수정
             throw new RuntimeException("Member exists");
     }
+
+
 }

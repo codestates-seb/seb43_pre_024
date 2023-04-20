@@ -1,10 +1,10 @@
-package com.notfound4.auth.filter;
+package com.notfound4.Auth.Filter;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.notfound4.Member.Entity.Member;
-import com.notfound4.auth.dto.LoginDto;
-import com.notfound4.auth.jwt.JwtTokenizer;
+import com.notfound4.Auth.Dto.LoginDto;
+import com.notfound4.Auth.Jwt.JwtTokenizer;
 import lombok.SneakyThrows;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,7 +21,9 @@ import java.util.Map;
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
     private final JwtTokenizer jwtTokenizer;
-    public JwtAuthenticationFilter(AuthenticationManager authenticationManager, JwtTokenizer jwtTokenizer) {
+//    private final RedisTemplate<String, String> redisTemplate;
+    public JwtAuthenticationFilter(AuthenticationManager authenticationManager,
+                                   JwtTokenizer jwtTokenizer) {
         this.authenticationManager = authenticationManager;
         this.jwtTokenizer = jwtTokenizer;
     }
@@ -51,6 +53,10 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         String accessToken = delegateAccessToken(member);
         String refreshToken = delegateRefreshToken(member);
+
+        // redis에 refresh 토큰 저장
+//        ValueOperations<String, String> test = redisTemplate.opsForValue();
+//        test.set("RT:" + member.getEmail(), refreshToken, jwtTokenizer.getRefreshTokenExpirationMinutes(), TimeUnit.MILLISECONDS);
 
         response.setHeader("Authorization", "Bearer " + accessToken);
         response.setHeader("Refresh", refreshToken);

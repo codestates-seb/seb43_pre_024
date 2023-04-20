@@ -1,4 +1,4 @@
-package com.notfound4.Member.dto;
+package com.notfound4.Member.Dto;
 
 import com.notfound4.Member.Entity.Member;
 import lombok.AllArgsConstructor;

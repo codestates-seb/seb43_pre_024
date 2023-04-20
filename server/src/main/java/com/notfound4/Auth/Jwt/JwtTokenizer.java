@@ -1,4 +1,4 @@
-package com.notfound4.auth.jwt;
+package com.notfound4.Auth.Jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;

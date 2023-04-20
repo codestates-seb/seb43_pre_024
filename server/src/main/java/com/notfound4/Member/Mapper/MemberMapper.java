@@ -1,7 +1,7 @@
-package com.notfound4.Member.mapper;
+package com.notfound4.Member.Mapper;
 
 import com.notfound4.Member.Entity.Member;
-import com.notfound4.Member.dto.MemberDto;
+import com.notfound4.Member.Dto.MemberDto;
 import org.springframework.stereotype.Component;
 
 @Component

@@ -1,8 +1,8 @@
-package com.notfound4.auth.userdetails;
+package com.notfound4.Auth.Userdetails;
 
 
 import com.notfound4.Member.Entity.Member;
-import com.notfound4.Member.repository.MemberRepository;
+import com.notfound4.Member.Repository.MemberRepository;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -11,7 +11,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;

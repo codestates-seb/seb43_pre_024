@@ -34,7 +34,7 @@ public class Member {
     private String password;
 
     @Column(name = "profile_image")
-    private String profileImage;
+    private byte[] profileImage;
 
     @Enumerated(value = EnumType.STRING)
     @Column

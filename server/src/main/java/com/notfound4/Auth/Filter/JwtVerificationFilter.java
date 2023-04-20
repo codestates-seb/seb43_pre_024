@@ -1,6 +1,6 @@
-package com.notfound4.auth.filter;
+package com.notfound4.Auth.Filter;
 
-import com.notfound4.auth.jwt.JwtTokenizer;
+import com.notfound4.Auth.Jwt.JwtTokenizer;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;

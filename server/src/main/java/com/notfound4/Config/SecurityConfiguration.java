@@ -1,8 +1,8 @@
-package com.notfound4.config;
+package com.notfound4.Config;
 
-import com.notfound4.auth.filter.JwtAuthenticationFilter;
-import com.notfound4.auth.filter.JwtVerificationFilter;
-import com.notfound4.auth.jwt.JwtTokenizer;
+import com.notfound4.Auth.Filter.JwtAuthenticationFilter;
+import com.notfound4.Auth.Filter.JwtVerificationFilter;
+import com.notfound4.Auth.Jwt.JwtTokenizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -28,6 +28,7 @@ public class SecurityConfiguration {
 
     public SecurityConfiguration(JwtTokenizer jwtTokenizer) {
         this.jwtTokenizer = jwtTokenizer;
+
     }
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -47,6 +48,13 @@ public class SecurityConfiguration {
                         .antMatchers(HttpMethod.PATCH, "/users/**").authenticated()
                         .antMatchers(HttpMethod.GET, "/users/**").authenticated()
                         .antMatchers(HttpMethod.DELETE, "/users/**").authenticated()
+                        .antMatchers(HttpMethod.POST, "/questions/ask").authenticated()
+                        .antMatchers(HttpMethod.PATCH, "/questions/**").authenticated()
+                        .antMatchers(HttpMethod.DELETE, "/questions/**").authenticated()
+                        .antMatchers(HttpMethod.POST, "/questions/**/answer").authenticated()
+                        .antMatchers(HttpMethod.POST, "/questions/**/like").authenticated()
+                        .antMatchers(HttpMethod.PATCH, "/questions/**/answer/**").authenticated()
+                        .antMatchers(HttpMethod.DELETE, "/questions/**/answer/**").authenticated()
                         .anyRequest().permitAll()
                 );
         return http.build();

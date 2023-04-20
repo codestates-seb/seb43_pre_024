@@ -1,4 +1,4 @@
-package com.notfound4.auth.dto;
+package com.notfound4.Auth.Dto;
 
 import lombok.Getter;
 

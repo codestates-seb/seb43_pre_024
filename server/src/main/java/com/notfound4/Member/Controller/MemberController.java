@@ -1,11 +1,13 @@
-package com.notfound4.Member.controller;
+package com.notfound4.Member.Controller;
 
 
 
 import com.notfound4.Member.Entity.Member;
-import com.notfound4.Member.dto.MemberDto;
-import com.notfound4.Member.mapper.MemberMapper;
-import com.notfound4.Member.service.MemberService;
+import com.notfound4.Member.Dto.MemberDto;
+import com.notfound4.Member.Mapper.MemberMapper;
+import com.notfound4.Member.Service.MemberService;
+import com.notfound4.Question.Entity.Question;
+import com.notfound4.QuestionResponseDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -15,6 +17,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/users")
@@ -43,7 +47,7 @@ public class MemberController {
         return ResponseEntity.created(location).build();
     }
 
-    @PatchMapping("{user-id}")
+    @PatchMapping("/{user-id}")
     public ResponseEntity patchMember(@PathVariable("user-id") @Positive long memberId,
                                       @Valid @RequestBody MemberDto.Patch requestBody) {
         requestBody.setMemberId(memberId);
@@ -53,15 +57,33 @@ public class MemberController {
         return new ResponseEntity(mapper.memberToMemberResponse(updatedMember), HttpStatus.OK);
     }
 
-    @GetMapping("{user-id}")
+    @GetMapping("/{user-id}")
     public ResponseEntity getMember(@PathVariable("user-id") @Positive long memberId) {
         Member findMember = memberService.findMember(memberId);
         return new ResponseEntity(mapper.memberToMemberResponse(findMember), HttpStatus.OK);
     }
 
-    @DeleteMapping("{user-id}")
+    @DeleteMapping("/{user-id}")
     public ResponseEntity deleteMember(@PathVariable("user-id") @Positive long memberId) {
         memberService.deleteMember(memberId);
         return new ResponseEntity(HttpStatus.OK);
+    }
+
+    // 마이페이지 질문 목록 조회
+    @GetMapping("/{user-id}/question")
+    public ResponseEntity getMyQuestions(@PathVariable("user-id") @Positive long memberId) {
+        List<Question> findMyQuestions = memberService.findMyQuestions(memberId);
+        List<QuestionResponseDto> responses = new ArrayList<>();
+        for (Question question : findMyQuestions) {
+            QuestionResponseDto response = new QuestionResponseDto();
+            response.setQuestion_id(question.getQuestionId());
+            response.setTitle(question.getTitle());
+            response.setContent(question.getContent());
+            response.setAccepted_answer_id(question.getAcceptedAnswerId());
+            response.setMember_id(question.getMember().getMemberId());
+            response.setViews(question.getViews());
+            responses.add(response);
+        }
+        return new ResponseEntity(responses, HttpStatus.OK);
     }
 }
