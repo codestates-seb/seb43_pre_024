@@ -6,7 +6,7 @@ import Home from '../pages/Home';
 import AllQuestions from '../pages/AllQuestions';
 import Paging from './Paging';
 import MyPage from '../pages/MyPage';
-import NewQuestion from '../pages/NewQuestion';
+import { NewQuestion, LimitTags } from '../pages/NewQuestion';
 import SignUp from '../pages/SignUp';
 
 const NavBox = styled.div`
