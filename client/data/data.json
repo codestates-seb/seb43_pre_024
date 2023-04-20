@@ -14,7 +14,14 @@
           "answer_cnt" : "2",
           "views" : "1",
           "created_at" : "2023-04-18 13:52",
-          "accepted_answer" : true
+          "accepted_answer" : true,
+          "tagsList" : [
+            { "label" : "JavaScript"},
+            { "label" : "React"},
+            { "label" : "Java"},
+            { "label" : "Python"},
+            { "label" : "C++"}
+          ]
         },
         {          
           "questionId" : 2,
@@ -25,7 +32,10 @@
           "answer_cnt" : "0",
           "views" : "10",
           "created_at" : "2023-04-17 15:52",
-          "accepted_answer" : true
+          "accepted_answer" : true,
+          "tagsList" : [
+            { "label" : "C++"}
+          ]
         },
         {          
           "questionId" : 3,
@@ -36,7 +46,13 @@
           "answer_cnt" : "7",
           "views" : "4",
           "created_at" : "2023-04-08 17:52",
-          "accepted_answer" : false
+          "accepted_answer" : false,
+          "tagsList" : [
+            { "label" : "JavaScript"},
+            { "label" : "React"},
+            { "label" : "Java"},
+            { "label" : "C++"}
+          ]
         },
         {          
           "questionId" : 4,
@@ -47,7 +63,11 @@
           "answer_cnt" : "4",
           "views" : "26",
           "created_at" : "2023-04-12 09:52",
-          "accepted_answer" : true
+          "accepted_answer" : true,
+          "tagsList" : [
+            { "label" : "JavaScript"},
+            { "label" : "C++"}
+          ]
         },
         {          
           "questionId" : 5,
@@ -58,7 +78,12 @@
           "answer_cnt" : "2",
           "views" : "308",
           "created_at" : "2023-04-29 12:52",
-          "accepted_answer" : false
+          "accepted_answer" : false,
+          "tagsList" : [
+            { "label" : "JavaScript"},
+            { "label" : "React"},
+            { "label" : "C++"}
+          ]
         }
     ],
     "user" : [
