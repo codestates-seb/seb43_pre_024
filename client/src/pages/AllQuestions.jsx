@@ -294,38 +294,44 @@ const QuestionProfile = styled.div`
 
 const Scroll = styled.div`
   bottom: ${props => (props.inView === true ? '0px' : '10px')};
-  height: 10%;
+  height: 100%;
   width: 100%;
 `;
 
 function AllQuestions() {
   const navigate = useNavigate();
-  const { datas, isPending, error } = useFetch(`
-  https://6921-210-100-239-193.ngrok-free.app/questions`);
-  // const [datas, setDatas] = useState([]);
-  // const [isPending, setIsPending] = useState(false);
-  // const [error, setError] = useState();
+  // const { datas, isPending, error } = useFetch(`
+  // https://e5dd-210-100-239-193.ngrok-free.app/questions`);
+  const [datas, setDatas] = useState([]);
+  const [isPending, setIsPending] = useState(false);
+  const [error, setError] = useState();
 
-  // useEffect(() => {
-  //   fetch('https://6921-210-100-239-193.ngrok-free.app/questions').then(res => {
-  //     if (!res.ok) {
-  //       throw Error('could not fetch the data for that resource');
-  //     }
-  //     return res.json();
-  //   })
-  //   .then(data => {
-  //     console.log(data);
-  //     setIsPending(true);
-  //     setDatas(data);
-  //     console.log(datas);
-  //   })
-  //   .catch(err => {
-  //     console.log(err);
-  //     console.log('sdd');
-  //     setIsPending(false);
-  //     setError(err);
-  //   });
-  // }, [datas]);
+  useEffect(() => {
+    fetch('https://e5dd-210-100-239-193.ngrok-free.app/questions', {
+      headers: {
+        'ngrok-skip-browser-warning': '69420',
+      },
+    })
+      .then(res => {
+        if (!res.ok) {
+          throw Error('could not fetch the data for that resource');
+        }
+        return res.json();
+      })
+      .then(data => {
+        console.log(data);
+        setIsPending(true);
+        setDatas(data);
+        console.log(datas);
+      })
+      .catch(err => {
+        console.log(err);
+        console.log('sdd');
+        setIsPending(false);
+        setError(err);
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const [hotActive, setHotActive] = useState(false);
   const [newActive, setNewActive] = useState(false);
@@ -357,9 +363,8 @@ function AllQuestions() {
   const [print, setPrint] = useState([]);
 
   useEffect(() => {
-    console.log(isPending);
     if (isPending) {
-      console.log(datas);
+      console.log(inView);
       setPrint(datas.questions.slice(0, page.current));
       if (inView) {
         page.current += 5;

@@ -275,27 +275,31 @@ function Header({ isLogin, changeLoginStatus }) {
                 <span className="publicText">PUBLIC</span>
                 <ul className="publicUl">
                   <Link to="/all-questions">
-                    <QuestionsBtn
-                      questionsActive={questionsActive}
-                      className="questionsLi act"
-                      onClick={() => activeQuestions()}
-                      type="button"
-                    >
-                      <FaGlobeAsia className="icon" />
-                      Questions
-                    </QuestionsBtn>
+                    <div className="homeBtnBox">
+                      <QuestionsBtn
+                        questionsActive={questionsActive}
+                        className="questionsLi act"
+                        onClick={() => activeQuestions()}
+                        type="button"
+                      >
+                        <FaGlobeAsia className="icon" />
+                        Questions
+                      </QuestionsBtn>
+                    </div>
                   </Link>
                   <li className="tagsLi act">Tags</li>
                   {isLogin ? (
                     <Link to="/Mypage">
-                      <UsersBtn
-                        usersActive={usersActive}
-                        className="UsersLi act"
-                        onClick={() => activeUsers()}
-                        type="button"
-                      >
-                        Users
-                      </UsersBtn>
+                      <div className="UsersBtnBox">
+                        <UsersBtn
+                          usersActive={usersActive}
+                          className="UsersLi act"
+                          onClick={() => activeUsers()}
+                          type="button"
+                        >
+                          Users
+                        </UsersBtn>
+                      </div>
                     </Link>
                   ) : null}
                   <li className="companiesLi act">Companies</li>
