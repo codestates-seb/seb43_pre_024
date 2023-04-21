@@ -63,7 +63,7 @@ public class SecurityConfiguration {
                         .antMatchers(HttpMethod.POST, "/questions/**/like").authenticated()
                         .antMatchers(HttpMethod.PATCH, "/questions/**/answer/**").authenticated()
                         .antMatchers(HttpMethod.DELETE, "/questions/**/answer/**").authenticated()
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()
                 );
         return http.build();
     }
