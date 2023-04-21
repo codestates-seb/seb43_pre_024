@@ -33,7 +33,7 @@ function App() {
           flexDirection: 'row',
         }}
       >
-        <Navbar login={login} />
+        <Navbar login={login} setLogin={setLogin} />
       </div>
       <Footer />
     </div>
