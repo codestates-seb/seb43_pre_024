@@ -33,7 +33,6 @@ public class SecurityConfiguration {
 
     private final JwtTokenizer jwtTokenizer;
 
-
     public SecurityConfiguration(JwtTokenizer jwtTokenizer) {
         this.jwtTokenizer = jwtTokenizer;
 
