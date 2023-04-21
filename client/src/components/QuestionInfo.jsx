@@ -72,7 +72,7 @@ function QuestionInfo({ questionId }) {
               padding: 8,
               background: '#cef',
               color: '#57A',
-              borderRadius: 4,
+              borderRadius: 5,
             }}
           >
             {tag}
