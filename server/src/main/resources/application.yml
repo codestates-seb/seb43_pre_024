@@ -32,11 +32,6 @@ spring:
       ddl-auto: create  #create -> update
     show-sql: true
 
-
-jwt:
-  key: ${JWT_SECRET_KEY}  # token secret key
-  access-token-expiration-minutes: 30  # access-token 만료시간
-  refresh-token-expiration-minutes: 420 # refresh-token 만료시간
 ---
 # run as prod environment
 spring:

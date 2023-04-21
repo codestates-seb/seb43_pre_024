@@ -32,7 +32,6 @@ public class MemberController {
 
     @PostMapping("/signup")
     public ResponseEntity postMember(@Valid @RequestBody MemberDto.Post requestBody) {
-
         Member createdMember = memberService.createMember(mapper.memberPostToMember(requestBody));
 
         URI location = UriComponentsBuilder

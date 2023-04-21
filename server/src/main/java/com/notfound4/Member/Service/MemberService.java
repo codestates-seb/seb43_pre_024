@@ -24,8 +24,10 @@ public class MemberService {
     // 예외 처리
     public Member createMember(Member member) {
         verifyExistsEmail(member.getEmail());
+
         String encryptedPassword = passwordEncoder.encode(member.getPassword());
         member.setPassword(encryptedPassword);
+
         return memberRepository.save(member);
     }
 
