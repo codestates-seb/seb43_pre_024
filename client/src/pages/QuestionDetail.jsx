@@ -1,8 +1,10 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import MDEditor from '@uiw/react-md-editor';
 import AnswerList from '../components/AnswerList';
 import QuestionInfo from '../components/QuestionInfo';
+import QuestionInputBox from '../components/QuestionInputBox';
 
 function QuestionDetail() {
   const DetailPageStyle = styled.div`
@@ -26,7 +28,32 @@ function QuestionDetail() {
   );
 }
 
-function NewAnswerInput() {
-  return <div>이곳에 새 답변을 입력하는 UI가 들어갑니다.</div>;
+function NewAnswerInput(props) {
+  const { value, setValue } = props;
+  const navigate = useNavigate();
+  const PostButtonStyle = styled.button`
+    width: 150px;
+    height: 40px;
+    background-color: rgb(84, 148, 252);
+    padding: 15px;
+    border-radius: 5px;
+    color: white;
+    border: none;
+    margin-top: 20px;
+    margin-bottom: 90px;
+    :hover {
+      background-color: rgb(66, 119, 206);
+      cursor: pointer;
+    }
+  `;
+
+  return (
+    <div>
+      <MDEditor style={{ width: '80%' }} value={value} />
+      <PostButtonStyle type="button" onClick={() => navigate('/new-question')}>
+        Post Your Answer
+      </PostButtonStyle>
+    </div>
+  );
 }
 export default QuestionDetail;
