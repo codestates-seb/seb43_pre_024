@@ -11,6 +11,7 @@ const LoginBox = styled.div`
   display: flex;
   justify-content: center;
   width: 100%;
+  height: 100vh;
   background: #f1f2f3;
 
   .container {
@@ -114,7 +115,7 @@ const LoginBtn = styled.button`
   }
 `;
 
-function LogIn() {
+function LogIn({ login, setLogin }) {
   const [emailIsFocused, setEmailIsFocused] = useState(false);
   const [pwIsFocused, setPwIsFocused] = useState(false);
   const [userData, setUserData] = useState('');
@@ -181,6 +182,7 @@ function LogIn() {
         // JWT 토큰 저장
         localStorage.setItem('token', data.token);
         window.location.href = '/home';
+        setLogin(true);
       } else {
         throw new Error(
           '로그인에 실패했습니다. 아이디 또는 패스워드를 확인해주세요.',
