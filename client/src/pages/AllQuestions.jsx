@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { useState, useEffect, useRef } from 'react';
 import { GoCheck } from 'react-icons/go';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useInView } from 'react-intersection-observer';
 import useFetch from '../util/useFetch';
 
@@ -213,6 +213,10 @@ const QuestionMain = styled.div`
   justify-content: center;
   flex-direction: column;
 
+  a {
+    text-decoration: none;
+  }
+
   .title {
     color: rgb(57, 116, 194);
     font-size: 1.7rem;
@@ -406,7 +410,9 @@ function AllQuestions() {
                     </div>
                   </CountBox>
                   <QuestionMain>
-                    <span className="title">{data.title}</span>
+                    <Link to="/questions/:id">
+                      <span className="title">{data.title}</span>
+                    </Link>
                     <span className="content">{data.content}</span>
                     <div className="tagsBox">
                       {data.tagsList
