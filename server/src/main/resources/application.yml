@@ -25,12 +25,13 @@ spring:
     username: ${SPRING_DATASOURCE_USERNAME}
     password: ${SPRING_DATASOURCE_PASSWORD}
   redis:
-    host: localhost
+    host: 127.0.0.1
     port: 6379
   jpa:
     hibernate:
       ddl-auto: create  #create -> update
     show-sql: true
+
 ---
 # run as prod environment
 spring:
