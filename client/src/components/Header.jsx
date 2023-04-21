@@ -134,26 +134,32 @@ const MenuBox = styled.div`
   background-color: white;
   box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
     rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
-  padding-top: 2rem;
+  padding-top: 1rem;
   padding-bottom: 1rem;
+
+  .questionsBtnBox,
+  .usersBtnBox,
+  .tagsBtnBox,
+  .companiesBtnBox {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    padding: 20px;
+    box-sizing: border-box;
+  }
 
   .homeBtnBox {
     width: 100%;
-    border: 1px solid red;
-    height: 30px;
     display: flex;
-    align-items: center;
-    justify-content: end;
-  }
-
-  .publicUl {
-    margin-top: 35px;
+    box-sizing: border-box;
+    padding-top: 20px;
+    padding-bottom: 20px;
   }
 
   li {
     list-style: none;
     color: rgb(85, 90, 96);
-    margin-bottom: 35px;
     cursor: pointer;
   }
 
@@ -167,6 +173,8 @@ const MenuBox = styled.div`
 
   .inact {
     font-size: 1rem;
+    margin-top: 20px;
+    margin-bottom: 20px;
   }
 
   .icon {
@@ -176,22 +184,13 @@ const MenuBox = styled.div`
 
 const HomeBtn = styled.button`
   color: rgb(85, 90, 96);
-  margin-bottom: 35px;
   cursor: pointer;
   border: none;
-  margin-left: -7px;
-  border-right: ${props =>
-    props.homeActive === true ? '3px solid rgb(218, 129, 49)' : 'none'};
-  background-color: ${props =>
-    props.homeActive === true ? '#F2F2F3' : 'white'};
-  border: 1px solid red;
-  width: 100%;
   padding: 0;
+  background-color: white;
 `;
 
 const QuestionsBtn = styled.button`
-  color: rgb(85, 90, 96);
-  margin-bottom: 35px;
   cursor: pointer;
   background-color: white;
   border: none;
@@ -200,7 +199,6 @@ const QuestionsBtn = styled.button`
 
 const UsersBtn = styled.button`
   color: rgb(85, 90, 96);
-  margin-bottom: 35px;
   cursor: pointer;
   background-color: white;
   border: none;
@@ -210,7 +208,7 @@ const UsersBtn = styled.button`
 function Header({ isLogin, changeLoginStatus }) {
   const [focus, setFocus] = useState(false);
   const [toggle, setToggle] = useState(false);
-  const [homeActive, setHomeActive] = useState(false);
+  const [homeActive, setHomeActive] = useState(true);
   const [questionsActive, setQuestionsActive] = useState(false);
   const [usersActive, setUsersActive] = useState(false);
 
@@ -230,18 +228,21 @@ function Header({ isLogin, changeLoginStatus }) {
     setHomeActive(true);
     setQuestionsActive(false);
     setUsersActive(false);
+    setToggle(false);
   }
 
   function activeQuestions() {
     setQuestionsActive(true);
     setHomeActive(false);
     setUsersActive(false);
+    setToggle(false);
   }
 
   function activeUsers() {
     setUsersActive(true);
     setHomeActive(false);
     setQuestionsActive(false);
+    setToggle(false);
   }
 
   return (
@@ -262,7 +263,6 @@ function Header({ isLogin, changeLoginStatus }) {
               <Link to="/">
                 <div className="homeBtnBox">
                   <HomeBtn
-                    homeActive={homeActive}
                     type="button"
                     onClick={() => activeHome()}
                     className="homeLi act"
@@ -275,9 +275,8 @@ function Header({ isLogin, changeLoginStatus }) {
                 <span className="publicText">PUBLIC</span>
                 <ul className="publicUl">
                   <Link to="/all-questions">
-                    <div className="homeBtnBox">
+                    <div className="questionsBtnBox">
                       <QuestionsBtn
-                        questionsActive={questionsActive}
                         className="questionsLi act"
                         onClick={() => activeQuestions()}
                         type="button"
@@ -287,12 +286,13 @@ function Header({ isLogin, changeLoginStatus }) {
                       </QuestionsBtn>
                     </div>
                   </Link>
-                  <li className="tagsLi act">Tags</li>
+                  <div className="tagsBtnBox">
+                    <li className="tagsLi act">Tags</li>
+                  </div>
                   {isLogin ? (
                     <Link to="/Mypage">
                       <div className="UsersBtnBox">
                         <UsersBtn
-                          usersActive={usersActive}
                           className="UsersLi act"
                           onClick={() => activeUsers()}
                           type="button"
@@ -302,7 +302,9 @@ function Header({ isLogin, changeLoginStatus }) {
                       </div>
                     </Link>
                   ) : null}
-                  <li className="companiesLi act">Companies</li>
+                  <div className="companiesBtnBox">
+                    <li className="companiesLi act">Companies</li>
+                  </div>
                 </ul>
               </li>
               <li className="collectivesLi inact">COLLECTIVES</li>
