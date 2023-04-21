@@ -63,6 +63,7 @@ public interface QuestionMapper {
         response.setQuestionId(question.getQuestionId());
         response.setTitle(question.getTitle());
         response.setContent(question.getContent());
+        response.setMemberId(question.getMember().getMemberId());
         response.setName(question.getMember().getName());
         response.setLikes(likes);
         response.setViews(question.getViews());

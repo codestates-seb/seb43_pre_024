@@ -56,6 +56,7 @@ public class QuestionDto {
         private long questionId;
         private String title;
         private String content;
+        private Long memberId;
         private String name;
         private int likes;
         private int views;
