@@ -137,6 +137,15 @@ const MenuBox = styled.div`
   padding-top: 2rem;
   padding-bottom: 1rem;
 
+  .homeBtnBox {
+    width: 100%;
+    border: 1px solid red;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+  }
+
   .publicUl {
     margin-top: 35px;
   }
@@ -175,6 +184,9 @@ const HomeBtn = styled.button`
     props.homeActive === true ? '3px solid rgb(218, 129, 49)' : 'none'};
   background-color: ${props =>
     props.homeActive === true ? '#F2F2F3' : 'white'};
+  border: 1px solid red;
+  width: 100%;
+  padding: 0;
 `;
 
 const QuestionsBtn = styled.button`
@@ -198,7 +210,7 @@ const UsersBtn = styled.button`
 function Header({ isLogin, changeLoginStatus }) {
   const [focus, setFocus] = useState(false);
   const [toggle, setToggle] = useState(false);
-  const [homeActive, setHomeActive] = useState(true);
+  const [homeActive, setHomeActive] = useState(false);
   const [questionsActive, setQuestionsActive] = useState(false);
   const [usersActive, setUsersActive] = useState(false);
 
@@ -248,14 +260,16 @@ function Header({ isLogin, changeLoginStatus }) {
           <MenuBox>
             <ul>
               <Link to="/">
-                <HomeBtn
-                  homeActive={homeActive}
-                  type="button"
-                  onClick={() => activeHome()}
-                  className="homeLi act"
-                >
-                  Home
-                </HomeBtn>
+                <div className="homeBtnBox">
+                  <HomeBtn
+                    homeActive={homeActive}
+                    type="button"
+                    onClick={() => activeHome()}
+                    className="homeLi act"
+                  >
+                    Home
+                  </HomeBtn>
+                </div>
               </Link>
               <li className="publicLi inact">
                 <span className="publicText">PUBLIC</span>

@@ -301,11 +301,36 @@ const Scroll = styled.div`
 function AllQuestions() {
   const navigate = useNavigate();
   const { datas, isPending, error } = useFetch(`
-  http://localhost:3001/questions`);
+  https://6921-210-100-239-193.ngrok-free.app/questions`);
+  // const [datas, setDatas] = useState([]);
+  // const [isPending, setIsPending] = useState(false);
+  // const [error, setError] = useState();
+
+  // useEffect(() => {
+  //   fetch('https://6921-210-100-239-193.ngrok-free.app/questions').then(res => {
+  //     if (!res.ok) {
+  //       throw Error('could not fetch the data for that resource');
+  //     }
+  //     return res.json();
+  //   })
+  //   .then(data => {
+  //     console.log(data);
+  //     setIsPending(true);
+  //     setDatas(data);
+  //     console.log(datas);
+  //   })
+  //   .catch(err => {
+  //     console.log(err);
+  //     console.log('sdd');
+  //     setIsPending(false);
+  //     setError(err);
+  //   });
+  // }, [datas]);
 
   const [hotActive, setHotActive] = useState(false);
   const [newActive, setNewActive] = useState(false);
   const [topActive, setTopActive] = useState(false);
+  const [newData, setNewData] = useState([]);
 
   function onHotActive() {
     setHotActive(true);
@@ -332,11 +357,13 @@ function AllQuestions() {
   const [print, setPrint] = useState([]);
 
   useEffect(() => {
+    console.log(isPending);
     if (isPending) {
-      setPrint(datas.slice(0, page.current));
+      console.log(datas);
+      setPrint(datas.questions.slice(0, page.current));
       if (inView) {
         page.current += 5;
-        setPrint(datas.slice(0, page.current));
+        setPrint(datas.questions.slice(0, page.current));
       }
     }
   }, [isPending, datas, inView]);
