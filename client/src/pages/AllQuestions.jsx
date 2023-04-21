@@ -294,7 +294,6 @@ const QuestionProfile = styled.div`
 
 const Scroll = styled.div`
   bottom: ${props => (props.inView === true ? '0px' : '10px')};
-  height: 100%;
   width: 100%;
 `;
 
@@ -319,14 +318,10 @@ function AllQuestions() {
         return res.json();
       })
       .then(data => {
-        console.log(data);
         setIsPending(true);
         setDatas(data);
-        console.log(datas);
       })
       .catch(err => {
-        console.log(err);
-        console.log('sdd');
         setIsPending(false);
         setError(err);
       });
@@ -364,7 +359,6 @@ function AllQuestions() {
 
   useEffect(() => {
     if (isPending) {
-      console.log(inView);
       setPrint(datas.questions.slice(0, page.current));
       if (inView) {
         page.current += 5;
@@ -466,11 +460,7 @@ function AllQuestions() {
             })
           : null}
       </ContentsBox>
-      {page.current < datasCount ? (
-        <Scroll inView={inView} ref={ref}>
-          dd
-        </Scroll>
-      ) : null}
+      <Scroll inView={inView} ref={ref} />
     </Box>
   );
 }
