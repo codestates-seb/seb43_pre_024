@@ -1,15 +1,35 @@
 import MDEditor from '@uiw/react-md-editor';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHeart } from '@fortawesome/free-solid-svg-icons';
 
 function QuestionInfo({ questionId }) {
+  const navigate = useNavigate();
   const QuestionButtonStyle = styled.button`
+    display: flex;
+    align-items: center;
     width: 120px;
     height: 40px;
     border: none;
     background-color: #5594fc;
     color: white;
     padding: 10px 20px;
+    margin-left: 50px;
     border-radius: 5px;
+    :hover {
+      background-color: #3b7ddd;
+      cursor: pointer;
+    }
+  `;
+
+  const HeartButtonStyle = styled.div`
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    .heartButton {
+      border: 1px solid red;
+    }
   `;
 
   // TODO: API 연동
@@ -29,11 +49,25 @@ function QuestionInfo({ questionId }) {
   // TODO: API 연동
   const tags = ['javascript', 'react', 'java', 'python', 'c++'];
 
+  function heartChangeButton() {
+    console.log('heartChangeButton');
+    console.log('heartChangeButton');
+  }
+
   return (
     <>
       <div style={{ display: 'flex', gap: 30, alignItems: 'center' }}>
         <h2>{data.title}</h2>
-        <QuestionButtonStyle type="button">Ask Question</QuestionButtonStyle>
+        <HeartButtonStyle>
+          <div onClick={() => heartChangeButton}>♡</div>
+          <FontAwesomeIcon icon={faHeart} style={{ color: 'red' }} />
+        </HeartButtonStyle>
+        <QuestionButtonStyle
+          type="button"
+          onClick={() => navigate('/new-question')}
+        >
+          Ask Question
+        </QuestionButtonStyle>
       </div>
       <MDEditor.Markdown source={data.content} />
       <div style={{ marginTop: 16 }}>
