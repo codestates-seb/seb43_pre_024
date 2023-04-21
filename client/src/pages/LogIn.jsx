@@ -1,5 +1,8 @@
+/* eslint-disable consistent-return */
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+
+import { validateEmail, validatePassword } from '../util/validator';
 
 const LoginBox = styled.div`
   display: flex;
@@ -59,6 +62,12 @@ const InputBox = styled.div`
     border: 1px solid #0a95ff;
     box-shadow: 0 0 0 3px #b7defc;
   }
+
+  .errorMessage {
+    margin-top: -13px;
+    font-size: 0.8rem;
+    color: #0a95ff;
+  }
 `;
 
 const LoginBtn = styled.button`
@@ -78,21 +87,78 @@ const LoginBtn = styled.button`
 function LogIn() {
   const [emailIsFocused, setEmailIsFocused] = useState(false);
   const [pwIsFocused, setPwIsFocused] = useState(false);
+  const [userData, setUserData] = useState('');
+  const [userEmail, setUserEmail] = useState('');
+  const [userPassword, setUserPassword] = useState('');
+  const [emailErrorMessage, setEmailErrorMessage] =
+    useState('이메일 형식을 확인해주세요.');
+  const [pwErrorMessage, setPwErrorMessage] = useState(
+    '7자에서 20자 이내로 비밀번호를 입력해주세요.',
+  );
+  const [token, setToken] = useState('');
 
+  // input박스 포커스
   const handleFocus = () => {
     setPwIsFocused(true);
   };
-
   const handleBlur = () => {
     setPwIsFocused(false);
   };
-
   const emailHandleFocus = () => {
     setEmailIsFocused(true);
   };
-
   const emailHandleBlur = () => {
     setEmailIsFocused(false);
+  };
+
+  useEffect(() => {
+    fetch('http://localhost:4000/users/')
+      .then(response => response.json())
+      .then(data => setUserData(data));
+  }, []);
+
+  const handleSubmit = async e => {
+    userData.some(el => {
+      if (el.email !== userEmail) {
+        const isUserExist = false;
+        if (!isUserExist) {
+          alert('존재하지 않는 아이디입니다.');
+        }
+        return isUserExist;
+      }
+      return true;
+    });
+
+    if (emailErrorMessage.length !== 0 || pwErrorMessage.length !== 0) {
+      // 유효성 검사에 실패한 경우
+      // eslint-disable-next-line consistent-return
+      return alert('회원가입 실패: 유효하지 않은 데이터가 있습니다.');
+    }
+
+    try {
+      const response = await fetch('http://localhost:4000/users', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: userEmail,
+          password: userPassword,
+        }),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        // JWT 토큰 저장
+        localStorage.setItem('token', data.token);
+        window.location.href = '/home';
+      } else {
+        throw new Error(
+          '로그인에 실패했습니다. 아이디 또는 패스워드를 확인해주세요.',
+        );
+      }
+    } catch (error) {
+      alert(error);
+    }
   };
 
   return (
@@ -117,11 +183,18 @@ function LogIn() {
                 <input
                   onFocus={emailHandleFocus}
                   onBlur={emailHandleBlur}
+                  onChange={e => {
+                    setEmailErrorMessage(validateEmail(e.target.value));
+                    setUserEmail(e.target.value);
+                  }}
                   type="email"
+                  maxLength="25"
                   id="email"
+                  value={userEmail}
                 />
               </div>
             </label>
+            <p className="errorMessage">{emailErrorMessage}</p>
           </div>
           <div className="inputArea">
             <label htmlFor="password">
@@ -132,13 +205,22 @@ function LogIn() {
                 <input
                   onFocus={handleFocus}
                   onBlur={handleBlur}
+                  onChange={e => {
+                    setPwErrorMessage(validatePassword(e.target.value));
+                    setUserPassword(e.target.value);
+                  }}
                   type="password"
                   id="password"
+                  maxLength="20"
+                  value={userPassword}
                 />
               </div>
             </label>
+            <p className="errorMessage">{pwErrorMessage}</p>
           </div>
-          <LoginBtn type="submit">Log in</LoginBtn>
+          <LoginBtn type="submit" onClick={handleSubmit}>
+            Log in
+          </LoginBtn>
         </InputBox>
       </div>
     </LoginBox>

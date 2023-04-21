@@ -3,9 +3,7 @@ import { useState } from 'react';
 import { FaGlobeAsia } from 'react-icons/fa';
 import { Routes, Route, Link } from 'react-router-dom';
 import Home from '../pages/Home';
-import Main from '../pages/Main';
 import AllQuestions from '../pages/AllQuestions';
-import Paging from './Paging';
 import MyPage from '../pages/MyPage';
 import NewQuestion from '../pages/NewQuestion';
 import SignUp from '../pages/SignUp';
@@ -136,30 +134,16 @@ function Navbar({ login }) {
   return (
     <>
       <NavBox>
-        {login === true ? (
-          <Link to="/">
-            <HomeBtn
-              className="navHome li"
-              onClick={() => activeHome()}
-              homeActive={homeActive}
-              type="button"
-            >
-              Home
-            </HomeBtn>
-          </Link>
-        ) : (
-          <Link to="/main">
-            <HomeBtn
-              className="navHome li"
-              onClick={() => activeHome()}
-              homeActive={homeActive}
-              type="button"
-            >
-              Home
-            </HomeBtn>
-          </Link>
-        )}
-
+        <Link to="/">
+          <HomeBtn
+            className="navHome li"
+            onClick={() => activeHome()}
+            homeActive={homeActive}
+            type="button"
+          >
+            Home
+          </HomeBtn>
+        </Link>
         <div className="navTitle li">PUBLIC</div>
         <ul className="btnBox">
           <Link to="/all-questions">
@@ -197,15 +181,12 @@ function Navbar({ login }) {
       </NavBox>
 
       <Routes>
-        <Route path="/" element={<Main />} />
-        <Route path="/main" element={<Main />} />
+        <Route path="/" element={<Home />} />
         <Route path="/all-questions" element={<AllQuestions />} />
         <Route path="/questions/:id" element={<QuestionDetail />} />
         <Route path="/new-question" element={<NewQuestion />} />
-        <Route path="/mypage" element={<Paging />} />
+        <Route path="/mypage" element={<MyPage />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/login" element={<LogIn />} />
-        <Route path="/questions/:id" element={<QuestionDetail />} />
       </Routes>
     </>
   );
