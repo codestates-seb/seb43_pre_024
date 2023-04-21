@@ -3,21 +3,28 @@ import { useState } from 'react';
 import { FaGlobeAsia } from 'react-icons/fa';
 import { Routes, Route, Link } from 'react-router-dom';
 import Home from '../pages/Home';
+import Main from '../pages/Main';
 import AllQuestions from '../pages/AllQuestions';
+import Paging from './Paging';
 import MyPage from '../pages/MyPage';
 import NewQuestion from '../pages/NewQuestion';
 import SignUp from '../pages/SignUp';
+import LogIn from '../pages/LogIn';
+import QuestionDetail from '../pages/QuestionDetail';
 
 const NavBox = styled.div`
   width: 250px;
-  height: 100vh;
+  height: 130vh;
   padding-top: 20px;
   color: rgba(99, 103, 109);
-  border-right: 1px solid rgba(202, 202, 202);
+  border-right: 1px solid rgb(202, 202, 202);
   display: flex;
   flex-direction: column;
   align-items: end;
   user-select: none;
+  flex-shrink: 0;
+  top: 0;
+  position: sticky;
 
   a {
     text-decoration: none;
@@ -130,16 +137,30 @@ function Navbar({ login }) {
   return (
     <>
       <NavBox>
-        <Link to="/">
-          <HomeBtn
-            className="navHome li"
-            onClick={() => activeHome()}
-            homeActive={homeActive}
-            type="button"
-          >
-            Home
-          </HomeBtn>
-        </Link>
+        {login === true ? (
+          <Link to="/">
+            <HomeBtn
+              className="navHome li"
+              onClick={() => activeHome()}
+              homeActive={homeActive}
+              type="button"
+            >
+              Home
+            </HomeBtn>
+          </Link>
+        ) : (
+          <Link to="/main">
+            <HomeBtn
+              className="navHome li"
+              onClick={() => activeHome()}
+              homeActive={homeActive}
+              type="button"
+            >
+              Home
+            </HomeBtn>
+          </Link>
+        )}
+
         <div className="navTitle li">PUBLIC</div>
         <ul className="btnBox">
           <Link to="/all-questions">
@@ -177,11 +198,15 @@ function Navbar({ login }) {
       </NavBox>
 
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Main />} />
+        <Route path="/main" element={<Main />} />
         <Route path="/all-questions" element={<AllQuestions />} />
+        <Route path="/questions/:id" element={<QuestionDetail />} />
         <Route path="/new-question" element={<NewQuestion />} />
-        <Route path="/mypage" element={<MyPage />} />
+        <Route path="/mypage" element={<Paging />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route path="/login" element={<LogIn />} />
+        <Route path="/questions/:id" element={<QuestionDetail />} />
       </Routes>
     </>
   );
