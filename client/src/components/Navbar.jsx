@@ -22,8 +22,9 @@ const NavBox = styled.div`
   flex-direction: column;
   align-items: end;
   user-select: none;
+  flex-shrink: 0;
+  top: 0;
   position: sticky;
-  top: 70px;
 
   a {
     text-decoration: none;
