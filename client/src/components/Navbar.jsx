@@ -204,7 +204,8 @@ function Navbar({ login }) {
         <Route path="/new-question" element={<NewQuestion />} />
         <Route path="/mypage" element={<Paging />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="login" element={<LogIn />} />
+        <Route path="/login" element={<LogIn />} />
+        <Route path="/questions/:id" element={<QuestionDetail />} />
       </Routes>
     </>
   );
