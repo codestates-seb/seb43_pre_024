@@ -12,18 +12,38 @@ function QuestionInfo({ questionId }) {
 
   const QuestionButtonStyle = styled.button`
     display: flex;
+    justify-content: center;
     align-items: center;
-    width: 120px;
+    width: 150px;
     height: 40px;
     border: none;
     background-color: #5594fc;
     color: white;
-    padding: 10px 20px;
+    padding: 20px;
     margin-left: 50px;
     border-radius: 5px;
     :hover {
       background-color: #3b7ddd;
       cursor: pointer;
+    }
+  `;
+
+  const EditDeleteButtonStyle = styled.div`
+    border: none;
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 40px;
+    .editButton,
+    .deleteButton {
+      background-color: white;
+      border: none;
+      width: 50px;
+      font-size: 16px;
+      color: gray;
+      :hover {
+        cursor: pointer;
+        font-weight: bold;
+      }
     }
   `;
 
@@ -61,26 +81,10 @@ function QuestionInfo({ questionId }) {
 
   return (
     <>
-      <div style={{ display: 'flex', gap: 30, alignItems: 'center' }}>
+      <div
+        style={{ width: '80%', display: 'flex', gap: 30, alignItems: 'center' }}
+      >
         <h2>{data.title}</h2>
-        <HeartButtonStyle>
-          <div>
-            {isFilled ? (
-              <AiFillHeart
-                size="30"
-                style={{ color: 'red' }}
-                onClick={() => onClickHeartButton()}
-              />
-            ) : (
-              <AiOutlineHeart
-                size="30"
-                onClick={() => onClickHeartButton()}
-                style={{ color: 'black' }}
-              />
-            )}
-            {count}
-          </div>
-        </HeartButtonStyle>
         <QuestionButtonStyle
           type="button"
           onClick={() => navigate('/new-question')}
@@ -88,7 +92,7 @@ function QuestionInfo({ questionId }) {
           Ask Question
         </QuestionButtonStyle>
       </div>
-      <MDEditor.Markdown source={data.content} />
+      <MDEditor.Markdown source={data.content} style={{ width: '80%' }} />
       <div style={{ marginTop: 16 }}>
         {tags.map(tag => (
           <span
@@ -103,6 +107,32 @@ function QuestionInfo({ questionId }) {
             {tag}
           </span>
         ))}
+        <EditDeleteButtonStyle>
+          <button type="button" className="editButton">
+            Edit
+          </button>
+          <button type="button" className="deleteButton">
+            Delete
+          </button>
+          <HeartButtonStyle>
+            <div style={{ display: 'flex', gap: 2 }}>
+              {isFilled ? (
+                <AiFillHeart
+                  size="20"
+                  style={{ color: 'red' }}
+                  onClick={() => onClickHeartButton()}
+                />
+              ) : (
+                <AiOutlineHeart
+                  size="20"
+                  onClick={() => onClickHeartButton()}
+                  style={{ color: 'black' }}
+                />
+              )}
+              {count}
+            </div>
+          </HeartButtonStyle>
+        </EditDeleteButtonStyle>
       </div>
     </>
   );
