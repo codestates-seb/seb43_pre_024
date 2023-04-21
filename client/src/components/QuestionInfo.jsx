@@ -49,17 +49,11 @@ function QuestionInfo({ questionId }) {
   // TODO: API 연동
   const tags = ['javascript', 'react', 'java', 'python', 'c++'];
 
-  function heartChangeButton() {
-    console.log('heartChangeButton');
-    console.log('heartChangeButton');
-  }
-
   return (
     <>
       <div style={{ display: 'flex', gap: 30, alignItems: 'center' }}>
         <h2>{data.title}</h2>
         <HeartButtonStyle>
-          <div onClick={() => heartChangeButton}>♡</div>
           <FontAwesomeIcon icon={faHeart} style={{ color: 'red' }} />
         </HeartButtonStyle>
         <QuestionButtonStyle
