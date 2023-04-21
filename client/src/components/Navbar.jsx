@@ -7,17 +7,21 @@ import AllQuestions from '../pages/AllQuestions';
 import MyPage from '../pages/MyPage';
 import NewQuestion from '../pages/NewQuestion';
 import SignUp from '../pages/SignUp';
+import LogIn from '../pages/LogIn';
+import QuestionDetail from '../pages/QuestionDetail';
 
 const NavBox = styled.div`
   width: 250px;
-  height: 100vh;
+  height: 130vh;
   padding-top: 20px;
   color: rgba(99, 103, 109);
-  border-right: 1px solid rgba(202, 202, 202);
+  border-right: 1px solid rgb(202, 202, 202);
   display: flex;
   flex-direction: column;
   align-items: end;
   user-select: none;
+  position: sticky;
+  top: 70px;
 
   a {
     text-decoration: none;
@@ -179,6 +183,7 @@ function Navbar({ login }) {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/all-questions" element={<AllQuestions />} />
+        <Route path="/questions/:id" element={<QuestionDetail />} />
         <Route path="/new-question" element={<NewQuestion />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/signup" element={<SignUp />} />

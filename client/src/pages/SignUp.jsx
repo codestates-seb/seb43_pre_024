@@ -1,6 +1,12 @@
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 
+import {
+  validateCheckPassword,
+  validateEmail,
+  validatePassword,
+} from '../util/validator';
+
 const SignUpBox = styled.div`
   padding: 0;
   display: flex;
@@ -102,9 +108,12 @@ function SignUpPage() {
   const [password, setPassword] = useState('');
   const [passwordCheck, setPasswordCheck] = useState('');
   const [userData, setUserData] = useState([]);
-  const [emailErrorMeassage, setEmailErrorMeassage] = useState('');
-  const [pwErrorMeassage, setPwErrorMeassage] = useState('');
-  const [pwCheckErrorMeassage, setPwCheckErrorMeassage] = useState('');
+  const [emailErrorMessage, setEmailErrorMessage] =
+    useState('이메일 형식을 확인해주세요.');
+  const [pwErrorMessage, setPwErrorMessage] = useState(
+    '7자에서 20자 이내로 비밀번호를 입력해주세요.',
+  );
+  const [pwCheckErrorMessage, setPwCheckErrorMessage] = useState('');
 
   // display name input 클릭 시 div 포커스 효과
   const nameHandleFocus = () => {
@@ -178,13 +187,13 @@ function SignUpPage() {
     }
 
     if (
-      emailErrorMeassage.length !== 0 ||
-      name.length === 0 ||
-      email.length === 0 ||
-      password.length === 0 ||
-      pwCheckErrorMeassage.length !== 0
+      emailErrorMessage.length !== 0 ||
+      pwCheckErrorMessage.length !== 0 ||
+      pwErrorMessage.length !== 0
     ) {
-      return;
+      // 유효성 검사에 실패한 경우
+      // eslint-disable-next-line consistent-return
+      return alert('회원가입 실패: 유효하지 않은 데이터가 있습니다.');
     }
 
     fetch('http://localhost:4000/users/', {
@@ -195,27 +204,6 @@ function SignUpPage() {
       body: JSON.stringify(user),
     }).then(response => response.json());
   };
-
-  // 이메일 유효성 체크
-  useEffect(() => {
-    if (!email.includes('@') && email.length > 6) {
-      setEmailErrorMeassage('이메일 형식을 확인해주세요.');
-    } else setEmailErrorMeassage('');
-  }, [email]);
-
-  // 패스워드 유효성 체크
-  useEffect(() => {
-    if ((password.length > 3 && password.length < 7) || password.length > 20) {
-      setPwErrorMeassage('7자에서 20자 이내로 비밀번호를 입력해주세요.');
-    } else setPwErrorMeassage('');
-  }, [password]);
-
-  // 패스워드 유효성 체크
-  useEffect(() => {
-    if (password !== passwordCheck) {
-      setPwCheckErrorMeassage('비밀번호를 다시 한번 확인해주세요.');
-    } else setPwCheckErrorMeassage('');
-  }, [password, passwordCheck]);
 
   return (
     <SignUpBox>
@@ -288,13 +276,17 @@ function SignUpPage() {
                 <input
                   onFocus={emailHandleFocus}
                   onBlur={emailHandleBlur}
-                  onChange={e => setEmail(e.target.value)}
+                  onChange={e => {
+                    setEmailErrorMessage(validateEmail(e.target.value));
+                    setEmail(e.target.value);
+                  }}
                   type="email"
                   id="email"
+                  value={email}
                 />
               </div>
             </label>
-            <p className="errorMessage">{emailErrorMeassage}</p>
+            <p className="errorMessage">{emailErrorMessage}</p>
           </div>
           <div className="inputArea">
             <label htmlFor="password">
@@ -305,18 +297,21 @@ function SignUpPage() {
                 <input
                   onFocus={handleFocus}
                   onBlur={handleBlur}
-                  onChange={e => setPassword(e.target.value)}
+                  onChange={e => {
+                    setPwErrorMessage(validatePassword(e.target.value));
+                    setPassword(e.target.value);
+                  }}
                   maxLength="20"
                   type="password"
                   id="password"
                 />
               </div>
             </label>
-            <p className="errorMessage">{pwErrorMeassage}</p>
+            <p className="errorMessage">{pwErrorMessage}</p>
           </div>
           {password.length > 6 ? (
             <div className="inputArea">
-              <label htmlFor="password">
+              <label htmlFor="passwordCheck">
                 Password Check
                 <div
                   className={
@@ -326,14 +321,20 @@ function SignUpPage() {
                   <input
                     onFocus={pwCheckHandleFocus}
                     onBlur={pwCheckHandleBlur}
-                    onChange={e => setPasswordCheck(e.target.value)}
+                    onChange={e => {
+                      setPwCheckErrorMessage(
+                        validateCheckPassword(password, e.target.value),
+                      );
+                      setPasswordCheck(e.target.value);
+                    }}
                     maxLength="20"
                     type="password"
-                    id="password"
+                    id="passwordCheck"
+                    value={passwordCheck}
                   />
                 </div>
               </label>
-              <p className="errorMessage">{pwCheckErrorMeassage}</p>
+              <p className="errorMessage">{pwCheckErrorMessage}</p>
             </div>
           ) : (
             ''

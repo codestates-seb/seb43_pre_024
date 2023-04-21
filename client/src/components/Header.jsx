@@ -1,8 +1,10 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import { BiSearchAlt } from 'react-icons/bi';
+import { AiOutlineClose } from 'react-icons/ai';
 import { FiMenu } from 'react-icons/fi';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { FaGlobeAsia } from 'react-icons/fa';
 import Logo from '../images/logo.png';
 
 const HeaderBox = styled.div`
@@ -18,6 +20,7 @@ const HeaderBox = styled.div`
     rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
   border-top: 3px solid orange;
   z-index: 10;
+  position: relative;
 `;
 
 const Container = styled.div`
@@ -123,8 +126,81 @@ const SignIn = styled(LogoutOrSignUp)`
   }
 `;
 
+const MenuBox = styled.div`
+  width: 300px;
+  position: absolute;
+  top: 70px;
+  left: 10px;
+  background-color: white;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+  padding-top: 2rem;
+  padding-bottom: 1rem;
+
+  .publicUl {
+    margin-top: 35px;
+  }
+
+  li {
+    list-style: none;
+    color: rgb(85, 90, 96);
+    margin-bottom: 35px;
+    cursor: pointer;
+  }
+
+  .act {
+    font-size: 1.2rem;
+
+    :hover {
+      font-weight: bold;
+    }
+  }
+
+  .inact {
+    font-size: 1rem;
+  }
+
+  .icon {
+    margin-right: 10px;
+  }
+`;
+
+const HomeBtn = styled.button`
+  color: rgb(85, 90, 96);
+  margin-bottom: 35px;
+  cursor: pointer;
+  border: none;
+  margin-left: -7px;
+  border-right: ${props =>
+    props.homeActive === true ? '3px solid rgb(218, 129, 49)' : 'none'};
+  background-color: ${props =>
+    props.homeActive === true ? '#F2F2F3' : 'white'};
+`;
+
+const QuestionsBtn = styled.button`
+  color: rgb(85, 90, 96);
+  margin-bottom: 35px;
+  cursor: pointer;
+  background-color: white;
+  border: none;
+  margin-left: -7px;
+`;
+
+const UsersBtn = styled.button`
+  color: rgb(85, 90, 96);
+  margin-bottom: 35px;
+  cursor: pointer;
+  background-color: white;
+  border: none;
+  margin-left: -7px;
+`;
+
 function Header({ isLogin, changeLoginStatus }) {
   const [focus, setFocus] = useState(false);
+  const [toggle, setToggle] = useState(false);
+  const [homeActive, setHomeActive] = useState(true);
+  const [questionsActive, setQuestionsActive] = useState(false);
+  const [usersActive, setUsersActive] = useState(false);
 
   function searchFocus() {
     setFocus(true);
@@ -134,10 +210,88 @@ function Header({ isLogin, changeLoginStatus }) {
     setFocus(false);
   }
 
+  function toggleMenu() {
+    setToggle(!toggle);
+  }
+
+  function activeHome() {
+    setHomeActive(true);
+    setQuestionsActive(false);
+    setUsersActive(false);
+  }
+
+  function activeQuestions() {
+    setQuestionsActive(true);
+    setHomeActive(false);
+    setUsersActive(false);
+  }
+
+  function activeUsers() {
+    setUsersActive(true);
+    setHomeActive(false);
+    setQuestionsActive(false);
+  }
+
   return (
     <HeaderBox>
       <Container>
-        <FiMenu className="menu" size="30" />
+        {toggle ? (
+          <AiOutlineClose
+            className="menu"
+            size="30"
+            onClick={() => toggleMenu()}
+          />
+        ) : (
+          <FiMenu className="menu" size="30" onClick={() => toggleMenu()} />
+        )}
+        {toggle ? (
+          <MenuBox>
+            <ul>
+              <Link to="/">
+                <HomeBtn
+                  homeActive={homeActive}
+                  type="button"
+                  onClick={() => activeHome()}
+                  className="homeLi act"
+                >
+                  Home
+                </HomeBtn>
+              </Link>
+              <li className="publicLi inact">
+                <span className="publicText">PUBLIC</span>
+                <ul className="publicUl">
+                  <Link to="/all-questions">
+                    <QuestionsBtn
+                      questionsActive={questionsActive}
+                      className="questionsLi act"
+                      onClick={() => activeQuestions()}
+                      type="button"
+                    >
+                      <FaGlobeAsia className="icon" />
+                      Questions
+                    </QuestionsBtn>
+                  </Link>
+                  <li className="tagsLi act">Tags</li>
+                  {isLogin ? (
+                    <Link to="/Mypage">
+                      <UsersBtn
+                        usersActive={usersActive}
+                        className="UsersLi act"
+                        onClick={() => activeUsers()}
+                        type="button"
+                      >
+                        Users
+                      </UsersBtn>
+                    </Link>
+                  ) : null}
+                  <li className="companiesLi act">Companies</li>
+                </ul>
+              </li>
+              <li className="collectivesLi inact">COLLECTIVES</li>
+              <li className="teamsLi inact">TEAMS</li>
+            </ul>
+          </MenuBox>
+        ) : null}
         <a href="/">
           <img src={Logo} className="logoImg" alt="로고사진" />
         </a>

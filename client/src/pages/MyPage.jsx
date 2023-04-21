@@ -7,7 +7,8 @@ const MypageBox = styled.div`
   width: 100%;
   height: 100%;
   box-sizing: border-box;
-  padding: 3% 0 0 8%;
+  padding-left: 2rem;
+  padding-top: 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -18,7 +19,7 @@ const MypageBox = styled.div`
 const ProfileBox = styled.div`
   width: 100%;
   box-sizing: border-box;
-  height: 300px;
+  height: 230px;
   display: flex;
   align-items: center;
   padding-left: 100px;
@@ -26,7 +27,7 @@ const ProfileBox = styled.div`
 `;
 
 const ProfileImg = styled.div`
-  width: 20%;
+  width: 300px;
   height: 100%;
   box-sizing: border-box;
   display: flex;
@@ -124,20 +125,51 @@ const QuestionsBox = styled.div`
   border-radius: 5px;
   box-sizing: border-box;
   width: 80%;
+  height: 340px;
 
   .questionBox {
     border-bottom: 1px solid rgb(176, 171, 171);
     box-sizing: border-box;
-    height: 100%;
+    height: 50%;
     padding: 1rem;
 
     .title {
       font-size: 1.4rem;
       color: rgb(57, 116, 194);
-      margin-top: 5px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: normal;
+      line-height: 1.2;
+      text-align: left;
+      word-wrap: break-word;
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
 
       :hover {
         color: rgb(77, 139, 221);
+      }
+    }
+
+    .tagsBox {
+      display: flex;
+      flex-direction: row;
+      width: 50%;
+
+      .tag {
+        background-color: rgb(227, 235, 243);
+        padding: 8px;
+        font-size: 1.1rem;
+        border-radius: 5px;
+        color: rgb(80, 114, 154);
+        margin-right: 10px;
+
+        :hover {
+          background-color: rgb(213, 226, 240);
+          color: rgb(66, 96, 129);
+        }
       }
     }
   }
@@ -162,7 +194,7 @@ const QuestionsBox = styled.div`
 
   .createdAt {
     text-align: right;
-    margin-top: 30px;
+    margin-top: 15px;
     color: rgb(61, 66, 70);
   }
 `;
@@ -172,7 +204,7 @@ const AnswersBox = styled.div`
   border-top: 1px solid rgb(176, 171, 171);
   border-right: 1px solid rgb(176, 171, 171);
   border-radius: 5px;
-  height: 90%;
+  height: 340px;
   width: 80%;
   box-sizing: border-box;
 
@@ -185,10 +217,40 @@ const AnswersBox = styled.div`
     .title {
       font-size: 1.4rem;
       color: rgb(57, 116, 194);
-      margin-top: 5px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: normal;
+      line-height: 1.2;
+      text-align: left;
+      word-wrap: break-word;
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
 
       :hover {
         color: rgb(77, 139, 221);
+      }
+    }
+
+    .tagsBox {
+      display: flex;
+      flex-direction: row;
+      width: 50%;
+
+      .tag {
+        background-color: rgb(227, 235, 243);
+        padding: 8px;
+        font-size: 1.1rem;
+        border-radius: 5px;
+        color: rgb(80, 114, 154);
+        margin-right: 10px;
+
+        :hover {
+          background-color: rgb(213, 226, 240);
+          color: rgb(66, 96, 129);
+        }
       }
     }
   }
@@ -213,7 +275,7 @@ const AnswersBox = styled.div`
 
   .createdAt {
     text-align: right;
-    margin-top: 30px;
+    margin-top: 15px;
     color: rgb(61, 66, 70);
   }
 `;
@@ -255,7 +317,7 @@ const SecessionAlertBack = styled.div`
 `;
 
 const SecessionAlertBox = styled.div`
-  width: 30%;
+  width: 40%;
   height: 20%;
   background-color: white;
   border-radius: 5px;
@@ -405,8 +467,10 @@ function MyPage({
                         <span className="views">{question.views} views</span>
                       </div>
                       <div className="title">{question.title}</div>
-                      <div className="tags">
-                        {console.log(question.tagsList)}
+                      <div className="tagsBox">
+                        {question.tagsList.map(tag => {
+                          return <div className="tag"> {tag.label} </div>;
+                        })}
                       </div>
                       <div className="createdAt">
                         asked &nbsp;{question.created_at}
@@ -431,6 +495,11 @@ function MyPage({
                         <span className="views">{answer.views} views</span>
                       </div>
                       <div className="title">{answer.title}</div>
+                      <div className="tagsBox">
+                        {answer.tagsList.map(tag => {
+                          return <div className="tag"> {tag.label} </div>;
+                        })}
+                      </div>
                       <div className="createdAt">
                         asked &nbsp;{answer.created_at}
                       </div>
