@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
+import { ReactComponent as GoogleLogo } from '../images/googleLogo.svg';
+import { ReactComponent as GitLogo } from '../images/gitLogo.svg';
 
 import {
   validateCheckPassword,
@@ -17,13 +19,14 @@ const SignUpBox = styled.div`
   .container {
     display: flex;
     align-items: center;
-    justify-content: center;
+    margin-top: 170px;
+    height: 500px;
   }
 `;
 
 const TextBox = styled.div`
   max-width: 420px;
-  margin-right: 30px;
+  margin-right: 50px;
   .textTitle {
     font-size: 1.7rem;
     font-weight: 500;
@@ -43,15 +46,22 @@ const TextBox = styled.div`
 const InputBox = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  background: #fff;
-  padding: 40px 30px;
-  border-radius: 5px;
-  box-shadow: 0px 10px 15px #ccc;
+
+  .inputContainer {
+    height: 340px;
+    background: #fff;
+    padding: 40px 30px;
+    border-radius: 5px;
+    box-shadow: 0px 10px 15px #ccc;
+  }
 
   label {
     font-weight: 800;
     font-size: 1rem;
+  }
+  .textLineBox {
+    padding: 0 !important;
+    padding-inline-start: 0px;
   }
 
   input {
@@ -84,10 +94,38 @@ const InputBox = styled.div`
   }
 `;
 
+const GoogleSignin = styled.button`
+width: 100%;
+padding 8px 0;
+display: flex;
+align-items: center;
+justify-content: center;
+background:#fff;
+color:#2f3337;
+border: 1px solid #ccc;
+border-radius: 5px;
+
+svg{margin-right: 5px;}
+`;
+const GitSignin = styled.button`
+  width: 100%;
+  padding 8px 0;
+  margin: 10px 0 30px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:#2f3337;
+  color:#fff;
+  border-radius: 5px;
+
+  svg{margin-right: 5px;}
+`;
+
 const SignUpBtn = styled.button`
+  width: 100%;
+  padding: 12px 0;
   background: #0a95ff;
   border: none;
-  padding: 12px 0;
   border-radius: 5px;
   color: #fff;
   box-shadow: 0px 2px 4px #56aef1 inset;
@@ -210,7 +248,7 @@ function SignUpPage() {
       <div className="container">
         <TextBox>
           <h3 className="textTitle">Join the Stack Overflow community</h3>
-          <ul>
+          <ul className="textLineBox">
             <li className="textLine">
               <svg width="26" height="26" className="icon">
                 <path
@@ -250,98 +288,113 @@ function SignUpPage() {
           </ul>
         </TextBox>
         <InputBox>
-          <div className="inputArea">
-            <label htmlFor="displayName">
-              Display name
-              <div
-                className={nameIsFocused ? 'inputFocus focused' : 'inputFocus'}
-              >
-                <input
-                  onFocus={nameHandleFocus}
-                  onBlur={nameHandleBlur}
-                  onChange={e => setName(e.target.value)}
-                  maxLength="10"
-                  type="displayName"
-                  id="displayName"
-                />
-              </div>
-            </label>
-          </div>
-          <div className="inputArea">
-            <label htmlFor="email">
-              Email
-              <div
-                className={emailIsFocused ? 'inputFocus focused' : 'inputFocus'}
-              >
-                <input
-                  onFocus={emailHandleFocus}
-                  onBlur={emailHandleBlur}
-                  onChange={e => {
-                    setEmailErrorMessage(validateEmail(e.target.value));
-                    setEmail(e.target.value);
-                  }}
-                  type="email"
-                  id="email"
-                  value={email}
-                />
-              </div>
-            </label>
-            <p className="errorMessage">{emailErrorMessage}</p>
-          </div>
-          <div className="inputArea">
-            <label htmlFor="password">
-              Password
-              <div
-                className={pwIsFocused ? 'inputFocus focused' : 'inputFocus'}
-              >
-                <input
-                  onFocus={handleFocus}
-                  onBlur={handleBlur}
-                  onChange={e => {
-                    setPwErrorMessage(validatePassword(e.target.value));
-                    setPassword(e.target.value);
-                  }}
-                  maxLength="20"
-                  type="password"
-                  id="password"
-                />
-              </div>
-            </label>
-            <p className="errorMessage">{pwErrorMessage}</p>
-          </div>
-          {password.length > 6 ? (
+          <GoogleSignin>
+            <GoogleLogo />
+            Sign in with Google
+          </GoogleSignin>
+          <GitSignin>
+            <GitLogo />
+            Sign in with GitHub
+          </GitSignin>
+          <div className="inputContainer">
             <div className="inputArea">
-              <label htmlFor="passwordCheck">
-                Password Check
+              <label htmlFor="displayName">
+                Display name
                 <div
                   className={
-                    pwChIsFocused ? 'inputFocus focused' : 'inputFocus'
+                    nameIsFocused ? 'inputFocus focused' : 'inputFocus'
                   }
                 >
                   <input
-                    onFocus={pwCheckHandleFocus}
-                    onBlur={pwCheckHandleBlur}
-                    onChange={e => {
-                      setPwCheckErrorMessage(
-                        validateCheckPassword(password, e.target.value),
-                      );
-                      setPasswordCheck(e.target.value);
-                    }}
-                    maxLength="20"
-                    type="password"
-                    id="passwordCheck"
-                    value={passwordCheck}
+                    onFocus={nameHandleFocus}
+                    onBlur={nameHandleBlur}
+                    onChange={e => setName(e.target.value)}
+                    maxLength="10"
+                    type="displayName"
+                    id="displayName"
                   />
                 </div>
               </label>
-              <p className="errorMessage">{pwCheckErrorMessage}</p>
             </div>
-          ) : (
-            ''
-          )}
-          <SignUpBtn onClick={handleSubmit} type="submit">
-            Sign up
-          </SignUpBtn>
+            <div className="inputArea">
+              <label htmlFor="email">
+                Email
+                <div
+                  className={
+                    emailIsFocused ? 'inputFocus focused' : 'inputFocus'
+                  }
+                >
+                  <input
+                    onFocus={emailHandleFocus}
+                    onBlur={emailHandleBlur}
+                    onChange={e => {
+                      setEmailErrorMessage(validateEmail(e.target.value));
+                      setEmail(e.target.value);
+                    }}
+                    type="email"
+                    id="email"
+                    value={email}
+                  />
+                </div>
+              </label>
+              <p className="errorMessage">{emailErrorMessage}</p>
+            </div>
+            <div className="inputArea">
+              <label htmlFor="password">
+                Password
+                <div
+                  className={pwIsFocused ? 'inputFocus focused' : 'inputFocus'}
+                >
+                  <input
+                    onFocus={handleFocus}
+                    onBlur={handleBlur}
+                    onChange={e => {
+                      setPwErrorMessage(validatePassword(e.target.value));
+                      setPassword(e.target.value);
+                    }}
+                    maxLength="20"
+                    type="password"
+                    id="password"
+                  />
+                </div>
+              </label>
+              <p className="errorMessage">{pwErrorMessage}</p>
+            </div>
+
+            {password.length > 6 ? (
+              <div className="inputArea">
+                <label htmlFor="passwordCheck">
+                  Password Check
+                  <div
+                    className={
+                      pwChIsFocused ? 'inputFocus focused' : 'inputFocus'
+                    }
+                  >
+                    <input
+                      onFocus={pwCheckHandleFocus}
+                      onBlur={pwCheckHandleBlur}
+                      onChange={e => {
+                        setPwCheckErrorMessage(
+                          validateCheckPassword(password, e.target.value),
+                        );
+                        setPasswordCheck(e.target.value);
+                      }}
+                      maxLength="20"
+                      type="password"
+                      id="passwordCheck"
+                      value={passwordCheck}
+                    />
+                  </div>
+                </label>
+                <p className="errorMessage">{pwCheckErrorMessage}</p>
+              </div>
+            ) : (
+              ''
+            )}
+            <SignUpBtn onClick={handleSubmit} type="submit">
+              Sign up
+            </SignUpBtn>
+          </div>
         </InputBox>
       </div>
     </SignUpBox>
