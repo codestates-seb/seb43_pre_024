@@ -208,6 +208,7 @@ const UsersBtn = styled.button`
 function Header({ isLogin, changeLoginStatus }) {
   const [focus, setFocus] = useState(false);
   const [toggle, setToggle] = useState(false);
+  const [inputValue, setInputValue] = useState('');
   const [homeActive, setHomeActive] = useState(true);
   const [questionsActive, setQuestionsActive] = useState(false);
   const [usersActive, setUsersActive] = useState(false);
@@ -222,6 +223,11 @@ function Header({ isLogin, changeLoginStatus }) {
 
   function toggleMenu() {
     setToggle(!toggle);
+  }
+
+  function inputChange(e) {
+    setInputValue(e.target.value);
+    console.log(inputValue);
   }
 
   function activeHome() {
@@ -326,6 +332,7 @@ function Header({ isLogin, changeLoginStatus }) {
             type="text"
             className="search"
             placeholder="Search..."
+            onChange={e => inputChange(e)}
           />
         </SearchBox>
         {isLogin ? (

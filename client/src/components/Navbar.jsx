@@ -217,6 +217,7 @@ function Navbar({ login, setLogin }) {
         <Route path="/new-question" element={<NewQuestion />} />
         <Route path="/mypage" element={<Paging />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route path="/search-questions/?title" element={<SignUp />} />
         <Route
           path="/login"
           element={<LogIn login={login} setLogin={setLogin} />}
