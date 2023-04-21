@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-
 @Repository
 public interface AnswerRepository extends JpaRepository<Answer, Long> {
     // 질문 리스트 조회 시, 답변 갯수 카운트

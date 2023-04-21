@@ -82,4 +82,9 @@ public class MemberService {
     }
 
 
+    public Member findMemberById(Long memberId) {
+        Optional<Member> optionalMember = memberRepository.findById(memberId);
+        return optionalMember.orElseThrow(() -> new RuntimeException("Member not found"));
+    }
+
 }

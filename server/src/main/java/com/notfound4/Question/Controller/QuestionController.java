@@ -4,6 +4,8 @@ import com.notfound4.Answer.Dto.AnswerDto;
 import com.notfound4.Answer.Entity.Answer;
 import com.notfound4.Answer.Mapper.AnswerMapper;
 import com.notfound4.Answer.Service.AnswerService;
+import com.notfound4.Comment.Mapper.CommentMapper;
+import com.notfound4.Comment.Service.CommentService;
 import com.notfound4.Member.Entity.Member;
 import com.notfound4.Member.Service.MemberService;
 import com.notfound4.Question.Dto.QuestionDto;
@@ -34,11 +36,11 @@ public class QuestionController {
     private final AnswerService answerService;
     private final QuestionLikeService questionLikeService;
 
-//    private final CommentService commentService;
-//    private final CommentMapper commentMapper;
+    private final CommentService commentService;
+    private final CommentMapper commentMapper;
 
 
-    public QuestionController(QuestionMapper mapper, AnswerMapper answerMapper, QuestionService questionService, MemberService memberService, QuestionLikeService likeService, AnswerService answerService, QuestionLikeService questionLikeService) {
+    public QuestionController(QuestionMapper mapper, AnswerMapper answerMapper, QuestionService questionService, MemberService memberService, QuestionLikeService likeService, AnswerService answerService, QuestionLikeService questionLikeService, CommentService commentService, CommentMapper commentMapper) {
         this.mapper = mapper;
         this.answerMapper = answerMapper;
         this.questionService = questionService;
@@ -46,6 +48,8 @@ public class QuestionController {
         this.likeService = likeService;
         this.answerService = answerService;
         this.questionLikeService = questionLikeService;
+        this.commentService = commentService;
+        this.commentMapper = commentMapper;
     }
 
     // 질문 리스트 조회
@@ -88,9 +92,9 @@ public class QuestionController {
         // 해당 질문 답변 리스트 가져오기
         List<Answer> answerList = answerService.findAnswers(questionId);
         // 리턴 할 Dto 로 답변 리스트 매핑 (TODO: 나중에 삭제)
-        List<AnswerDto.Response> answerListResponse = answerMapper.answerToAnswerListResponse(answerList);
+        //List<AnswerDto.Response> answerListResponse = answerMapper.answerToAnswerListResponse(answerList);
 
-//        List<AnswerDto.Response> answerListResponse = answerMapper.answerToAnswerListResponse(answerList, commentService, commentMapper);
+        List<AnswerDto.Response> answerListResponse = answerMapper.answerToAnswerListResponse(answerList, commentService, commentMapper);
 
         // 리턴할 질문 확인 조회 Dto 로 매핑
         QuestionDto.getResponse response =

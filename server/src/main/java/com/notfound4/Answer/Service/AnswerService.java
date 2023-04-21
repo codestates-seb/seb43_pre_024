@@ -2,11 +2,11 @@ package com.notfound4.Answer.Service;
 
 import com.notfound4.Answer.Entity.Answer;
 import com.notfound4.Answer.Repository.AnswerRepository;
+import com.notfound4.Answer.Repository.AnswerRepository;
 import com.notfound4.Comment.Entity.Comment;
 import com.notfound4.Comment.Repository.CommentRepository;
 import com.notfound4.Question.Entity.Question;
 import com.notfound4.Question.Repository.QuestionRepository;
-import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

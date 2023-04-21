@@ -4,7 +4,6 @@ import com.notfound4.Answer.Entity.Answer;
 import com.notfound4.Answer.Repository.AnswerRepository;
 import com.notfound4.Answer.Service.AnswerService;
 import com.notfound4.Member.Entity.Member;
-import com.notfound4.Member.Repository.MemberRepository;
 import com.notfound4.Member.Service.MemberService;
 import com.notfound4.Question.Dto.QuestionDto;
 import com.notfound4.Question.Dto.QuestionsDto;
