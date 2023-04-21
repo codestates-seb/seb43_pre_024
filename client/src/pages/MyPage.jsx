@@ -8,7 +8,7 @@ const MypageBox = styled.div`
   height: 100%;
   box-sizing: border-box;
   padding-left: 2rem;
-  padding-top: 2rem;
+  padding-top: 6rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -28,7 +28,7 @@ const ProfileBox = styled.div`
 
 const ProfileImg = styled.div`
   width: 300px;
-  height: 100%;
+  height: 300px;
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -37,7 +37,7 @@ const ProfileImg = styled.div`
   margin-right: 3rem;
 
   .profileImg {
-    width: 80%;
+    width: 230px;
     position: absolute;
     z-index: -1;
     border-radius: 5px;
@@ -57,6 +57,8 @@ const ProfileDetail = styled.div`
     padding-bottom: 1rem;
     margin-bottom: 10px;
     margin-left: 5px;
+    display: flex;
+    align-items: center;
   }
 
   .countBox {
@@ -74,6 +76,162 @@ const ProfileDetail = styled.div`
   }
 `;
 
+const CorrectionBtn = styled.button`
+  border: none;
+  background-color: rgb(107, 147, 249);
+  padding: 10px;
+  border-radius: 5px;
+  margin-left: 20px;
+  color: white;
+
+  :hover {
+    background-color: rgb(90, 124, 210);
+  }
+`;
+
+const CorrectionBack = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 175%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 4;
+`;
+
+const CorrectionBox = styled.div`
+  width: 500px;
+  height: 400px;
+  background-color: white;
+  border-radius: 5px;
+  padding: 1rem;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  margin-bottom: 600px;
+
+  .correctionText {
+    margin-bottom: 0;
+  }
+
+  .correctionBtnBox {
+    margin-top: 20px;
+    width: 100%;
+    text-align: right;
+
+    .correctionOnBtn,
+    .correctionOffBtn {
+      width: 80px;
+      padding: 10px;
+      font-size: 1.2rem;
+      border: none;
+      border-radius: 5px;
+      box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
+        rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+    }
+
+    .correctionOnBtn {
+      background-color: rgb(77, 139, 221);
+      color: white;
+
+      :hover {
+        background-color: rgb(60, 110, 174);
+      }
+    }
+
+    .correctionOffBtn {
+      background-color: white;
+      color: rgb(77, 139, 221);
+      margin-left: 20px;
+
+      :hover {
+        background-color: rgb(242, 242, 242);
+      }
+    }
+  }
+`;
+
+const CorrectionFormBox = styled.div`
+  width: 100%;
+  height: 80%;
+  padding: 20px;
+  box-sizing: border-box;
+  font-size: 1.2rem;
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: column;
+
+  .infoBox {
+    width: 100%;
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    padding-left: 2rem;
+  }
+
+  .nameBox {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+
+    .name {
+      display: block;
+      margin-right: 10px;
+      width: 100px;
+      color: rgb(82, 82, 82);
+    }
+
+    .nameInput {
+      height: 25px;
+      border: none;
+      box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
+        rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+      font-size: 1.1rem;
+      border-radius: 5px;
+      padding: 5px;
+
+      :focus {
+        outline: none;
+      }
+    }
+  }
+
+  .passwordBox {
+    display: flex;
+    align-items: center;
+
+    .password {
+      margin-right: 10px;
+      display: block;
+      width: 100px;
+      color: rgb(82, 82, 82);
+    }
+
+    .passwordInput {
+      height: 25px;
+      border: none;
+      box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
+        rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+      font-size: 1.1rem;
+      border-radius: 5px;
+      padding: 5px;
+      font-size: 1.1rem;
+
+      :focus {
+        outline: none;
+      }
+    }
+  }
+`;
+
 const ContentBox = styled.div`
   box-sizing: border-box;
   width: 100%;
@@ -81,7 +239,7 @@ const ContentBox = styled.div`
   height: 50%;
   display: flex;
   flex-direction: column;
-  margin-top: 4%;
+  margin-top: 8%;
 `;
 
 const TabBox = styled.div`
@@ -285,7 +443,7 @@ const BtnBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: end;
-  padding-right: 6rem;
+  padding-right: 7rem;
   position: absolute;
   bottom: -9%;
   right: 0;
@@ -308,7 +466,7 @@ const SecessionAlertBack = styled.div`
   top: 0;
   left: 0;
   width: 100%;
-  height: 140%;
+  height: 175%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -317,8 +475,8 @@ const SecessionAlertBack = styled.div`
 `;
 
 const SecessionAlertBox = styled.div`
-  width: 40%;
-  height: 20%;
+  width: 600px;
+  height: 250px;
   background-color: white;
   border-radius: 5px;
   padding: 2rem;
@@ -328,7 +486,7 @@ const SecessionAlertBox = styled.div`
   justify-content: center;
   border-radius: 5px;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  margin-bottom: 120px;
+  margin-bottom: 350px;
 
   .alertText {
     font-size: 1.5rem;
@@ -389,6 +547,14 @@ function MyPage({
   const [user, setUsers] = useState([]);
   const [secession, setSecession] = useState(false);
   const [alert, setAlert] = useState(false);
+  const [correction, setCorrection] = useState(false);
+  const [name, setName] = useState('');
+  const [password, setPassword] = useState('g');
+  const [id, setId] = useState(0);
+
+  useEffect(() => {
+    setId(user.userId);
+  }, [user]);
 
   function activeQuestions() {
     setQuestionsActive(true);
@@ -412,11 +578,51 @@ function MyPage({
     setAlert(false);
   }
 
+  function onCorrection() {
+    setCorrection(true);
+  }
+
+  function offCorrection() {
+    setCorrection(false);
+  }
+
+  function changeName(e) {
+    setName(e.target.value);
+  }
+
+  function changePassword(e) {
+    setPassword(e.target.value);
+  }
+
+  const onChangePut = () => {
+    const putData = {
+      userId: user.userId,
+      profile_image: user.profileImg,
+      name,
+      password,
+      questions: user.questions,
+      answers: user.answers,
+    };
+
+    fetch(`http://localhost:3001/user/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(putData),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(() => {
+        console.log(user.name);
+      })
+      .catch(err => console.log(err));
+    // window.location.reload();
+  };
+
   useEffect(() => {
     if (isPending) {
       setUsers(datas[0]);
     }
-  }, [datas, isPending, user]);
+  }, [datas, isPending, error]);
 
   return (
     <MypageBox>
@@ -425,7 +631,12 @@ function MyPage({
           <img src={profileImg} alt="propfileImg" className="profileImg" />
         </ProfileImg>
         <ProfileDetail>
-          <div className="nameBox">{user.name}</div>
+          <div className="nameBox">
+            {user.name}
+            <CorrectionBtn onClick={() => onCorrection()}>
+              Correction
+            </CorrectionBtn>
+          </div>
           <div className="countBox">
             <span className="countQuestions">
               <b>{pageData ? pageData.length : null}</b>&nbsp;questions&nbsp;
@@ -529,6 +740,53 @@ function MyPage({
             </div>
           </SecessionAlertBox>
         </SecessionAlertBack>
+      ) : null}
+      {correction ? (
+        <CorrectionBack>
+          <CorrectionBox>
+            <h2 className="correctionText">User Information</h2>
+            <CorrectionFormBox name="userInfo" method="post" action="/">
+              <div className="infoBox">
+                <div className="nameBox">
+                  <span className="name">name</span>
+                  <input
+                    className="nameInput"
+                    type="text"
+                    name="name"
+                    defaultValue={user.name}
+                    onChange={e => changeName(e)}
+                  />
+                </div>
+                <div className="passwordBox">
+                  <span className="password">password</span>
+                  <input
+                    className="passwordInput"
+                    type="password"
+                    name="password"
+                    defaultValue={user.password}
+                    onChange={e => changePassword(e)}
+                  />
+                </div>
+              </div>
+              <div className="correctionBtnBox">
+                <button
+                  className="correctionOnBtn"
+                  onClick={onChangePut}
+                  type="button"
+                >
+                  Submit
+                </button>
+                <button
+                  className="correctionOffBtn"
+                  onClick={offCorrection}
+                  type="submit"
+                >
+                  Cancel
+                </button>
+              </div>
+            </CorrectionFormBox>
+          </CorrectionBox>
+        </CorrectionBack>
       ) : null}
     </MypageBox>
   );
