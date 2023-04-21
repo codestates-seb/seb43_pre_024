@@ -581,8 +581,7 @@
   "user": [
     {
       "userId": 1,
-      "name": "dd",
-      "password": "g",
+      "name": "bbbb",
       "questions": [
         {
           "questionId": 1,

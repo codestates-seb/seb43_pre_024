@@ -599,7 +599,6 @@ function MyPage({
       userId: user.userId,
       profile_image: user.profileImg,
       name,
-      password,
       questions: user.questions,
       answers: user.answers,
     };
@@ -615,7 +614,7 @@ function MyPage({
         console.log(user.name);
       })
       .catch(err => console.log(err));
-    // window.location.reload();
+    window.location.reload();
   };
 
   useEffect(() => {
