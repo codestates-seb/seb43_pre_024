@@ -1,11 +1,15 @@
 import MDEditor from '@uiw/react-md-editor';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart } from '@fortawesome/free-solid-svg-icons';
+import { useState } from 'react';
+import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
 
 function QuestionInfo({ questionId }) {
   const navigate = useNavigate();
+
+  const [isFilled, setIsFilled] = useState(false);
+  const [count, setCount] = useState(0);
+
   const QuestionButtonStyle = styled.button`
     display: flex;
     align-items: center;
@@ -49,9 +53,10 @@ function QuestionInfo({ questionId }) {
   // TODO: API 연동
   const tags = ['javascript', 'react', 'java', 'python', 'c++'];
 
-  function heartChangeButton() {
-    console.log('heartChangeButton');
-    console.log('heartChangeButton');
+  function onClickHeartButton() {
+    setIsFilled(!isFilled);
+    setCount(count + 1);
+    setCount(!isFilled ? count + 1 : count - 1);
   }
 
   return (
@@ -59,8 +64,22 @@ function QuestionInfo({ questionId }) {
       <div style={{ display: 'flex', gap: 30, alignItems: 'center' }}>
         <h2>{data.title}</h2>
         <HeartButtonStyle>
-          <div onClick={() => heartChangeButton}>♡</div>
-          <FontAwesomeIcon icon={faHeart} style={{ color: 'red' }} />
+          <div>
+            {isFilled ? (
+              <AiFillHeart
+                size="30"
+                style={{ color: 'red' }}
+                onClick={() => onClickHeartButton()}
+              />
+            ) : (
+              <AiOutlineHeart
+                size="30"
+                onClick={() => onClickHeartButton()}
+                style={{ color: 'black' }}
+              />
+            )}
+            {count}
+          </div>
         </HeartButtonStyle>
         <QuestionButtonStyle
           type="button"
