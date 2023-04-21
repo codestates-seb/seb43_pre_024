@@ -1,23 +1,33 @@
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
+import { ReactComponent as GoogleLogo } from '../images/googleLogo.svg';
+import { ReactComponent as GitLogo } from '../images/gitLogo.svg';
+
+import {
+  validateCheckPassword,
+  validateEmail,
+  validatePassword,
+} from '../util/validator';
 
 const SignUpBox = styled.div`
   padding: 0;
   display: flex;
   justify-content: center;
   width: 100%;
+  height: 100vh;
   background: #f1f2f3;
 
   .container {
     display: flex;
     align-items: center;
-    justify-content: center;
+    margin-top: 170px;
+    height: 500px;
   }
 `;
 
 const TextBox = styled.div`
   max-width: 420px;
-  margin-right: 30px;
+  margin-right: 50px;
   .textTitle {
     font-size: 1.7rem;
     font-weight: 500;
@@ -37,15 +47,22 @@ const TextBox = styled.div`
 const InputBox = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  background: #fff;
-  padding: 40px 30px;
-  border-radius: 5px;
-  box-shadow: 0px 10px 15px #ccc;
+
+  .inputContainer {
+    height: 340px;
+    background: #fff;
+    padding: 40px 30px;
+    border-radius: 5px;
+    box-shadow: 0px 10px 15px #ccc;
+  }
 
   label {
     font-weight: 800;
     font-size: 1rem;
+  }
+  .textLineBox {
+    padding: 0 !important;
+    padding-inline-start: 0px;
   }
 
   input {
@@ -78,10 +95,38 @@ const InputBox = styled.div`
   }
 `;
 
+const GoogleSignin = styled.button`
+width: 100%;
+padding 8px 0;
+display: flex;
+align-items: center;
+justify-content: center;
+background:#fff;
+color:#2f3337;
+border: 1px solid #ccc;
+border-radius: 5px;
+
+svg{margin-right: 5px;}
+`;
+const GitSignin = styled.button`
+  width: 100%;
+  padding 8px 0;
+  margin: 10px 0 30px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:#2f3337;
+  color:#fff;
+  border-radius: 5px;
+
+  svg{margin-right: 5px;}
+`;
+
 const SignUpBtn = styled.button`
+  width: 100%;
+  padding: 12px 0;
   background: #0a95ff;
   border: none;
-  padding: 12px 0;
   border-radius: 5px;
   color: #fff;
   box-shadow: 0px 2px 4px #56aef1 inset;
@@ -102,9 +147,12 @@ function SignUpPage() {
   const [password, setPassword] = useState('');
   const [passwordCheck, setPasswordCheck] = useState('');
   const [userData, setUserData] = useState([]);
-  const [emailErrorMeassage, setEmailErrorMeassage] = useState('');
-  const [pwErrorMeassage, setPwErrorMeassage] = useState('');
-  const [pwCheckErrorMeassage, setPwCheckErrorMeassage] = useState('');
+  const [emailErrorMessage, setEmailErrorMessage] =
+    useState('이메일 형식을 확인해주세요.');
+  const [pwErrorMessage, setPwErrorMessage] = useState(
+    '7자에서 20자 이내로 비밀번호를 입력해주세요.',
+  );
+  const [pwCheckErrorMessage, setPwCheckErrorMessage] = useState('');
 
   // display name input 클릭 시 div 포커스 효과
   const nameHandleFocus = () => {
@@ -178,13 +226,13 @@ function SignUpPage() {
     }
 
     if (
-      emailErrorMeassage.length !== 0 ||
-      name.length === 0 ||
-      email.length === 0 ||
-      password.length === 0 ||
-      pwCheckErrorMeassage.length !== 0
+      emailErrorMessage.length !== 0 ||
+      pwCheckErrorMessage.length !== 0 ||
+      pwErrorMessage.length !== 0
     ) {
-      return;
+      // 유효성 검사에 실패한 경우
+      // eslint-disable-next-line consistent-return
+      return alert('회원가입 실패: 유효하지 않은 데이터가 있습니다.');
     }
 
     fetch('http://localhost:4000/users/', {
@@ -196,33 +244,12 @@ function SignUpPage() {
     }).then(response => response.json());
   };
 
-  // 이메일 유효성 체크
-  useEffect(() => {
-    if (!email.includes('@') && email.length > 6) {
-      setEmailErrorMeassage('이메일 형식을 확인해주세요.');
-    } else setEmailErrorMeassage('');
-  }, [email]);
-
-  // 패스워드 유효성 체크
-  useEffect(() => {
-    if ((password.length > 3 && password.length < 7) || password.length > 20) {
-      setPwErrorMeassage('7자에서 20자 이내로 비밀번호를 입력해주세요.');
-    } else setPwErrorMeassage('');
-  }, [password]);
-
-  // 패스워드 유효성 체크
-  useEffect(() => {
-    if (password !== passwordCheck) {
-      setPwCheckErrorMeassage('비밀번호를 다시 한번 확인해주세요.');
-    } else setPwCheckErrorMeassage('');
-  }, [password, passwordCheck]);
-
   return (
     <SignUpBox>
       <div className="container">
         <TextBox>
           <h3 className="textTitle">Join the Stack Overflow community</h3>
-          <ul>
+          <ul className="textLineBox">
             <li className="textLine">
               <svg width="26" height="26" className="icon">
                 <path
@@ -262,85 +289,113 @@ function SignUpPage() {
           </ul>
         </TextBox>
         <InputBox>
-          <div className="inputArea">
-            <label htmlFor="displayName">
-              Display name
-              <div
-                className={nameIsFocused ? 'inputFocus focused' : 'inputFocus'}
-              >
-                <input
-                  onFocus={nameHandleFocus}
-                  onBlur={nameHandleBlur}
-                  onChange={e => setName(e.target.value)}
-                  maxLength="10"
-                  type="displayName"
-                  id="displayName"
-                />
-              </div>
-            </label>
-          </div>
-          <div className="inputArea">
-            <label htmlFor="email">
-              Email
-              <div
-                className={emailIsFocused ? 'inputFocus focused' : 'inputFocus'}
-              >
-                <input
-                  onFocus={emailHandleFocus}
-                  onBlur={emailHandleBlur}
-                  onChange={e => setEmail(e.target.value)}
-                  type="email"
-                  id="email"
-                />
-              </div>
-            </label>
-            <p className="errorMessage">{emailErrorMeassage}</p>
-          </div>
-          <div className="inputArea">
-            <label htmlFor="password">
-              Password
-              <div
-                className={pwIsFocused ? 'inputFocus focused' : 'inputFocus'}
-              >
-                <input
-                  onFocus={handleFocus}
-                  onBlur={handleBlur}
-                  onChange={e => setPassword(e.target.value)}
-                  maxLength="20"
-                  type="password"
-                  id="password"
-                />
-              </div>
-            </label>
-            <p className="errorMessage">{pwErrorMeassage}</p>
-          </div>
-          {password.length > 6 ? (
+          <GoogleSignin>
+            <GoogleLogo />
+            Sign in with Google
+          </GoogleSignin>
+          <GitSignin>
+            <GitLogo />
+            Sign in with GitHub
+          </GitSignin>
+          <div className="inputContainer">
             <div className="inputArea">
-              <label htmlFor="password">
-                Password Check
+              <label htmlFor="displayName">
+                Display name
                 <div
                   className={
-                    pwChIsFocused ? 'inputFocus focused' : 'inputFocus'
+                    nameIsFocused ? 'inputFocus focused' : 'inputFocus'
                   }
                 >
                   <input
-                    onFocus={pwCheckHandleFocus}
-                    onBlur={pwCheckHandleBlur}
-                    onChange={e => setPasswordCheck(e.target.value)}
+                    onFocus={nameHandleFocus}
+                    onBlur={nameHandleBlur}
+                    onChange={e => setName(e.target.value)}
+                    maxLength="10"
+                    type="displayName"
+                    id="displayName"
+                  />
+                </div>
+              </label>
+            </div>
+            <div className="inputArea">
+              <label htmlFor="email">
+                Email
+                <div
+                  className={
+                    emailIsFocused ? 'inputFocus focused' : 'inputFocus'
+                  }
+                >
+                  <input
+                    onFocus={emailHandleFocus}
+                    onBlur={emailHandleBlur}
+                    onChange={e => {
+                      setEmailErrorMessage(validateEmail(e.target.value));
+                      setEmail(e.target.value);
+                    }}
+                    type="email"
+                    id="email"
+                    value={email}
+                  />
+                </div>
+              </label>
+              <p className="errorMessage">{emailErrorMessage}</p>
+            </div>
+            <div className="inputArea">
+              <label htmlFor="password">
+                Password
+                <div
+                  className={pwIsFocused ? 'inputFocus focused' : 'inputFocus'}
+                >
+                  <input
+                    onFocus={handleFocus}
+                    onBlur={handleBlur}
+                    onChange={e => {
+                      setPwErrorMessage(validatePassword(e.target.value));
+                      setPassword(e.target.value);
+                    }}
                     maxLength="20"
                     type="password"
                     id="password"
                   />
                 </div>
               </label>
-              <p className="errorMessage">{pwCheckErrorMeassage}</p>
+              <p className="errorMessage">{pwErrorMessage}</p>
             </div>
-          ) : (
-            ''
-          )}
-          <SignUpBtn onClick={handleSubmit} type="submit">
-            Sign up
-          </SignUpBtn>
+
+            {password.length > 6 ? (
+              <div className="inputArea">
+                <label htmlFor="passwordCheck">
+                  Password Check
+                  <div
+                    className={
+                      pwChIsFocused ? 'inputFocus focused' : 'inputFocus'
+                    }
+                  >
+                    <input
+                      onFocus={pwCheckHandleFocus}
+                      onBlur={pwCheckHandleBlur}
+                      onChange={e => {
+                        setPwCheckErrorMessage(
+                          validateCheckPassword(password, e.target.value),
+                        );
+                        setPasswordCheck(e.target.value);
+                      }}
+                      maxLength="20"
+                      type="password"
+                      id="passwordCheck"
+                      value={passwordCheck}
+                    />
+                  </div>
+                </label>
+                <p className="errorMessage">{pwCheckErrorMessage}</p>
+              </div>
+            ) : (
+              ''
+            )}
+            <SignUpBtn onClick={handleSubmit} type="submit">
+              Sign up
+            </SignUpBtn>
+          </div>
         </InputBox>
       </div>
     </SignUpBox>

@@ -85,6 +85,11 @@ function QuestionInfo({ questionId }) {
         style={{ width: '80%', display: 'flex', gap: 30, alignItems: 'center' }}
       >
         <h2>{data.title}</h2>
+
+        <HeartButtonStyle>
+          <FontAwesomeIcon icon={faHeart} style={{ color: 'red' }} />
+        </HeartButtonStyle>
+        
         <QuestionButtonStyle
           type="button"
           onClick={() => navigate('/new-question')}

@@ -29,12 +29,11 @@ function App() {
       />
       <div
         style={{
-          paddingTop: 70,
           display: 'flex',
           flexDirection: 'row',
         }}
       >
-        <Navbar login={login} />
+        <Navbar login={login} setLogin={setLogin} />
       </div>
       <Footer />
     </div>
