@@ -1,10 +1,11 @@
-import React from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
-import MDEditor from '@uiw/react-md-editor';
-import AnswerList from '../components/AnswerList';
-import QuestionInfo from '../components/QuestionInfo';
-import QuestionInputBox from '../components/QuestionInputBox';
+import React from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import MDEditor from "@uiw/react-md-editor";
+import AnswerList from "../components/AnswerList";
+import QuestionInfo from "../components/QuestionInfo";
+import QuestionInputBox from "../components/QuestionInputBox";
+import { Padding } from "@mui/icons-material";
 
 function QuestionDetail() {
   const DetailPageStyle = styled.div`
@@ -19,7 +20,7 @@ function QuestionDetail() {
 
   return (
     <DetailPageStyle>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 30 }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: 30 }}>
         <QuestionInfo questionId={id} />
         <AnswerList questionId={id} />
         <NewAnswerInput />
@@ -49,8 +50,16 @@ function NewAnswerInput(props) {
 
   return (
     <div>
-      <MDEditor style={{ width: '80%' }} value={value} />
-      <PostButtonStyle type="button" onClick={() => navigate('/new-question')}>
+      <span
+        style={{
+          fontSize: "20px",
+        }}
+      >
+        Know someone who can answer? Share a link to this question via email,
+        Twitter, or Facebook. Your Answer
+      </span>
+      <MDEditor style={{ marginTop: "15px", width: "80%" }} value={value} />
+      <PostButtonStyle type="button" onClick={() => navigate("/all-questions")}>
         Post Your Answer
       </PostButtonStyle>
     </div>

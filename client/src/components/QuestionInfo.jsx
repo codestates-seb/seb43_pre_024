@@ -1,8 +1,9 @@
-import MDEditor from '@uiw/react-md-editor';
-import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
-import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
+import MDEditor from "@uiw/react-md-editor";
+import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
+import { BorderBottom } from "@mui/icons-material";
 
 function QuestionInfo({ questionId }) {
   const navigate = useNavigate();
@@ -29,7 +30,8 @@ function QuestionInfo({ questionId }) {
   `;
 
   const EditDeleteButtonStyle = styled.div`
-    border: none;
+    width: 80%;
+    border-bottom: 1px solid #e1e4e8;
     display: flex;
     justify-content: flex-start;
     margin-top: 40px;
@@ -54,24 +56,27 @@ function QuestionInfo({ questionId }) {
     .heartButton {
       border: 1px solid red;
     }
+    :hover {
+      cursor: pointer;
+    }
   `;
 
   // TODO: API 연동
   const data = {
     questionId: 1,
     title:
-      'Why is processing a sorted array faster than processing an unsorted array?',
+      "Why is processing a sorted array faster than processing an unsorted array?",
     content:
-      '\n I accidentally committed the wrong files to Git, but didn`\nt push the commit to the server yet. \n How do I undo those commits from the local repository?\n ```javascript\n const a = 1;\n console.log(a);\n```',
-    name: '김지은',
-    likes: '0',
-    answer_cnt: '2',
-    views: '1',
-    created_at: '2023-04-18 13:52',
+      "\n I accidentally committed the wrong files to Git, but didn`\nt push the commit to the server yet. \n How do I undo those commits from the local repository?\n ```javascript\n const a = 1;\n console.log(a);\n```",
+    name: "김지은",
+    likes: "0",
+    answer_cnt: "2",
+    views: "1",
+    created_at: "2023-04-18 13:52",
     accepted_answer: true,
   };
   // TODO: API 연동
-  const tags = ['javascript', 'react', 'java', 'python', 'c++'];
+  const tags = ["javascript", "react", "java", "python", "c++"];
 
   function onClickHeartButton() {
     setIsFilled(!isFilled);
@@ -82,30 +87,30 @@ function QuestionInfo({ questionId }) {
   return (
     <>
       <div
-        style={{ width: '80%', display: 'flex', gap: 30, alignItems: 'center' }}
+        style={{
+          width: "80%",
+          display: "flex",
+          gap: 30,
+          alignItems: "center",
+        }}
       >
         <h2>{data.title}</h2>
-
-        <HeartButtonStyle>
-          <FontAwesomeIcon icon={faHeart} style={{ color: 'red' }} />
-        </HeartButtonStyle>
-        
         <QuestionButtonStyle
           type="button"
-          onClick={() => navigate('/new-question')}
+          onClick={() => navigate("/new-question")}
         >
           Ask Question
         </QuestionButtonStyle>
       </div>
-      <MDEditor.Markdown source={data.content} style={{ width: '80%' }} />
+      <MDEditor.Markdown source={data.content} style={{ width: "80%" }} />
       <div style={{ marginTop: 16 }}>
-        {tags.map(tag => (
+        {tags.map((tag) => (
           <span
             style={{
               marginRight: 16,
               padding: 8,
-              background: '#cef',
-              color: '#57A',
+              background: "#cef",
+              color: "#57A",
               borderRadius: 5,
             }}
           >
@@ -113,25 +118,33 @@ function QuestionInfo({ questionId }) {
           </span>
         ))}
         <EditDeleteButtonStyle>
-          <button type="button" className="editButton">
+          <button
+            type="button"
+            className="editButton"
+            onClick={() => navigate("/login")}
+          >
             Edit
           </button>
-          <button type="button" className="deleteButton">
+          <button
+            type="button"
+            className="deleteButton"
+            onClick={() => navigate("/login")}
+          >
             Delete
           </button>
           <HeartButtonStyle>
-            <div style={{ display: 'flex', gap: 2 }}>
+            <div style={{ display: "flex", gap: 2 }}>
               {isFilled ? (
                 <AiFillHeart
                   size="20"
-                  style={{ color: 'red' }}
+                  style={{ color: "red" }}
                   onClick={() => onClickHeartButton()}
                 />
               ) : (
                 <AiOutlineHeart
                   size="20"
                   onClick={() => onClickHeartButton()}
-                  style={{ color: 'black' }}
+                  style={{ color: "black" }}
                 />
               )}
               {count}
