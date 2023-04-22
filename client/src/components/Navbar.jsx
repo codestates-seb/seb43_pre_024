@@ -17,6 +17,7 @@ import NewQuestion from '../pages/NewQuestion';
 import SignUp from '../pages/SignUp';
 import LogIn from '../pages/LogIn';
 import QuestionDetail from '../pages/QuestionDetail';
+import SearchQuestions from '../pages/SearchQuestions';
 
 const NavBox = styled.div`
   width: 250px;
@@ -117,7 +118,7 @@ const UsersBtn = styled.button`
     props.usersActive === true ? '#F2F2F3' : 'white'};
 `;
 
-function Navbar({ login, setLogin }) {
+function Navbar({ login, setLogin, inputValue, setInputValue }) {
   const [homeActive, setHomeActive] = useState(false);
   const [questionsActive, setQuestionsActive] = useState(false);
   const [usersActive, setUsersActive] = useState(false);
@@ -217,6 +218,7 @@ function Navbar({ login, setLogin }) {
         <Route path="/new-question" element={<NewQuestion />} />
         <Route path="/mypage" element={<Paging />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route path="/search-questions/title" element={<SearchQuestions />}/>
         <Route
           path="/login"
           element={<LogIn login={login} setLogin={setLogin} />}
