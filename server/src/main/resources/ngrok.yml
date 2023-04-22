@@ -1,0 +1,8 @@
+tunnels:
+  app:
+    proto: http
+    addr: 8080
+    inspect: true
+    headers:
+      Host: example.com
+      X-Forwarded-For: 127.0.0.1

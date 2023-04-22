@@ -20,13 +20,17 @@ import org.springframework.security.oauth2.client.registration.ClientRegistratio
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
 import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.Arrays;
 
 import static org.springframework.security.config.Customizer.withDefaults;
+
 
 @Configuration
 public class SecurityConfiguration {
@@ -44,7 +48,8 @@ public class SecurityConfiguration {
                 .headers().frameOptions().sameOrigin()
                 .and()
                 .csrf().disable()
-                .cors(withDefaults())
+                .cors()
+                .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .formLogin().disable()
@@ -52,17 +57,17 @@ public class SecurityConfiguration {
                 .apply(new CustomFilterConfigurer())
                 .and()
                 .authorizeHttpRequests(authorize -> authorize
-                        .antMatchers(HttpMethod.POST, "/users/**").permitAll()
-                        .antMatchers(HttpMethod.PATCH, "/users/**").authenticated()
-                        .antMatchers(HttpMethod.GET, "/users/**").authenticated()
-                        .antMatchers(HttpMethod.DELETE, "/users/**").authenticated()
-                        .antMatchers(HttpMethod.POST, "/questions/ask").authenticated()
-                        .antMatchers(HttpMethod.PATCH, "/questions/**").authenticated()
-                        .antMatchers(HttpMethod.DELETE, "/questions/**").authenticated()
-                        .antMatchers(HttpMethod.POST, "/questions/**/answer").authenticated()
-                        .antMatchers(HttpMethod.POST, "/questions/**/like").authenticated()
-                        .antMatchers(HttpMethod.PATCH, "/questions/**/answer/**").authenticated()
-                        .antMatchers(HttpMethod.DELETE, "/questions/**/answer/**").authenticated()
+//                        .antMatchers(HttpMethod.POST, "/users/**").permitAll()
+//                        .antMatchers(HttpMethod.PATCH, "/users/**").authenticated()
+//                        .antMatchers(HttpMethod.GET, "/users/**").authenticated()
+//                        .antMatchers(HttpMethod.DELETE, "/users/**").authenticated()
+//                        .antMatchers(HttpMethod.POST, "/questions/ask").authenticated()
+//                        .antMatchers(HttpMethod.PATCH, "/questions/**").authenticated()
+//                        .antMatchers(HttpMethod.DELETE, "/questions/**").authenticated()
+//                        .antMatchers(HttpMethod.POST, "/questions/**/answer").authenticated()
+//                        .antMatchers(HttpMethod.POST, "/questions/**/like").authenticated()
+//                        .antMatchers(HttpMethod.PATCH, "/questions/**/answer/**").authenticated()
+//                        .antMatchers(HttpMethod.DELETE, "/questions/**/answer/**").authenticated()
                         .anyRequest().permitAll()
                 );
         return http.build();
@@ -73,11 +78,17 @@ public class SecurityConfiguration {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
+
+
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("*"));
-        configuration.setAllowedMethods(Arrays.asList("GET","POST", "PATCH", "DELETE"));
+
+        configuration.setAllowCredentials(true);
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000", "https://localhost:3000", "http://localhost:3001", "https://localhost:3001"
+        , "http://127.0.0.1:4040", "https://93b9-210-100-239-193.ngrok-free.app", "https://127.0.0.1:4040", "http://localhost:8080", "https://localhost:8080"));
+        configuration.addAllowedHeader("*");
+        configuration.addAllowedMethod("*");
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
