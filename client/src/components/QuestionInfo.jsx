@@ -1,25 +1,49 @@
 import MDEditor from '@uiw/react-md-editor';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart } from '@fortawesome/free-solid-svg-icons';
+import { useState } from 'react';
+import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
 
 function QuestionInfo({ questionId }) {
   const navigate = useNavigate();
+
+  const [isFilled, setIsFilled] = useState(false);
+  const [count, setCount] = useState(0);
+
   const QuestionButtonStyle = styled.button`
     display: flex;
+    justify-content: center;
     align-items: center;
-    width: 120px;
+    width: 150px;
     height: 40px;
     border: none;
     background-color: #5594fc;
     color: white;
-    padding: 10px 20px;
+    padding: 20px;
     margin-left: 50px;
     border-radius: 5px;
     :hover {
       background-color: #3b7ddd;
       cursor: pointer;
+    }
+  `;
+
+  const EditDeleteButtonStyle = styled.div`
+    border: none;
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 40px;
+    .editButton,
+    .deleteButton {
+      background-color: white;
+      border: none;
+      width: 50px;
+      font-size: 16px;
+      color: gray;
+      :hover {
+        cursor: pointer;
+        font-weight: bold;
+      }
     }
   `;
 
@@ -49,13 +73,23 @@ function QuestionInfo({ questionId }) {
   // TODO: API 연동
   const tags = ['javascript', 'react', 'java', 'python', 'c++'];
 
+  function onClickHeartButton() {
+    setIsFilled(!isFilled);
+    setCount(count + 1);
+    setCount(!isFilled ? count + 1 : count - 1);
+  }
+
   return (
     <>
-      <div style={{ display: 'flex', gap: 30, alignItems: 'center' }}>
+      <div
+        style={{ width: '80%', display: 'flex', gap: 30, alignItems: 'center' }}
+      >
         <h2>{data.title}</h2>
+
         <HeartButtonStyle>
           <FontAwesomeIcon icon={faHeart} style={{ color: 'red' }} />
         </HeartButtonStyle>
+        
         <QuestionButtonStyle
           type="button"
           onClick={() => navigate('/new-question')}
@@ -63,7 +97,7 @@ function QuestionInfo({ questionId }) {
           Ask Question
         </QuestionButtonStyle>
       </div>
-      <MDEditor.Markdown source={data.content} />
+      <MDEditor.Markdown source={data.content} style={{ width: '80%' }} />
       <div style={{ marginTop: 16 }}>
         {tags.map(tag => (
           <span
@@ -78,6 +112,32 @@ function QuestionInfo({ questionId }) {
             {tag}
           </span>
         ))}
+        <EditDeleteButtonStyle>
+          <button type="button" className="editButton">
+            Edit
+          </button>
+          <button type="button" className="deleteButton">
+            Delete
+          </button>
+          <HeartButtonStyle>
+            <div style={{ display: 'flex', gap: 2 }}>
+              {isFilled ? (
+                <AiFillHeart
+                  size="20"
+                  style={{ color: 'red' }}
+                  onClick={() => onClickHeartButton()}
+                />
+              ) : (
+                <AiOutlineHeart
+                  size="20"
+                  onClick={() => onClickHeartButton()}
+                  style={{ color: 'black' }}
+                />
+              )}
+              {count}
+            </div>
+          </HeartButtonStyle>
+        </EditDeleteButtonStyle>
       </div>
     </>
   );
