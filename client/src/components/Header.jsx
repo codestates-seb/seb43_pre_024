@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { BiSearchAlt } from 'react-icons/bi';
 import { AiOutlineClose } from 'react-icons/ai';
 import { FiMenu } from 'react-icons/fi';
@@ -205,13 +205,15 @@ const UsersBtn = styled.button`
   margin-left: -7px;
 `;
 
-function Header({ isLogin, changeLoginStatus }) {
+function Header({ isLogin, changeLoginStatus}) {
   const [focus, setFocus] = useState(false);
   const [toggle, setToggle] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const [homeActive, setHomeActive] = useState(true);
   const [questionsActive, setQuestionsActive] = useState(false);
   const [usersActive, setUsersActive] = useState(false);
+
+  const navigate = useNavigate();
 
   function searchFocus() {
     setFocus(true);
@@ -258,8 +260,13 @@ function Header({ isLogin, changeLoginStatus }) {
       body: JSON.stringify({ input: inputValue })
     };
     if (e.key === 'Enter') {
-      fetch('https://e5dd-210-100-239-193.ngrok-free.app/questions/search/title', requestOptions)
-      .then(response => response.json())
+      // fetch('https://e5dd-210-100-239-193.ngrok-free.app/questions/search/title', requestOptions)
+      fetch('http://localhost:3001/questions', requestOptions)
+      .then(response => {
+        response.json();
+        navigate('/search-questions/title');
+        }
+      )
       .then(data => console.log(data))
       .catch(error => console.error(error));
     }

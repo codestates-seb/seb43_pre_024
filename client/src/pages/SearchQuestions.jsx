@@ -3,7 +3,6 @@ import { useState, useEffect, useRef } from 'react';
 import { GoCheck } from 'react-icons/go';
 import { useNavigate, Link } from 'react-router-dom';
 import { useInView } from 'react-intersection-observer';
-import useFetch from '../util/useFetch';
 
 const Box = styled.div`
   width: calc(100% - 250px);
@@ -297,24 +296,17 @@ const Scroll = styled.div`
   width: 100%;
 `;
 
-function AllQuestions() {
+function SearchQuestions() {
   const navigate = useNavigate();
 
   const [datas, setDatas] = useState([]);
   const [isPending, setIsPending] = useState(false);
   const [error, setError] = useState();
 
-  const [newDatas, setNewDatas] = useState([]);
-  const [isPendingNew, setIsPendingNew] = useState(false);
-  const [errorNew, setErrorNew] = useState();
-
-  const [topDatas, setTopDatas] = useState([]);
-  const [isPendingTop, setIsPendingTop] = useState(false);
-  const [errorTop, setErrorTop] = useState();
-
   useEffect(() => {
     fetch(
-      'https://e5dd-210-100-239-193.ngrok-free.app/questions?sortInfo=NEW',
+      // 'https://e5dd-210-100-239-193.ngrok-free.app/questions?sortInfo=NEW',
+      'http://localhost:3001/questions',
       {
         headers: {
           'ngrok-skip-browser-warning': '69420',
@@ -338,81 +330,6 @@ function AllQuestions() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    fetch(
-      'https://e5dd-210-100-239-193.ngrok-free.app/questions?sortInfo=NEW',
-      {
-        headers: {
-          'ngrok-skip-browser-warning': '69420',
-        },
-      },
-    )
-      .then(res => {
-        if (!res.ok) {
-          throw Error('could not fetch the data for that resource');
-        }
-        return res.json();
-      })
-      .then(data => {
-        setIsPendingNew(true);
-        setNewDatas(data);
-      })
-      .catch(err => {
-        setIsPendingNew(false);
-        setErrorNew(err);
-      });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  console.log(newDatas);
-
-  useEffect(() => {
-    fetch(
-      'https://e5dd-210-100-239-193.ngrok-free.app/questions?sortInfo=TOP',
-      {
-        headers: {
-          'ngrok-skip-browser-warning': '69420',
-        },
-      },
-    )
-      .then(res => {
-        if (!res.ok) {
-          throw Error('could not fetch the data for that resource');
-        }
-        return res.json();
-      })
-      .then(data => {
-        setIsPendingTop(true);
-        setTopDatas(data);
-      })
-      .catch(err => {
-        setIsPendingTop(false);
-        setErrorTop(err);
-      });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const [hotActive, setHotActive] = useState(false);
-  const [newActive, setNewActive] = useState(true);
-  const [topActive, setTopActive] = useState(false);
-
-  function onHotActive() {
-    setHotActive(true);
-    setNewActive(false);
-    setTopActive(false);
-  }
-
-  function onNewActive() {
-    setHotActive(false);
-    setNewActive(true);
-    setTopActive(false);
-  }
-
-  function onTopActive() {
-    setHotActive(false);
-    setNewActive(false);
-    setTopActive(true);
-  }
-
   const [ref, inView] = useInView();
 
   const datasCount = datas ? datas.length : 0;
@@ -421,51 +338,20 @@ function AllQuestions() {
 
   useEffect(() => {
     if (isPending) {
-      if (hotActive) {
-        setPrint(datas.questions.slice(0, page.current));
+        setPrint(datas.slice(0, page.current));
         if (inView) {
           page.current += 5;
-          setPrint(datas.questions.slice(0, page.current));
+          setPrint(datas.slice(0, page.current));
         }
       }
-    }
-    if (isPendingNew) {
-      if (newActive) {
-        setPrint(newDatas.questions.slice(0, page.current));
-        if (inView) {
-          page.current += 5;
-          setPrint(newDatas.questions.slice(0, page.current));
-        }
-      }
-    }
-    if (isPendingTop) {
-      if (topActive) {
-        setPrint(topDatas.questions.slice(0, page.current));
-        if (inView) {
-          page.current += 5;
-          setPrint(topDatas.questions.slice(0, page.current));
-        }
-      }
-    }
-  }, [
-    datas.questions,
-    hotActive,
-    inView,
-    isPending,
-    isPendingNew,
-    isPendingTop,
-    newActive,
-    newDatas.questions,
-    topActive,
-    topDatas.questions,
-  ]);
+    }, [inView, datas, isPending]);
 
   return (
     <Box>
       <TitleBox>
         <div className="firstLine">
           <div className="title">
-            <h2>All Questions</h2>
+            <h2>Questions searched title ''</h2>
           </div>
           <div className="buttonBox">
             <button
@@ -480,29 +366,6 @@ function AllQuestions() {
         <div className="secondLine">
           <div className="questionsCount">
             <h3>{datas ? datas.length : null} questions</h3>
-          </div>
-          <div className="sortBtnBox">
-            <HotBtn
-              onClick={() => onHotActive()}
-              hotActive={hotActive}
-              className="hot"
-            >
-              HOT
-            </HotBtn>
-            <NewBtn
-              onClick={() => onNewActive()}
-              newActive={newActive}
-              className="new"
-            >
-              NEW
-            </NewBtn>
-            <TopBtn
-              onClick={() => onTopActive()}
-              topActive={topActive}
-              className="top"
-            >
-              TOP
-            </TopBtn>
           </div>
         </div>
       </TitleBox>
@@ -558,4 +421,4 @@ function AllQuestions() {
   );
 }
 
-export default AllQuestions;
+export default SearchQuestions;
