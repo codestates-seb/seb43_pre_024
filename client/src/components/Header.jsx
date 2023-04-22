@@ -318,7 +318,7 @@ function Header({ isLogin, changeLoginStatus}) {
                   </div>
                   {isLogin ? (
                     <Link to="/Mypage">
-                      <div className="UsersBtnBox">
+                      <div className="usersBtnBox">
                         <UsersBtn
                           className="UsersLi act"
                           onClick={() => activeUsers()}
