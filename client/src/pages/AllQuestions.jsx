@@ -3,7 +3,6 @@ import { useState, useEffect, useRef } from 'react';
 import { GoCheck } from 'react-icons/go';
 import { useNavigate, Link } from 'react-router-dom';
 import { useInView } from 'react-intersection-observer';
-import useFetch from '../util/useFetch';
 
 const Box = styled.div`
   width: calc(100% - 250px);

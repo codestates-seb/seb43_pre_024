@@ -251,6 +251,20 @@ function Header({ isLogin, changeLoginStatus }) {
     setToggle(false);
   }
 
+  const handleOnKeyPress = e => {
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ input: inputValue })
+    };
+    if (e.key === 'Enter') {
+      fetch('https://e5dd-210-100-239-193.ngrok-free.app/questions/search/title', requestOptions)
+      .then(response => response.json())
+      .then(data => console.log(data))
+      .catch(error => console.error(error));
+    }
+  };
+
   return (
     <HeaderBox>
       <Container>
@@ -333,6 +347,7 @@ function Header({ isLogin, changeLoginStatus }) {
             className="search"
             placeholder="Search..."
             onChange={e => inputChange(e)}
+            onKeyDown={handleOnKeyPress}
           />
         </SearchBox>
         {isLogin ? (
