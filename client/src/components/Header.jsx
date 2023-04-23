@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { BiSearchAlt } from 'react-icons/bi';
 import { AiOutlineClose } from 'react-icons/ai';
 import { FiMenu } from 'react-icons/fi';
@@ -213,9 +213,12 @@ function Header({
   setHomeActive,
   setUsersActive,
   setQuestionsActive,
+  inputValue,
+  setInputValue,
 }) {
   const [focus, setFocus] = useState(false);
   const [toggle, setToggle] = useState(false);
+  const navigate = useNavigate();
 
   function searchFocus() {
     setFocus(true);
@@ -223,6 +226,11 @@ function Header({
 
   function searchBlur() {
     setFocus(false);
+  }
+
+  function inputChange(e) {
+    setInputValue(e.target.value);
+    console.log(inputValue);
   }
 
   function toggleMenu() {
@@ -249,6 +257,26 @@ function Header({
     setQuestionsActive(false);
     setToggle(false);
   }
+
+  const handleOnKeyPress = e => {
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ input: inputValue })
+    };
+    if (e.key === 'Enter') {
+      // fetch('https://e5dd-210-100-239-193.ngrok-free.app/questions/search/title', requestOptions)
+      fetch('http://localhost:3001/questions', requestOptions)
+      .then(response => {
+        response.json();
+        navigate('/search-questions/title');
+        activeQuestions();
+        }
+      )
+      .then(data => console.log(data))
+      .catch(error => console.error(error));
+    }
+  };
 
   return (
     <HeaderBox>
@@ -333,6 +361,8 @@ function Header({
             type="text"
             className="search"
             placeholder="Search..."
+            onChange={e => inputChange(e)}
+            onKeyDown={handleOnKeyPress}
           />
         </SearchBox>
         {isLogin ? (
