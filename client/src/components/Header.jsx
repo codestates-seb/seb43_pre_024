@@ -45,6 +45,8 @@ const Container = styled.div`
     color: rgba(0, 0, 0, 0.7);
     flex-shrink: 0;
     display: block;
+    border: none;
+    background-color: transparent;
 
     :hover {
       background-color: rgba(0, 0, 0, 0.1);
@@ -205,12 +207,15 @@ const UsersBtn = styled.button`
   margin-left: -7px;
 `;
 
-function Header({ isLogin, changeLoginStatus }) {
+function Header({
+  isLogin,
+  changeLoginStatus,
+  setHomeActive,
+  setUsersActive,
+  setQuestionsActive,
+}) {
   const [focus, setFocus] = useState(false);
   const [toggle, setToggle] = useState(false);
-  const [homeActive, setHomeActive] = useState(true);
-  const [questionsActive, setQuestionsActive] = useState(false);
-  const [usersActive, setUsersActive] = useState(false);
 
   function searchFocus() {
     setFocus(true);
@@ -316,7 +321,9 @@ function Header({ isLogin, changeLoginStatus }) {
           <img src={Logo} className="logoImg" alt="로고사진" />
         </a>
         <Link to="all-questions">
-          <span className="questions">All Questions</span>
+          <button className="questions" onClick={activeQuestions} type="button">
+            All Questions
+          </button>
         </Link>
         <SearchBox focus={focus}>
           <BiSearchAlt size="25" fill="#888" />

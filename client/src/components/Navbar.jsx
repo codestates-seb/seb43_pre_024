@@ -110,11 +110,15 @@ const UsersBtn = styled.button`
     props.usersActive === true ? '#F2F2F3' : 'white'};
 `;
 
-function Navbar({ login }) {
-  const [homeActive, setHomeActive] = useState(false);
-  const [questionsActive, setQuestionsActive] = useState(false);
-  const [usersActive, setUsersActive] = useState(false);
-
+function Navbar({
+  login,
+  setHomeActive,
+  setUsersActive,
+  setQuestionsActive,
+  homeActive,
+  questionsActive,
+  usersActive,
+}) {
   function activeHome() {
     setHomeActive(true);
     setQuestionsActive(false);
