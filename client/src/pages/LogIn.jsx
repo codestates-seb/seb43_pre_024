@@ -1,11 +1,12 @@
 /* eslint-disable consistent-return */
-import styled from 'styled-components';
-import { useState, useEffect } from 'react';
-import { ReactComponent as GoogleLogo } from '../images/googleLogo.svg';
-import { ReactComponent as GitLogo } from '../images/gitLogo.svg';
-import { ReactComponent as StackLogo } from '../images/stackoverflowMiniLogo.svg';
+import styled from "styled-components";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { ReactComponent as GoogleLogo } from "../images/googleLogo.svg";
+import { ReactComponent as GitLogo } from "../images/gitLogo.svg";
+import { ReactComponent as StackLogo } from "../images/stackoverflowMiniLogo.svg";
 
-import { validateEmail, validatePassword } from '../util/validator';
+import { validateEmail, validatePassword } from "../util/validator";
 
 const LoginBox = styled.div`
   display: flex;
@@ -31,17 +32,19 @@ const LoginLogo = styled.div`
 `;
 
 const GoogleLogin = styled.button`
-width: 100%;
-padding: 8px 0;
-display: flex;
-align-items: center;
-justify-content: center;
-background:#fff;
-color:#2f3337;
-border: 1px solid #ccc;
-border-radius: 5px;
+  width: 100%;
+  padding: 8px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  color: #2f3337;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 
-svg{margin-right: 5px;}
+  svg {
+    margin-right: 5px;
+  }
 `;
 const GitLogin = styled.button`
   width: 100%;
@@ -50,11 +53,13 @@ const GitLogin = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  background:#2f3337;
-  color:#fff;
+  background: #2f3337;
+  color: #fff;
   border-radius: 5px;
 
-  svg{margin-right: 5px;}
+  svg {
+    margin-right: 5px;
+  }
 `;
 
 const InputBox = styled.div`
@@ -115,18 +120,17 @@ const LoginBtn = styled.button`
   }
 `;
 
-function LogIn({ login, setLogin }) {
+function LogIn({ setLogin }) {
   const [emailIsFocused, setEmailIsFocused] = useState(false);
   const [pwIsFocused, setPwIsFocused] = useState(false);
-  const [userData, setUserData] = useState('');
-  const [userEmail, setUserEmail] = useState('');
-  const [userPassword, setUserPassword] = useState('');
+  const [userEmail, setUserEmail] = useState("");
+  const [userPassword, setUserPassword] = useState("");
   const [emailErrorMessage, setEmailErrorMessage] =
-    useState('이메일 형식을 확인해주세요.');
+    useState("이메일 형식을 확인해주세요.");
   const [pwErrorMessage, setPwErrorMessage] = useState(
-    '7자에서 20자 이내로 비밀번호를 입력해주세요.',
+    "7자에서 20자 이내로 비밀번호를 입력해주세요."
   );
-  const [token, setToken] = useState('');
+  const navigate = useNavigate();
 
   // input박스 포커스
   const handleFocus = () => {
@@ -142,35 +146,18 @@ function LogIn({ login, setLogin }) {
     setEmailIsFocused(false);
   };
 
-  useEffect(() => {
-    fetch('http://localhost:4000/users/')
-      .then(response => response.json())
-      .then(data => setUserData(data));
-  }, []);
-
-  const handleSubmit = async e => {
-    userData.some(el => {
-      if (el.email !== userEmail) {
-        const isUserExist = false;
-        if (!isUserExist) {
-          alert('존재하지 않는 아이디입니다.');
-        }
-        return isUserExist;
-      }
-      return true;
-    });
-
+  const handleSubmit = async (e) => {
     if (emailErrorMessage.length !== 0 || pwErrorMessage.length !== 0) {
       // 유효성 검사에 실패한 경우
       // eslint-disable-next-line consistent-return
-      return alert('회원가입 실패: 유효하지 않은 데이터가 있습니다.');
+      return alert("회원가입 실패: 유효하지 않은 데이터가 있습니다.");
     }
 
     try {
-      const response = await fetch('http://localhost:4000/users', {
-        method: 'POST',
+      const response = await fetch("http://localhost:4000/users", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           email: userEmail,
@@ -179,17 +166,22 @@ function LogIn({ login, setLogin }) {
       });
       if (response.ok) {
         const data = await response.json();
-        // JWT 토큰 저장
-        localStorage.setItem('token', data.token);
-        window.location.href = '/home';
+        localStorage.removeItem("token");
+        localStorage.setItem("token", data.token);
+        navigate("/home");
         setLogin(true);
-      } else {
+        //ToDo : HTTP상태 코드에 따라 분기처리 하기
+      } else if (response.status === 400) {
+        throw new Error("입력값이 올바르지 않습니다. 다시 시도해주세요.");
+      } else if (response.status === 401) {
         throw new Error(
-          '로그인에 실패했습니다. 아이디 또는 패스워드를 확인해주세요.',
+          "인증에 실패하였습니다. 이메일과 비밀번호를 확인해주세요."
         );
+      } else {
+        throw new Error("알 수 없는 에러가 발생했습니다.");
       }
     } catch (error) {
-      alert(error);
+      alert(error.message);
     }
   };
 
@@ -212,12 +204,12 @@ function LogIn({ login, setLogin }) {
             <label htmlFor="email">
               Email
               <div
-                className={emailIsFocused ? 'inputFocus focused' : 'inputFocus'}
+                className={emailIsFocused ? "inputFocus focused" : "inputFocus"}
               >
                 <input
                   onFocus={emailHandleFocus}
                   onBlur={emailHandleBlur}
-                  onChange={e => {
+                  onChange={(e) => {
                     setEmailErrorMessage(validateEmail(e.target.value));
                     setUserEmail(e.target.value);
                   }}
@@ -234,12 +226,12 @@ function LogIn({ login, setLogin }) {
             <label htmlFor="password">
               Password
               <div
-                className={pwIsFocused ? 'inputFocus focused' : 'inputFocus'}
+                className={pwIsFocused ? "inputFocus focused" : "inputFocus"}
               >
                 <input
                   onFocus={handleFocus}
                   onBlur={handleBlur}
-                  onChange={e => {
+                  onChange={(e) => {
                     setPwErrorMessage(validatePassword(e.target.value));
                     setUserPassword(e.target.value);
                   }}
