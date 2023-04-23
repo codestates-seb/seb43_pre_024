@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { useRef } from 'react';
 import mainImg from '../images/main_img.png';
 
 const MainBox = styled.div`
@@ -224,7 +225,9 @@ const Skill = styled.div`
   .skillList {
     display: flex;
   }
-
+  .fronSkillsArea {
+    margin-top: 120px;
+  }
   .skills {
     width: 150px;
     display: flex;
@@ -298,6 +301,20 @@ const Skill = styled.div`
 `;
 
 function Main() {
+  const scrollIntroduce = useRef(null);
+  const scrollSkills = useRef(null);
+
+  const handleClickIntroduce = () => {
+    if (scrollIntroduce.current !== null) {
+      scrollIntroduce.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+  const handleClickSkills = () => {
+    if (scrollSkills.current !== null) {
+      scrollSkills.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <MainBox>
       <MainVisual>
@@ -305,16 +322,24 @@ function Main() {
           <div className="visualArea" />
           <p className="visualText">Oops.. They are Team Not Found 404</p>
           <div className="visualBtnArea">
-            <button type="button" className="visualBtn">
+            <button
+              onClick={handleClickIntroduce}
+              type="button"
+              className="visualBtn"
+            >
               팀원 소개
             </button>
-            <button type="button" className="visualBtn">
+            <button
+              onClick={handleClickSkills}
+              type="button"
+              className="visualBtn"
+            >
               기술 스택
             </button>
           </div>
         </div>
       </MainVisual>
-      <Introduce>
+      <Introduce ref={scrollIntroduce}>
         <p className="introText introTitle" id="introducePage">
           안녕하세요
         </p>
@@ -341,12 +366,12 @@ function Main() {
             <li className="members">
               <div className="memberImg jin" />
               <p className="memberName">FE 김지은</p>
-              <p className="memberId">cheesepizza453</p>
+              <p className="memberId">jieuny0314</p>
             </li>
             <li className="members">
               <div className="memberImg dada" />
               <p className="memberName">FE 오다경</p>
-              <p className="memberId">cheesepizza453</p>
+              <p className="memberId">dakyungoh</p>
             </li>
             <li className="members">
               <div className="memberImg miri" />
@@ -356,22 +381,22 @@ function Main() {
             <li className="members">
               <div className="memberImg dodo" />
               <p className="memberName">BE 양도열</p>
-              <p className="memberId">cheesepizza453</p>
+              <p className="memberId">yeori316</p>
             </li>
             <li className="members">
               <div className="memberImg ye" />
               <p className="memberName">BE 김예진</p>
-              <p className="memberId">cheesepizza453</p>
+              <p className="memberId">yejinee</p>
             </li>
             <li className="members">
               <div className="memberImg tae" />
               <p className="memberName">BE 김태진</p>
-              <p className="memberId">cheesepizza453</p>
+              <p className="memberId">mogu616</p>
             </li>
           </ul>
         </div>
       </TeamMember>
-      <Skill>
+      <Skill ref={scrollSkills}>
         <div className="container">
           <div className="fronSkillsArea">
             <p className="skillTitle">Front-End 기술 스택</p>

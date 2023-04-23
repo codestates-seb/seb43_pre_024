@@ -1,6 +1,7 @@
 package com.notfound4.Member.Entity;
 
 import com.notfound4.Answer.Entity.Answer;
+import com.notfound4.Comment.Entity.Comment;
 import com.notfound4.Question.Entity.Like;
 import com.notfound4.Question.Entity.Question;
 import lombok.Getter;
@@ -67,6 +68,8 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<Like> likeList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "member")
+    private List<Comment> CommentList = new ArrayList<>();
 
     public enum Status {
         ACTIVE("활동중"),

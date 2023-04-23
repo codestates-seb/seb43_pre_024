@@ -1,7 +1,13 @@
 import styled from 'styled-components';
 import { useState } from 'react';
 import { FaGlobeAsia } from 'react-icons/fa';
-import { Routes, Route, Link } from 'react-router-dom';
+import {
+  Routes,
+  Route,
+  Link,
+  useNavigate,
+  useLocation,
+} from 'react-router-dom';
 import Home from '../pages/Home';
 import Main from '../pages/Main';
 import AllQuestions from '../pages/AllQuestions';
@@ -11,6 +17,7 @@ import NewQuestion from '../pages/NewQuestion';
 import SignUp from '../pages/SignUp';
 import LogIn from '../pages/LogIn';
 import QuestionDetail from '../pages/QuestionDetail';
+import SearchQuestions from '../pages/SearchQuestions';
 
 const NavBox = styled.div`
   width: 250px;
@@ -22,8 +29,9 @@ const NavBox = styled.div`
   flex-direction: column;
   align-items: end;
   user-select: none;
+  flex-shrink: 0;
+  top: 0;
   position: sticky;
-  top: 70px;
 
   a {
     text-decoration: none;
@@ -119,6 +127,12 @@ function Navbar({
   questionsActive,
   usersActive,
 }) {
+const navigate = useNavigate();
+  const location = useLocation();
+  const hideNavbarRoutes = ['/login', '/signup', '/main'];
+
+  const shouldHideNavbar = hideNavbarRoutes.includes(location.pathname);
+
   function activeHome() {
     setHomeActive(true);
     setQuestionsActive(false);
@@ -139,75 +153,81 @@ function Navbar({
 
   return (
     <>
-      <NavBox>
-        {login === true ? (
-          <Link to="/">
-            <HomeBtn
-              className="navHome li"
-              onClick={() => activeHome()}
-              homeActive={homeActive}
-              type="button"
-            >
-              Home
-            </HomeBtn>
-          </Link>
-        ) : (
-          <Link to="/main">
-            <HomeBtn
-              className="navHome li"
-              onClick={() => activeHome()}
-              homeActive={homeActive}
-              type="button"
-            >
-              Home
-            </HomeBtn>
-          </Link>
-        )}
-
-        <div className="navTitle li">PUBLIC</div>
-        <ul className="btnBox">
-          <Link to="/all-questions">
-            <QuestionsBtn
-              className="navMenu"
-              onClick={() => activeQuestions()}
-              questionsActive={questionsActive}
-              type="button"
-            >
-              <FaGlobeAsia className="globe" />
-              Questions
-            </QuestionsBtn>
-          </Link>
-          <button type="button" className="navMenu borderNone">
-            Tags
-          </button>
+      {shouldHideNavbar ? null : (
+        <NavBox>
           {login === true ? (
-            <Link to="/mypage">
-              <UsersBtn
+            <Link to="/">
+              <HomeBtn
+                className="navHome li"
+                onClick={() => activeHome()}
+                homeActive={homeActive}
                 type="button"
-                onClick={() => activeUsers()}
-                usersActive={usersActive}
-                className="navMenu"
               >
-                Users
-              </UsersBtn>
+                Home
+              </HomeBtn>
             </Link>
-          ) : null}
-          <button type="button" className="navMenu borderNone">
-            Companies
-          </button>
-        </ul>
-        <div className="navTitle li">COLLECTIVES</div>
-        <div className="navTitle li">TEAMS</div>
-      </NavBox>
+          ) : (
+            <Link to="/main">
+              <HomeBtn
+                className="navHome li"
+                onClick={() => activeHome()}
+                homeActive={homeActive}
+                type="button"
+              >
+                Home
+              </HomeBtn>
+            </Link>
+          )}
 
+          <div className="navTitle li">PUBLIC</div>
+          <ul className="btnBox">
+            <Link to="/all-questions">
+              <QuestionsBtn
+                className="navMenu"
+                onClick={() => activeQuestions()}
+                questionsActive={questionsActive}
+                type="button"
+              >
+                <FaGlobeAsia className="globe" />
+                Questions
+              </QuestionsBtn>
+            </Link>
+            <button type="button" className="navMenu borderNone">
+              Tags
+            </button>
+            {login === true ? (
+              <Link to="/mypage">
+                <UsersBtn
+                  type="button"
+                  onClick={() => activeUsers()}
+                  usersActive={usersActive}
+                  className="navMenu"
+                >
+                  Users
+                </UsersBtn>
+              </Link>
+            ) : null}
+            <button type="button" className="navMenu borderNone">
+              Companies
+            </button>
+          </ul>
+          <div className="navTitle li">COLLECTIVES</div>
+          <div className="navTitle li">TEAMS</div>
+        </NavBox>
+      )}
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/main" element={<Main />} />
         <Route path="/all-questions" element={<AllQuestions />} />
+        <Route path="/questions/:id" element={<QuestionDetail />} />
         <Route path="/new-question" element={<NewQuestion />} />
         <Route path="/mypage" element={<Paging />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/login" element={<LogIn />} />
+        <Route path="/search-questions/title" element={<SearchQuestions />}/>
+        <Route
+          path="/login"
+          element={<LogIn login={login} setLogin={setLogin} />}
+        />
         <Route path="/questions/:id" element={<QuestionDetail />} />
       </Routes>
     </>
