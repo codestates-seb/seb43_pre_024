@@ -120,6 +120,7 @@ const UsersBtn = styled.button`
 
 function Navbar({
   login,
+  setLogin,
   setHomeActive,
   setUsersActive,
   setQuestionsActive,

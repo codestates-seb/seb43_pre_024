@@ -32,7 +32,7 @@ const LoginLogo = styled.div`
 
 const GoogleLogin = styled.button`
 width: 100%;
-padding 8px 0;
+padding: 8px 0;
 display: flex;
 align-items: center;
 justify-content: center;
@@ -45,7 +45,7 @@ svg{margin-right: 5px;}
 `;
 const GitLogin = styled.button`
   width: 100%;
-  padding 8px 0;
+  padding: 8px 0;
   margin: 10px 0 30px 0;
   display: flex;
   align-items: center;
