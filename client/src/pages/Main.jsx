@@ -298,6 +298,7 @@ const Skill = styled.div`
   height: 600px
   display: flex;
   justify-content: center;
+  padding-top: 20vh;
   margin-bottom: 40vh;
 
   .container {
@@ -317,15 +318,16 @@ const Skill = styled.div`
   .backSkillsArea .skillTitle {
     margin-top: 80px;
   }
-  .frontSkillsArea .skillTitle {
-    margin-bottom: 120px;
-  }
+
   .skillTitle {
     margin-bottom: 30px;
     font-size: 40px;
     font-weight: 600;
     letter-spacing: -0.8px;
     text-align: center;
+  }
+  .backSkillsArea .skillTitle {
+    margin-bottom: 40px;
   }
   .skillList {
     display: flex;
@@ -437,7 +439,8 @@ function Main() {
       const teamLeaderPosition =
         document.querySelector('.teamLeader').offsetTop;
       const memberPosition = document.querySelector('.teamMember').offsetTop;
-      const skillsPosition = document.querySelector('.skills').offsetTop;
+      const skillsPosition =
+        document.querySelector('.frontSkillsArea').offsetTop;
 
       if (scrollPosition > targetPosition) {
         setIsFade(true);
@@ -582,7 +585,7 @@ function Main() {
       </TeamMember>
       <Skill ref={scrollSkills} className="skills">
         <div className={isFadeSkill ? 'container fadeIn' : 'container'}>
-          <div className="fronSkillsArea">
+          <div className="frontSkillsArea">
             <p className="skillTitle">Front-End 기술 스택</p>
             <ul className="skillList fe">
               <li className="skills">
