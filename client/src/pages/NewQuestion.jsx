@@ -1,7 +1,9 @@
-import styled from 'styled-components';
-import { useState } from 'react';
-import QuestionInputBox from '../components/QuestionInputBox';
-import Confirm from '../components/Confirm';
+import styled from "styled-components";
+import { useEffect, useState } from "react";
+import QuestionInputBox from "../components/QuestionInputBox";
+import Confirm from "../components/Confirm";
+import { API_URL } from "../index";
+import axios from "axios";
 
 const NewQuestionStyle = styled.div`
   display: flex;
@@ -21,39 +23,39 @@ const ButtonListStyle = styled.div`
 const ButtonStyle = styled.button`
   width: 150px;
   height: 40px;
-  background: ${props =>
-    props.buttonType === 'danger' ? '#ffffff' : '#0a95ff'};
-  color: ${props => (props.buttonType === 'danger' ? 'red' : 'white')};
+  background: ${(props) =>
+    props.buttonType === "danger" ? "#ffffff" : "#0a95ff"};
+  color: ${(props) => (props.buttonType === "danger" ? "red" : "white")};
   border-radius: 5px;
   border: none;
   :hover {
     cursor: pointer;
-    background: ${props =>
-      props.buttonType === 'danger' ? '#fff2f2' : '#0055aa'};
-    color: ${props => (props.buttonType === 'danger' ? '#f00' : 'white')};
+    background: ${(props) =>
+      props.buttonType === "danger" ? "#fff2f2" : "#0055aa"};
+    color: ${(props) => (props.buttonType === "danger" ? "#f00" : "white")};
   }
   :active {
-    background: ${props =>
-      props.buttonType === 'danger' ? '#ffcccc' : '#003366'};
-    color: ${props => (props.buttonType === 'danger' ? '#c00' : 'white')};
+    background: ${(props) =>
+      props.buttonType === "danger" ? "#ffcccc" : "#003366"};
+    color: ${(props) => (props.buttonType === "danger" ? "#c00" : "white")};
   }
 `;
 
-function NewQuestion() {
-  const [title, setTitle] = useState('');
-  const [body, setBody] = useState('');
+function NewQuestion({ questionId }) {
+  const [title, setTitle] = useState("");
+  const [body, setBody] = useState("");
   const [tags, setTags] = useState([]);
   const [currentStep, setCurrentStep] = useState(0);
 
   // 컨펌 모달을 위한 상태들
   const [isCorfirmOpen, setIsConfirmOpen] = useState(false);
-  const [confirmMessage, setConfirmMessage] = useState('');
+  const [confirmMessage, setConfirmMessage] = useState("");
   const [onClickConfirm, setOnClickConfirm] = useState(() => {});
   const [onClickCancel, setOnClickCancel] = useState(() => {});
 
   function onConfirmDiscard() {
-    setTitle('');
-    setBody('');
+    setTitle("");
+    setBody("");
     setTags([]);
     setIsConfirmOpen(false);
   }
@@ -63,7 +65,7 @@ function NewQuestion() {
   }
 
   function onClickDiscardButton() {
-    setConfirmMessage('작성중인 내용을 모두 삭제하시겠습니까?');
+    setConfirmMessage("작성중인 내용을 모두 삭제하시겠습니까?");
     setOnClickConfirm(() => onConfirmDiscard);
     setOnClickCancel(() => onCancelDiscard);
     setIsConfirmOpen(true);
@@ -121,9 +123,23 @@ function NewQuestion() {
           <ButtonStyle
             type="button"
             onClick={() => {
-              console.log('title', title);
-              console.log('body', body);
-              console.log('tags', tags);
+              console.log("title", title);
+              console.log("body", body);
+              console.log("tags", tags);
+              axios
+                .post(`${API_URL}/questions/ask`, {
+                  // TODO: 로그인 기능 구현 후 수정
+                  email: "abc@gmail.com",
+                  title: title,
+                  content: body,
+                })
+                .then(function (response) {
+                  console.log(response);
+                })
+                .catch(function (error) {
+                  console.log(error);
+                  alert("질문 작성에 실패했습니다.");
+                });
             }}
           >
             Post your question

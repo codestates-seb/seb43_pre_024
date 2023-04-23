@@ -1,15 +1,59 @@
 import MDEditor from "@uiw/react-md-editor";
+import axios from "axios";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
-import { BorderBottom } from "@mui/icons-material";
+import { API_URL } from "../index";
 
 function QuestionInfo({ questionId }) {
   const navigate = useNavigate();
 
+  const [data, setData] = useState({});
+  const [questionContent, setQuestionContent] = useState(data);
+
+  useEffect(() => {
+    fetchQuestionInfo();
+  }, []);
+
+  useEffect(() => {
+    setQuestionContent(data.content || "");
+  }, [data]);
+
+  // TODO: API 연동
+  const tags = ["javascript", "react", "java", "python", "c++"];
+
+  const [isEditing, setIsEditing] = useState(false);
   const [isFilled, setIsFilled] = useState(false);
   const [count, setCount] = useState(0);
+
+  function fetchQuestionInfo() {
+    axios
+      .get(`${API_URL}/questions/${questionId}`)
+      .then(function (response) {
+        // 성공 핸들링
+        console.log(response);
+        setData(response.data);
+        console.log(response.data);
+      })
+      .catch(function (error) {
+        // 에러 핸들링
+        console.log(error);
+        setData({
+          questionId: 1,
+          title:
+            "Why is processing a sorted array faster than processing an unsorted array?",
+          content:
+            "\n I accidentally committed the wrong files to Git, but didn`\nt push the commit to the server yet. \n How do I undo those commits from the local repository?\n ```javascript\n const a = 1;\n console.log(a);\n```",
+          name: "김지은",
+          likes: "0",
+          answer_cnt: "2",
+          views: "1",
+          created_at: "2023-04-18 13:52",
+          accepted_answer: true,
+        });
+      });
+  }
 
   const QuestionButtonStyle = styled.button`
     display: flex;
@@ -61,27 +105,14 @@ function QuestionInfo({ questionId }) {
     }
   `;
 
-  // TODO: API 연동
-  const data = {
-    questionId: 1,
-    title:
-      "Why is processing a sorted array faster than processing an unsorted array?",
-    content:
-      "\n I accidentally committed the wrong files to Git, but didn`\nt push the commit to the server yet. \n How do I undo those commits from the local repository?\n ```javascript\n const a = 1;\n console.log(a);\n```",
-    name: "김지은",
-    likes: "0",
-    answer_cnt: "2",
-    views: "1",
-    created_at: "2023-04-18 13:52",
-    accepted_answer: true,
-  };
-  // TODO: API 연동
-  const tags = ["javascript", "react", "java", "python", "c++"];
-
   function onClickHeartButton() {
     setIsFilled(!isFilled);
     setCount(count + 1);
     setCount(!isFilled ? count + 1 : count - 1);
+  }
+
+  if (!data) {
+    return <div>존재하지 않는 질문입니다.</div>;
   }
 
   return (
@@ -102,7 +133,18 @@ function QuestionInfo({ questionId }) {
           Ask Question
         </QuestionButtonStyle>
       </div>
-      <MDEditor.Markdown source={data.content} style={{ width: "80%" }} />
+      {isEditing ? (
+        <MDEditor
+          value={questionContent}
+          onChange={(e) => {
+            setQuestionContent(e);
+          }}
+          style={{ width: "80%" }}
+        />
+      ) : (
+        <MDEditor.Markdown source={data.content} style={{ width: "80%" }} />
+      )}
+
       <div style={{ marginTop: 16 }}>
         {tags.map((tag) => (
           <span
@@ -121,14 +163,50 @@ function QuestionInfo({ questionId }) {
           <button
             type="button"
             className="editButton"
-            onClick={() => navigate("/login")}
+            onClick={() => {
+              // TODO: 로그인 여부에 따라 다르게 동작하도록 수정 (로그인 여부를 이 컴포넌트에서 확인할 수 있게 해야힘)
+              // if (isLogin === false) {
+              //   navigate("/login");
+              // }
+
+              if (isEditing === true) {
+                // 저장하기가 눌렸음
+                setIsEditing(false);
+
+                axios
+                  .patch(`${API_URL}/questions/${questionId}/edit`, {
+                    title: data.title,
+                    content: questionContent,
+                  })
+                  .then(() => {
+                    fetchQuestionInfo();
+                  })
+                  .catch(() => {
+                    alert("수정 실패");
+                  });
+              } else {
+                // 수정하기가 눌렸음
+                setIsEditing(true);
+              }
+            }}
           >
-            Edit
+            {isEditing ? "Save" : "Edit"}
           </button>
           <button
             type="button"
             className="deleteButton"
-            onClick={() => navigate("/login")}
+            onClick={() => {
+              // TODO: 로그인 되어 있는지 확인, 작성자인지 확인
+              // navigate("/login");
+              axios
+                .delete(`${API_URL}/questions/${questionId}`)
+                .then(() => {
+                  navigate("/");
+                })
+                .catch(() => {
+                  alert("삭제 실패");
+                });
+            }}
           >
             Delete
           </button>
@@ -147,7 +225,7 @@ function QuestionInfo({ questionId }) {
                   style={{ color: "black" }}
                 />
               )}
-              {count}
+              {data.likes}
             </div>
           </HeartButtonStyle>
         </EditDeleteButtonStyle>

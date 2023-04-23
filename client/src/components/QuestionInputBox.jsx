@@ -1,10 +1,10 @@
-import MDEditor from '@uiw/react-md-editor';
-import Autocomplete from '@mui/material/Autocomplete';
-import TextField from '@mui/material/TextField';
-import styled from 'styled-components';
+import MDEditor from "@uiw/react-md-editor";
+import Autocomplete from "@mui/material/Autocomplete";
+import TextField from "@mui/material/TextField";
+import styled from "styled-components";
 
 const QuestionInputBoxStyle = styled.div`
-  opacity: ${props => (props.disabled ? 0.5 : 1)};
+  opacity: ${(props) => (props.disabled ? 0.5 : 1)};
   margin-top: 48;
   background: #fff;
   margin: 24px 0;
@@ -39,23 +39,23 @@ function QuestionInputBox(props) {
     <QuestionInputBoxStyle disabled={disabled}>
       <NewQuestionItemTitle>{title}</NewQuestionItemTitle>
       <p>{description}</p>
-      {inputType === 'text' && (
+      {inputType === "text" && (
         <input
           type="text"
           placeholder={placeholder}
           value={value}
-          onChange={e => setValue(e.target.value)}
-          style={{ width: '100%' }}
+          onChange={(e) => setValue(e.target.value)}
+          style={{ width: "100%" }}
           disabled={disabled}
         />
       )}
-      {inputType === 'md-editor' && (
+      {inputType === "md-editor" && (
         <MDEditor
           value={value}
-          style={{ width: '100%' }}
-          onChange={event => {
+          style={{ width: "100%" }}
+          onChange={(event) => {
             if (disabled) {
-              alert('위 질문에 먼저 답변하세요.');
+              alert("위 질문에 먼저 답변하세요.");
             }
             if (!disabled) {
               setValue(event);
@@ -63,11 +63,11 @@ function QuestionInputBox(props) {
           }}
         />
       )}
-      {inputType === 'tags' && (
+      {inputType === "tags" && (
         <LimitTags
           type="text"
           placeholder={placeholder}
-          style={{ width: '100%' }}
+          style={{ width: "100%" }}
           tags={value}
           setTags={setValue}
           disabled={disabled}
@@ -77,7 +77,7 @@ function QuestionInputBox(props) {
         <button
           type="button"
           onClick={onClickNext}
-          style={{ marginTop: '10px' }}
+          style={{ marginTop: "10px" }}
         >
           Next
         </button>
@@ -89,11 +89,11 @@ function QuestionInputBox(props) {
 function LimitTags(props) {
   const { placeholder, tags, setTags, disabled } = props;
   const tagsList = [
-    { label: 'JavaScript' },
-    { label: 'React' },
-    { label: 'Java' },
-    { label: 'Python' },
-    { label: 'C++' },
+    { label: "JavaScript" },
+    { label: "React" },
+    { label: "Java" },
+    { label: "Python" },
+    { label: "C++" },
   ];
 
   return (
@@ -102,20 +102,20 @@ function LimitTags(props) {
       limitTags={2}
       id="multiple-limit-tags"
       options={tagsList}
-      getOptionLabel={option => option.label}
+      getOptionLabel={(option) => option.label}
       value={tags}
       onChange={(event, newValue) => {
         if (disabled) {
-          alert('위 질문에 먼저 답변하세요.');
+          alert("위 질문에 먼저 답변하세요.");
         }
         if (!disabled) {
           setTags(newValue);
         }
       }}
-      renderInput={params => (
+      renderInput={(params) => (
         <TextField {...params} label="Tags" placeholder={placeholder} />
       )}
-      sx={{ width: '500px' }}
+      sx={{ width: "500px" }}
     />
   );
 }
