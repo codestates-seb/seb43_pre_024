@@ -1,11 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import MDEditor from "@uiw/react-md-editor";
 import AnswerList from "../components/AnswerList";
 import QuestionInfo from "../components/QuestionInfo";
 import QuestionInputBox from "../components/QuestionInputBox";
-import { Padding } from "@mui/icons-material";
 
 function QuestionDetail() {
   const DetailPageStyle = styled.div`
@@ -29,9 +28,9 @@ function QuestionDetail() {
   );
 }
 
-function NewAnswerInput(props) {
-  const { value, setValue } = props;
+function NewAnswerInput() {
   const navigate = useNavigate();
+  const [value, setValue] = useState("");
   const PostButtonStyle = styled.button`
     width: 150px;
     height: 40px;
@@ -58,7 +57,13 @@ function NewAnswerInput(props) {
         Know someone who can answer? Share a link to this question via email,
         Twitter, or Facebook. Your Answer
       </span>
-      <MDEditor style={{ marginTop: "15px", width: "80%" }} value={value} />
+      <MDEditor
+        style={{ marginTop: "15px", width: "80%" }}
+        value={value}
+        onChange={(e) => {
+          setValue(e);
+        }}
+      />
       <PostButtonStyle type="button" onClick={() => navigate("/all-questions")}>
         Post Your Answer
       </PostButtonStyle>
