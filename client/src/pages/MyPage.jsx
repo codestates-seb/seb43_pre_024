@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import useFetch from '../util/useFetch';
 import profileImg from '../images/profileImg.jpeg';
@@ -551,6 +552,25 @@ function MyPage({
   const [name, setName] = useState('');
   const [password, setPassword] = useState('g');
   const [id, setId] = useState(0);
+  const navigate = useNavigate();
+
+  function deleteUser() {
+    fetch(`http://localhost:3001/user/${id}`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: '',
+        ContentType: 'application/json',
+      },
+    })
+      .then(response => {
+        console.log(response);
+        setAlert(false);
+        navigate('/');
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
 
   useEffect(() => {
     setId(user.userId);
@@ -568,6 +588,7 @@ function MyPage({
 
   function onSecession() {
     setSecession(true);
+    deleteUser();
   }
 
   function onAlert() {
@@ -596,10 +617,7 @@ function MyPage({
 
   const onChangePut = () => {
     const putData = {
-      userId: user.userId,
-      profile_image: user.profileImg,
       name,
-      questions: user.questions,
       answers: user.answers,
     };
 
@@ -730,7 +748,11 @@ function MyPage({
           <SecessionAlertBox>
             <span className="alertText">Are you sure you want to leave?</span>
             <div className="btnBox">
-              <button className="onBtn" onClick={onAlert} type="button">
+              <button
+                className="onBtn"
+                onClick={() => onSecession}
+                type="button"
+              >
                 YES
               </button>
               <button className="offBtn" onClick={offAlert} type="button">
