@@ -1,10 +1,12 @@
 import React, { useState } from "react";
+import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import MDEditor from "@uiw/react-md-editor";
 import AnswerList from "../components/AnswerList";
 import QuestionInfo from "../components/QuestionInfo";
 import QuestionInputBox from "../components/QuestionInputBox";
+import { API_URL } from "../index";
 
 function QuestionDetail() {
   const DetailPageStyle = styled.div`
@@ -22,14 +24,13 @@ function QuestionDetail() {
       <div style={{ display: "flex", flexDirection: "column", gap: 30 }}>
         <QuestionInfo questionId={id} />
         <AnswerList questionId={id} />
-        <NewAnswerInput />
+        <NewAnswerInput questionId={id} />
       </div>
     </DetailPageStyle>
   );
 }
 
-function NewAnswerInput() {
-  const navigate = useNavigate();
+function NewAnswerInput({ questionId }) {
   const [value, setValue] = useState("");
   const PostButtonStyle = styled.button`
     width: 150px;
@@ -64,7 +65,26 @@ function NewAnswerInput() {
           setValue(e);
         }}
       />
-      <PostButtonStyle type="button" onClick={() => navigate("/all-questions")}>
+      <PostButtonStyle
+        type="button"
+        onClick={() => {
+          axios
+            .post(`${API_URL}/questions/${questionId}/answer`, {
+              //TODO : 로그인 기능 구현 후, 로그인한 사용자의 email을 넣어야 함
+              email: "abc@gmail.com",
+              content: value,
+            })
+            .then(function (response) {
+              console.log(response);
+              /* eslint-disable no-restricted-globals */
+              location.reload();
+            })
+            .catch(function (error) {
+              console.log(error);
+              alert("답변 등록에 실패했습니다.");
+            });
+        }}
+      >
         Post Your Answer
       </PostButtonStyle>
     </div>
