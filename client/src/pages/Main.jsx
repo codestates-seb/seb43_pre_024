@@ -3,36 +3,47 @@ import { useRef, useEffect, useState } from 'react';
 import mainImg from '../images/main_img2.png';
 import kirbi from '../images/mainKirbi.png';
 
-// keyframes 함수를 사용하여 애니메이션 키프레임을 정의합니다.
 const jump = keyframes`
   from {
-    transform: translateY(0px);
+    transform: translateY(0px) scaleX(1) rotate(0deg) translateX(0);
   }
-  20%{
-    transform: translateY(0px);
+  40%{
+    transform: translateY(0px) scaleX(1) rotate(0deg) translateX(0);
   }
-  50% {
-    transform: translateY(-30px);
+  65% {
+    transform: translateY(-50px) scaleX(1.1) rotate(-5deg) translateX(-5px);
   }
   to {
-    transform: translateY(0px);
+    transform: translateY(0px) scaleX(1) rotate(0deg) translateX(0);
   }
 `;
 
 const rotate = keyframes`
   from {
-    transform:rotate(0deg)
+    transform: rotate(0deg)
   }
   25%{
-    transform:rotate(-5deg)
+    transform: rotate(-5deg)
   }
 
   75%{
-    transform:rotate(5deg)
+    transform: rotate(5deg)
   }
   to {
-    transform:rotate(0deg)
+    transform: rotate(0deg)
   }
+`;
+
+const bounce = keyframes`
+from{
+  transform: scale(1)
+}
+50%{
+  transform: scale(1.03)
+  }
+to%{
+  transform: scale(1)
+}
 `;
 
 const MainBox = styled.div`
@@ -52,9 +63,12 @@ const MainBox = styled.div`
 
 const MainVisual = styled.div`
   width: 100%;
-  height: 100vh;
+  height: 95vh;
+  margin-bottom: 10vh;
+
   .container {
-    margin-top: 150px;
+    padding-top: 70px;
+    margin-top: 8vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -90,24 +104,28 @@ const MainVisual = styled.div`
   }
 `;
 
-// 스타일드 컴포넌트를 사용하여 애니메이션을 적용합니다.
 const MainKirbi = styled.i`
-  animation: ${jump} 1s ease-in-out;
-  animation-iteration-count: infinite;
   position: absolute;
-  top: 138px;
-  left: 380px;
+  top: 133px;
+  left: 384px;
   height: 100px;
   display: inline-block;
   width: 160px;
   height: 160px;
   background-image: url(${kirbi});
+  background-size: contain;
   z-index: -1;
+
+  &.hovered {
+    animation: ${jump} 3s;
+    animation-iteration-count: infinite;
+  }
 `;
 
 const Introduce = styled.div`
   width: 100%;
   height: 100vh;
+  margin-bottom: 20vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -120,26 +138,28 @@ const Introduce = styled.div`
     font-weight: 500;
     letter-spacing: -1px;
     opacity: 0;
-    transition: opacity 2s ease-in-out;
-    transition-defaly: 0.3s;
+    transition: opacity 1s ease-in;
+    transition-defaly: 5s;
   }
 
   .introText.introTitle {
     font-size: 135px;
     font-weight: 700;
-    transition: opacity 1s ease-in-out;
+    transition-defaly: 5s;
   }
 
   .introText.fadeIn {
     opacity: 1;
+    transition-defaly: 5s;
   }
 `;
 
 const TeamLeader = styled.div`
   width: 100%;
-  height: 100vh;
+  height: 600px;
   display: flex;
   justify-content: center;
+  margin-bottom: 35vh;
 
   .container {
     display: flex;
@@ -154,7 +174,7 @@ const TeamLeader = styled.div`
     justify-content: center;
     opacity: 0;
     transition: opacity 1s ease-in;
-    transition-delay: 1s;
+    transition-delay: 0.2s;
   }
   .teamLeaderArea.fadeIn {
     opacity: 1;
@@ -162,7 +182,6 @@ const TeamLeader = styled.div`
 
   .teamLeaderArea:first-child {
     margin-right: 100px;
-    transition-delay: 0.5s;
   }
 
   .teamLeaderTopText {
@@ -200,9 +219,9 @@ const TeamLeader = styled.div`
 
 const TeamMember = styled.div`
   width: 100%;
-  height: 100vh;
+  height: 380px;
+  margin-bottom: 40vh;
   display: flex;
-  align-items: center;
   justify-content: center;
 
   .container {
@@ -211,7 +230,7 @@ const TeamMember = styled.div`
     align-items: center;
     opacity: 0;
     transition: opacity 1s ease-in;
-    transition-delay: 1s;
+    transition-delay: 0.2s;
   }
 
   .container.fadeIn {
@@ -249,7 +268,7 @@ const TeamMember = styled.div`
     background-image: url(${mainImg});
   }
   .memberImg:hover {
-    animation: ${rotate} 1s ease-in-out;
+    animation: ${rotate} 0.8s linear;
     animation-iteration-count: infinite;
   }
   .memberImg.jin {
@@ -276,18 +295,20 @@ const TeamMember = styled.div`
 
 const Skill = styled.div`
   width: 100%;
-  height: 100vh;
+  height: 600px
   display: flex;
   justify-content: center;
+  margin-bottom: 40vh;
 
   .container {
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     opacity: 0;
     transition: opacity 1s ease-in;
-    transition-delay: 1s;
+    transition-delay: 0.2s;
   }
   .container.fadeIn {
     opacity: 1;
@@ -309,9 +330,7 @@ const Skill = styled.div`
   .skillList {
     display: flex;
   }
-  .fronSkillsArea {
-    margin-top: 120px;
-  }
+
   .skills {
     width: 150px;
     display: flex;
@@ -327,7 +346,7 @@ const Skill = styled.div`
     background-image: url(${mainImg});
   }
   .skills .skillImg:hover {
-    animation: ${jump} 1s linear;
+    animation: ${bounce} 0.7s cubic-bezier(0.9, -0.06, 0.54, 1.24);
     animation-iteration-count: infinite;
   }
   .skillImg.html {
@@ -448,18 +467,31 @@ function Main() {
     };
   }, []);
 
+  const [isHovered, setIsHovered] = useState(false);
+  // const [isHoveredBtn2, setIsHoveredBtn2] = useState(false);
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+
   return (
     <MainBox>
       <MainVisual>
         <div className="container firstContainer">
           <div className="visualArea">
-            <MainKirbi />
+            <MainKirbi className={`mainKirbi ${isHovered ? 'hovered' : ''}`} />
           </div>
           <p className="visualText">Oops.. They are Team Not Found 404</p>
           <div className="visualBtnArea">
             <button
               onClick={handleClickIntroduce}
               type="button"
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
               className="visualBtn"
             >
               팀원 소개
@@ -467,6 +499,8 @@ function Main() {
             <button
               onClick={handleClickSkills}
               type="button"
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
               className="visualBtn"
             >
               기술 스택
