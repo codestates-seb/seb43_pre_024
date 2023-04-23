@@ -8,6 +8,27 @@ import { BorderBottom } from "@mui/icons-material";
 function QuestionInfo({ questionId }) {
   const navigate = useNavigate();
 
+  // TODO: API 연동
+  const data = {
+    questionId: 1,
+    title:
+      "Why is processing a sorted array faster than processing an unsorted array?",
+    content:
+      "\n I accidentally committed the wrong files to Git, but didn`\nt push the commit to the server yet. \n How do I undo those commits from the local repository?\n ```javascript\n const a = 1;\n console.log(a);\n```",
+    name: "김지은",
+    likes: "0",
+    answer_cnt: "2",
+    views: "1",
+    created_at: "2023-04-18 13:52",
+    accepted_answer: true,
+  };
+  // TODO: API 연동
+  const tags = ["javascript", "react", "java", "python", "c++"];
+  // TODO: API 연동 (하트 수 받아오기)
+  const numberOfHearts = 21;
+
+  const [isEditing, setIsEditing] = useState(false);
+  const [questionContent, setQuestionContent] = useState(data.content);
   const [isFilled, setIsFilled] = useState(false);
   const [count, setCount] = useState(0);
 
@@ -61,23 +82,6 @@ function QuestionInfo({ questionId }) {
     }
   `;
 
-  // TODO: API 연동
-  const data = {
-    questionId: 1,
-    title:
-      "Why is processing a sorted array faster than processing an unsorted array?",
-    content:
-      "\n I accidentally committed the wrong files to Git, but didn`\nt push the commit to the server yet. \n How do I undo those commits from the local repository?\n ```javascript\n const a = 1;\n console.log(a);\n```",
-    name: "김지은",
-    likes: "0",
-    answer_cnt: "2",
-    views: "1",
-    created_at: "2023-04-18 13:52",
-    accepted_answer: true,
-  };
-  // TODO: API 연동
-  const tags = ["javascript", "react", "java", "python", "c++"];
-
   function onClickHeartButton() {
     setIsFilled(!isFilled);
     setCount(count + 1);
@@ -102,7 +106,16 @@ function QuestionInfo({ questionId }) {
           Ask Question
         </QuestionButtonStyle>
       </div>
-      <MDEditor.Markdown source={data.content} style={{ width: "80%" }} />
+      {isEditing ? (
+        <MDEditor
+          value={questionContent}
+          onChange={(e) => setQuestionContent(e.target.value)}
+          style={{ width: "80%" }}
+        />
+      ) : (
+        <MDEditor.Markdown source={data.content} style={{ width: "80%" }} />
+      )}
+
       <div style={{ marginTop: 16 }}>
         {tags.map((tag) => (
           <span
@@ -121,14 +134,31 @@ function QuestionInfo({ questionId }) {
           <button
             type="button"
             className="editButton"
-            onClick={() => navigate("/login")}
+            onClick={() => {
+              // TODO: 로그인 여부에 따라 다르게 동작하도록 수정
+              // if (isLogin === false) {
+              //   navigate("/login");
+              // }
+
+              if (isEditing === true) {
+                // 저장하기가 눌렸음
+                // TODO: API 연동 (post, update question)
+                setIsEditing(false);
+              } else {
+                // 수정하기가 눌렸음
+                setIsEditing(true);
+              }
+            }}
           >
-            Edit
+            {isEditing ? "Save" : "Edit"}
           </button>
           <button
             type="button"
             className="deleteButton"
-            onClick={() => navigate("/login")}
+            onClick={() => {
+              navigate("/login");
+              // TODO: delete api 호출
+            }}
           >
             Delete
           </button>
@@ -147,7 +177,7 @@ function QuestionInfo({ questionId }) {
                   style={{ color: "black" }}
                 />
               )}
-              {count}
+              {numberOfHearts}
             </div>
           </HeartButtonStyle>
         </EditDeleteButtonStyle>
