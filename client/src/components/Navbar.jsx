@@ -118,11 +118,16 @@ const UsersBtn = styled.button`
     props.usersActive === true ? '#F2F2F3' : 'white'};
 `;
 
-function Navbar({ login, setLogin, inputValue, setInputValue }) {
-  const [homeActive, setHomeActive] = useState(false);
-  const [questionsActive, setQuestionsActive] = useState(false);
-  const [usersActive, setUsersActive] = useState(false);
-  const navigate = useNavigate();
+function Navbar({
+  login,
+  setHomeActive,
+  setUsersActive,
+  setQuestionsActive,
+  homeActive,
+  questionsActive,
+  usersActive,
+}) {
+const navigate = useNavigate();
   const location = useLocation();
   const hideNavbarRoutes = ['/login', '/signup', '/main'];
 
