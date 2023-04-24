@@ -84,6 +84,7 @@ public class MemberService {
         return findVerifiedMember(email);
     }
 
+    // oauth2 가입 로직
     public boolean isVerifyExistsEmail(String email) {
         Optional<Member> optionalMember = memberRepository.findByEmail(email);
         if (optionalMember.isEmpty()) {
