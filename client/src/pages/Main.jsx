@@ -1,7 +1,7 @@
-import styled, { keyframes } from 'styled-components';
-import { useRef, useEffect, useState } from 'react';
-import mainImg from '../images/main_img2.png';
-import kirbi from '../images/mainKirbi.png';
+import styled, { keyframes } from "styled-components";
+import { useRef, useEffect, useState } from "react";
+import mainImg from "../images/main_img2.png";
+import kirbi from "../images/mainKirbi.png";
 
 const jump = keyframes`
   from {
@@ -41,7 +41,7 @@ from{
 50%{
   transform: scale(1.03)
   }
-to%{
+to{
   transform: scale(1)
 }
 `;
@@ -139,18 +139,17 @@ const Introduce = styled.div`
     letter-spacing: -1px;
     opacity: 0;
     transition: opacity 1s ease-in;
-    transition-defaly: 5s;
+    transition-delay: 0.5s;
   }
 
   .introText.introTitle {
     font-size: 135px;
     font-weight: 700;
-    transition-defaly: 5s;
+    transition-delay: 0.2s;
   }
 
   .introText.fadeIn {
     opacity: 1;
-    transition-defaly: 5s;
   }
 `;
 
@@ -295,7 +294,7 @@ const TeamMember = styled.div`
 
 const Skill = styled.div`
   width: 100%;
-  height: 600px
+  height: 600px;
   display: flex;
   justify-content: center;
   padding-top: 20vh;
@@ -416,12 +415,12 @@ function Main() {
 
   const handleClickIntroduce = () => {
     if (scrollIntroduce.current !== null) {
-      scrollIntroduce.current.scrollIntoView({ behavior: 'smooth' });
+      scrollIntroduce.current.scrollIntoView({ behavior: "smooth" });
     }
   };
   const handleClickSkills = () => {
     if (scrollSkills.current !== null) {
-      scrollSkills.current.scrollIntoView({ behavior: 'smooth' });
+      scrollSkills.current.scrollIntoView({ behavior: "smooth" });
     }
   };
 
@@ -435,12 +434,12 @@ function Main() {
     const handleScroll = () => {
       const scrollPosition = window.pageYOffset + window.innerHeight;
 
-      const targetPosition = document.querySelector('.introduce').offsetTop;
+      const targetPosition = document.querySelector(".introduce").offsetTop;
       const teamLeaderPosition =
-        document.querySelector('.teamLeader').offsetTop;
-      const memberPosition = document.querySelector('.teamMember').offsetTop;
+        document.querySelector(".teamLeader").offsetTop;
+      const memberPosition = document.querySelector(".teamMember").offsetTop;
       const skillsPosition =
-        document.querySelector('.frontSkillsArea').offsetTop;
+        document.querySelector(".frontSkillsArea").offsetTop;
 
       if (scrollPosition > targetPosition) {
         setIsFade(true);
@@ -463,10 +462,10 @@ function Main() {
         setIsFadeSkill(false);
       }
     };
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
@@ -486,7 +485,7 @@ function Main() {
       <MainVisual>
         <div className="container firstContainer">
           <div className="visualArea">
-            <MainKirbi className={`mainKirbi ${isHovered ? 'hovered' : ''}`} />
+            <MainKirbi className={`mainKirbi ${isHovered ? "hovered" : ""}`} />
           </div>
           <p className="visualText">Oops.. They are Team Not Found 404</p>
           <div className="visualBtnArea">
@@ -514,13 +513,13 @@ function Main() {
       <Introduce className="introduce" ref={scrollIntroduce}>
         <p
           className={
-            isFade ? 'fadeIn introText introTitle' : 'introText introTitle'
+            isFade ? "fadeIn introText introTitle" : "introText introTitle"
           }
           id="introducePage"
         >
           안녕하세요
         </p>
-        <p className={isFade ? 'fadeIn introText' : 'introText'}>
+        <p className={isFade ? "fadeIn introText" : "introText"}>
           우리는 NotFound404입니다
         </p>
       </Introduce>
@@ -528,7 +527,7 @@ function Main() {
         <div className="container">
           <div
             className={
-              isFadeTeamLeader ? 'fadeIn teamLeaderArea' : 'teamLeaderArea'
+              isFadeTeamLeader ? "fadeIn teamLeaderArea" : "teamLeaderArea"
             }
           >
             <p className="teamLeaderTopText">Front-End</p>
@@ -537,7 +536,7 @@ function Main() {
           </div>
           <div
             className={
-              isFadeTeamLeader ? 'fadeIn teamLeaderArea' : 'teamLeaderArea'
+              isFadeTeamLeader ? "fadeIn teamLeaderArea" : "teamLeaderArea"
             }
           >
             <p className="teamLeaderTopText">Back-End</p>
@@ -547,7 +546,7 @@ function Main() {
         </div>
       </TeamLeader>
       <TeamMember className="teamMember">
-        <div className={isFadeTeamMember ? 'container fadeIn' : 'container'}>
+        <div className={isFadeTeamMember ? "container fadeIn" : "container"}>
           <p className="memberTitle">코드스테이츠 43기 프리프로젝트 24조</p>
           <ul className="teamMemberArea">
             <li className="members">
@@ -584,7 +583,7 @@ function Main() {
         </div>
       </TeamMember>
       <Skill ref={scrollSkills} className="skills">
-        <div className={isFadeSkill ? 'container fadeIn' : 'container'}>
+        <div className={isFadeSkill ? "container fadeIn" : "container"}>
           <div className="frontSkillsArea">
             <p className="skillTitle">Front-End 기술 스택</p>
             <ul className="skillList fe">
