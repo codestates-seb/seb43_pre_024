@@ -1,16 +1,19 @@
 import styled from 'styled-components';
-import { useState } from 'react';
+
+import { useState, useEffect, useRef } from 'react';
 import { GoCheck } from 'react-icons/go';
-import useFetch from '../util/useFetch';
+import { useNavigate, Link } from 'react-router-dom';
+import { useInView } from 'react-intersection-observer';
 
 const Box = styled.div`
   width: calc(100% - 250px);
-  border: 1px solid red;
   display: flex;
   flex-direction: column;
   align-items: start;
   justify-content: center;
   box-sizing: border-box;
+  padding-left: 3rem;
+  position: relative;
 `;
 
 const TitleBox = styled.div`
@@ -133,7 +136,6 @@ const QuestionBox = styled.div`
   flex-direction: row;
   flex-wrap: wrap;
   box-sizing: border-box;
-  margin-bottom: 20px;
 `;
 
 const CountBox = styled.div`
@@ -205,16 +207,30 @@ const Answers = styled.div`
 
 const QuestionMain = styled.div`
   width: 80%;
-  height: 150px;
+  height: 160px;
   box-sizing: border-box;
   display: flex;
   justify-content: center;
   flex-direction: column;
 
+  a {
+    text-decoration: none;
+  }
+
   .title {
     color: rgb(57, 116, 194);
     font-size: 1.7rem;
     margin-bottom: 5px;
+    margin-top: 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    line-height: 1.2;
+    text-align: left;
+    word-wrap: break-word;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
 
     :hover {
       color: rgb(77, 139, 221);
@@ -235,6 +251,26 @@ const QuestionMain = styled.div`
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
+    margin-bottom: 5px;
+  }
+
+  .tagsBox {
+    padding: 10px 0 10px 0;
+    color: rgb(57, 116, 194);
+
+    .tag {
+      background-color: rgb(227, 235, 243);
+      padding: 8px;
+      font-size: 1.1rem;
+      border-radius: 5px;
+      color: rgb(80, 114, 154);
+      margin-right: 10px;
+
+      :hover {
+        background-color: rgb(213, 226, 240);
+        color: rgb(66, 96, 129);
+      }
+    }
   }
 `;
 
@@ -256,12 +292,107 @@ const QuestionProfile = styled.div`
   }
 `;
 
+const Scroll = styled.div`
+  bottom: ${props => (props.inView === true ? '0px' : '10px')};
+  width: 100%;
+`;
+
 function AllQuestions() {
-  const { datas, isPending, error } = useFetch(`
-  http://localhost:3001/questions`);
+  const navigate = useNavigate();
+
+  const [datas, setDatas] = useState([]);
+  const [isPending, setIsPending] = useState(false);
+  const [error, setError] = useState();
+
+  const [newDatas, setNewDatas] = useState([]);
+  const [isPendingNew, setIsPendingNew] = useState(false);
+  const [errorNew, setErrorNew] = useState();
+
+  const [topDatas, setTopDatas] = useState([]);
+  const [isPendingTop, setIsPendingTop] = useState(false);
+  const [errorTop, setErrorTop] = useState();
+
+  useEffect(() => {
+    fetch(
+      'https://e5dd-210-100-239-193.ngrok-free.app/questions?sortInfo=NEW',
+      {
+        headers: {
+          'ngrok-skip-browser-warning': '69420',
+        },
+      },
+    )
+      .then(res => {
+        if (!res.ok) {
+          throw Error('could not fetch the data for that resource');
+        }
+        return res.json();
+      })
+      .then(data => {
+        setIsPending(true);
+        setDatas(data);
+      })
+      .catch(err => {
+        setIsPending(false);
+        setError(err);
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    fetch(
+      'https://e5dd-210-100-239-193.ngrok-free.app/questions?sortInfo=NEW',
+      {
+        headers: {
+          'ngrok-skip-browser-warning': '69420',
+        },
+      },
+    )
+      .then(res => {
+        if (!res.ok) {
+          throw Error('could not fetch the data for that resource');
+        }
+        return res.json();
+      })
+      .then(data => {
+        setIsPendingNew(true);
+        setNewDatas(data);
+      })
+      .catch(err => {
+        setIsPendingNew(false);
+        setErrorNew(err);
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  console.log(newDatas);
+
+  useEffect(() => {
+    fetch(
+      'https://e5dd-210-100-239-193.ngrok-free.app/questions?sortInfo=TOP',
+      {
+        headers: {
+          'ngrok-skip-browser-warning': '69420',
+        },
+      },
+    )
+      .then(res => {
+        if (!res.ok) {
+          throw Error('could not fetch the data for that resource');
+        }
+        return res.json();
+      })
+      .then(data => {
+        setIsPendingTop(true);
+        setTopDatas(data);
+      })
+      .catch(err => {
+        setIsPendingTop(false);
+        setErrorTop(err);
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const [hotActive, setHotActive] = useState(false);
-  const [newActive, setNewActive] = useState(false);
+  const [newActive, setNewActive] = useState(true);
   const [topActive, setTopActive] = useState(false);
 
   function onHotActive() {
@@ -282,6 +413,53 @@ function AllQuestions() {
     setTopActive(true);
   }
 
+  const [ref, inView] = useInView();
+
+  const datasCount = datas ? datas.length : 0;
+  const page = useRef(5);
+  const [print, setPrint] = useState([]);
+
+  useEffect(() => {
+    if (isPending) {
+      if (hotActive) {
+        setPrint(datas.questions.slice(0, page.current));
+        if (inView) {
+          page.current += 5;
+          setPrint(datas.questions.slice(0, page.current));
+        }
+      }
+    }
+    if (isPendingNew) {
+      if (newActive) {
+        setPrint(newDatas.questions.slice(0, page.current));
+        if (inView) {
+          page.current += 5;
+          setPrint(newDatas.questions.slice(0, page.current));
+        }
+      }
+    }
+    if (isPendingTop) {
+      if (topActive) {
+        setPrint(topDatas.questions.slice(0, page.current));
+        if (inView) {
+          page.current += 5;
+          setPrint(topDatas.questions.slice(0, page.current));
+        }
+      }
+    }
+  }, [
+    datas.questions,
+    hotActive,
+    inView,
+    isPending,
+    isPendingNew,
+    isPendingTop,
+    newActive,
+    newDatas.questions,
+    topActive,
+    topDatas.questions,
+  ]);
+
   return (
     <Box>
       <TitleBox>
@@ -290,7 +468,11 @@ function AllQuestions() {
             <h2>All Questions</h2>
           </div>
           <div className="buttonBox">
-            <button type="button" className="askBtn">
+            <button
+              type="button"
+              className="askBtn"
+              onClick={() => navigate('/new-question')}
+            >
               Ask Question
             </button>
           </div>
@@ -325,8 +507,8 @@ function AllQuestions() {
         </div>
       </TitleBox>
       <ContentsBox>
-        {datas
-          ? datas.map(data => {
+        {print
+          ? print.slice(0, page.current).map(data => {
               return (
                 <QuestionBox>
                   <CountBox>
@@ -334,8 +516,10 @@ function AllQuestions() {
                       <span className="likesValue">{data.likes}</span>
                       <span className="likesText">likes</span>
                     </div>
-                    <Answers accepted={data.accepted}>
-                      {data.accepted === true ? <GoCheck size="30" /> : null}
+                    <Answers accepted={data.accepted_answer}>
+                      {data.accepted_answer === true ? (
+                        <GoCheck size="30" />
+                      ) : null}
                       <span className="answersValue">{data.answer_cnt}</span>
                       <span className="answersText">answers</span>
                     </Answers>
@@ -345,8 +529,17 @@ function AllQuestions() {
                     </div>
                   </CountBox>
                   <QuestionMain>
-                    <span className="title">{data.title}</span>
+                    <Link to="/questions/:id">
+                      <span className="title">{data.title}</span>
+                    </Link>
                     <span className="content">{data.content}</span>
+                    <div className="tagsBox">
+                      {data.tagsList
+                        ? data.tagsList.map(tag => {
+                            return <span className="tag">{tag.label}</span>;
+                          })
+                        : null}
+                    </div>
                   </QuestionMain>
                   <QuestionProfile>
                     <span className="name">{data.name}</span>
@@ -360,6 +553,7 @@ function AllQuestions() {
             })
           : null}
       </ContentsBox>
+      <Scroll inView={inView} ref={ref} />
     </Box>
   );
 }

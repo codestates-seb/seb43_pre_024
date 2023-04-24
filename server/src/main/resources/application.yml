@@ -25,12 +25,18 @@ spring:
     username: ${SPRING_DATASOURCE_USERNAME}
     password: ${SPRING_DATASOURCE_PASSWORD}
   redis:
-    host: localhost
+    host: 127.0.0.1
     port: 6379
   jpa:
     hibernate:
-      ddl-auto: create  #create -> update
+      ddl-auto: update  #create -> update
     show-sql: true
+
+jwt:
+  key: ${JWT_SECRET_KEY}  # token secret key
+  access-token-expiration-minutes: 30  # access-token 만료시간
+  refresh-token-expiration-minutes: 420 # refresh-token 만료시간
+
 ---
 # run as prod environment
 spring:

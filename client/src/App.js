@@ -1,36 +1,59 @@
 import './App.css';
 import { useState } from 'react';
-import HeaderLogout from './components/HeaderLogout';
-import HeaderLogin from './components/HeaderLogin';
+import { useNavigate } from 'react-router-dom';
 import Footer from './components/Footer';
 import Navbar from './components/Navbar';
+import Header from './components/Header';
 
 function App() {
   const [login, setLogin] = useState(false);
+  const navigate = useNavigate();
+  const [homeActive, setHomeActive] = useState(true);
+  const [questionsActive, setQuestionsActive] = useState(false);
+  const [usersActive, setUsersActive] = useState(false);
+  const [inputValue, setInputValue] = useState('');
 
-  function onLogin() {
-    setLogin(true);
-  }
-
-  function onLogout() {
-    setLogin(false);
+  function changeLoginStatus() {
+    if (login === true) {
+      setLogin(false);
+      navigate('/'); // go to home when sign outed
+    } else {
+      setLogin(true);
+      navigate('/login'); // go to all questions page when sign in
+    }
   }
 
   return (
     <div className="App">
-      {login ? (
-        <HeaderLogin setLogout={() => onLogout()} />
-      ) : (
-        <HeaderLogout setLogin={() => onLogin()} />
-      )}
+      <Header
+        isLogin={login}
+        changeLoginStatus={() => {
+          changeLoginStatus();
+        }}
+        homeActive={homeActive}
+        questionsActive={questionsActive}
+        usersActive={usersActive}
+        setHomeActive={setHomeActive}
+        setQuestionsActive={setQuestionsActive}
+        setUsersActive={setUsersActive}
+        inputValue={inputValue}
+        setInputValue={setInputValue}
+      />
       <div
         style={{
-          paddingTop: 70,
           display: 'flex',
           flexDirection: 'row',
         }}
       >
-        <Navbar />
+        <Navbar
+          login={login}
+          homeActive={homeActive}
+          questionsActive={questionsActive}
+          usersActive={usersActive}
+          setHomeActive={setHomeActive}
+          setQuestionsActive={setQuestionsActive}
+          setUsersActive={setUsersActive}
+        />
       </div>
       <Footer />
     </div>
