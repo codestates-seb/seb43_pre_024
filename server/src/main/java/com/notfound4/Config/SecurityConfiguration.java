@@ -68,17 +68,18 @@ public class SecurityConfiguration {
                 .and()
                 .authorizeHttpRequests(authorize -> authorize
                         .antMatchers(HttpMethod.POST, "/users/**").permitAll()
-                        .antMatchers(HttpMethod.PATCH, "/users/**").authenticated()
-                        .antMatchers(HttpMethod.GET, "/users/**").authenticated()
-                        .antMatchers(HttpMethod.DELETE, "/users/**").authenticated()
-                        .antMatchers(HttpMethod.POST, "/questions/ask").authenticated()
-                        .antMatchers(HttpMethod.PATCH, "/questions/**").authenticated()
-                        .antMatchers(HttpMethod.DELETE, "/questions/**").authenticated()
-                        .antMatchers(HttpMethod.POST, "/questions/**/answer").authenticated()
-                        .antMatchers(HttpMethod.POST, "/questions/**/like").authenticated()
-                        .antMatchers(HttpMethod.PATCH, "/questions/**/answer/**").authenticated()
-                        .antMatchers(HttpMethod.DELETE, "/questions/**/answer/**").authenticated()
-                        .anyRequest().permitAll()
+                        .antMatchers(HttpMethod.GET, "/questions/**").permitAll()
+//                        .antMatchers(HttpMethod.PATCH, "/users/**").authenticated()
+//                        .antMatchers(HttpMethod.GET, "/users/**").authenticated()
+//                        .antMatchers(HttpMethod.DELETE, "/users/**").authenticated()
+//                        .antMatchers(HttpMethod.POST, "/questions/ask").authenticated()
+//                        .antMatchers(HttpMethod.PATCH, "/questions/**").authenticated()
+//                        .antMatchers(HttpMethod.DELETE, "/questions/**").authenticated()
+//                        .antMatchers(HttpMethod.POST, "/questions/**/answer").authenticated()
+//                        .antMatchers(HttpMethod.POST, "/questions/**/like").authenticated()
+//                        .antMatchers(HttpMethod.PATCH, "/questions/**/answer/**").authenticated()
+//                        .antMatchers(HttpMethod.DELETE, "/questions/**/answer/**").authenticated()
+                        .anyRequest().authenticated()
                 )
                 .oauth2Login(oauth2 -> oauth2
                         .successHandler(new OAuth2MemberSuccessHandler(jwtTokenizer, memberService)));
@@ -94,8 +95,9 @@ public class SecurityConfiguration {
         configuration.setAllowCredentials(true);
         configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000", "http://localhost:3001", "http://localhost:3002"
                 , "http://localhost:3003", "http://localhost:3004"));
-        configuration.addAllowedHeader("*");
+        configuration.setAllowedHeaders(Arrays.asList("Content-Type", "Authorization"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "DELETE", "PUT", "OPTIONS"));
+        configuration.addExposedHeader("Authorization");
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
