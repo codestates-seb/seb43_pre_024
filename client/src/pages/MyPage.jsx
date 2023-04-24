@@ -635,7 +635,9 @@ function MyPage({
       .catch(err => {
         console.log(err);
       });
-  }
+
+  const token = localStorage.getItem('Autorization');
+
 
   useEffect(() => {
     setId(user.userId);

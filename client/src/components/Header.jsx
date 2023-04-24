@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { BiSearchAlt } from 'react-icons/bi';
 import { AiOutlineClose } from 'react-icons/ai';
 import { FiMenu } from 'react-icons/fi';
@@ -45,6 +45,8 @@ const Container = styled.div`
     color: rgba(0, 0, 0, 0.7);
     flex-shrink: 0;
     display: block;
+    border: none;
+    background-color: transparent;
 
     :hover {
       background-color: rgba(0, 0, 0, 0.1);
@@ -134,17 +136,32 @@ const MenuBox = styled.div`
   background-color: white;
   box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
     rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
-  padding-top: 2rem;
+  padding-top: 1rem;
   padding-bottom: 1rem;
 
-  .publicUl {
-    margin-top: 35px;
+  .questionsBtnBox,
+  .usersBtnBox,
+  .tagsBtnBox,
+  .companiesBtnBox {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+
+  .homeBtnBox {
+    width: 100%;
+    display: flex;
+    box-sizing: border-box;
+    padding-top: 20px;
+    padding-bottom: 20px;
   }
 
   li {
     list-style: none;
     color: rgb(85, 90, 96);
-    margin-bottom: 35px;
     cursor: pointer;
   }
 
@@ -158,6 +175,8 @@ const MenuBox = styled.div`
 
   .inact {
     font-size: 1rem;
+    margin-top: 20px;
+    margin-bottom: 20px;
   }
 
   .icon {
@@ -167,19 +186,13 @@ const MenuBox = styled.div`
 
 const HomeBtn = styled.button`
   color: rgb(85, 90, 96);
-  margin-bottom: 35px;
   cursor: pointer;
   border: none;
-  margin-left: -7px;
-  border-right: ${props =>
-    props.homeActive === true ? '3px solid rgb(218, 129, 49)' : 'none'};
-  background-color: ${props =>
-    props.homeActive === true ? '#F2F2F3' : 'white'};
+  padding: 0;
+  background-color: white;
 `;
 
 const QuestionsBtn = styled.button`
-  color: rgb(85, 90, 96);
-  margin-bottom: 35px;
   cursor: pointer;
   background-color: white;
   border: none;
@@ -188,19 +201,24 @@ const QuestionsBtn = styled.button`
 
 const UsersBtn = styled.button`
   color: rgb(85, 90, 96);
-  margin-bottom: 35px;
   cursor: pointer;
   background-color: white;
   border: none;
   margin-left: -7px;
 `;
 
-function Header({ isLogin, changeLoginStatus }) {
+function Header({
+  isLogin,
+  changeLoginStatus,
+  setHomeActive,
+  setUsersActive,
+  setQuestionsActive,
+  inputValue,
+  setInputValue,
+}) {
   const [focus, setFocus] = useState(false);
   const [toggle, setToggle] = useState(false);
-  const [homeActive, setHomeActive] = useState(true);
-  const [questionsActive, setQuestionsActive] = useState(false);
-  const [usersActive, setUsersActive] = useState(false);
+  const navigate = useNavigate();
 
   function searchFocus() {
     setFocus(true);
@@ -208,6 +226,11 @@ function Header({ isLogin, changeLoginStatus }) {
 
   function searchBlur() {
     setFocus(false);
+  }
+
+  function inputChange(e) {
+    setInputValue(e.target.value);
+    console.log(inputValue);
   }
 
   function toggleMenu() {
@@ -218,19 +241,42 @@ function Header({ isLogin, changeLoginStatus }) {
     setHomeActive(true);
     setQuestionsActive(false);
     setUsersActive(false);
+    setToggle(false);
   }
 
   function activeQuestions() {
     setQuestionsActive(true);
     setHomeActive(false);
     setUsersActive(false);
+    setToggle(false);
   }
 
   function activeUsers() {
     setUsersActive(true);
     setHomeActive(false);
     setQuestionsActive(false);
+    setToggle(false);
   }
+
+  const handleOnKeyPress = e => {
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ input: inputValue })
+    };
+    if (e.key === 'Enter') {
+      // fetch('https://e5dd-210-100-239-193.ngrok-free.app/questions/search/title', requestOptions)
+      fetch('http://localhost:3001/questions', requestOptions)
+      .then(response => {
+        response.json();
+        navigate('/search-questions/title');
+        activeQuestions();
+        }
+      )
+      .then(data => console.log(data))
+      .catch(error => console.error(error));
+    }
+  };
 
   return (
     <HeaderBox>
@@ -248,43 +294,50 @@ function Header({ isLogin, changeLoginStatus }) {
           <MenuBox>
             <ul>
               <Link to="/">
-                <HomeBtn
-                  homeActive={homeActive}
-                  type="button"
-                  onClick={() => activeHome()}
-                  className="homeLi act"
-                >
-                  Home
-                </HomeBtn>
+                <div className="homeBtnBox">
+                  <HomeBtn
+                    type="button"
+                    onClick={() => activeHome()}
+                    className="homeLi act"
+                  >
+                    Home
+                  </HomeBtn>
+                </div>
               </Link>
               <li className="publicLi inact">
                 <span className="publicText">PUBLIC</span>
                 <ul className="publicUl">
                   <Link to="/all-questions">
-                    <QuestionsBtn
-                      questionsActive={questionsActive}
-                      className="questionsLi act"
-                      onClick={() => activeQuestions()}
-                      type="button"
-                    >
-                      <FaGlobeAsia className="icon" />
-                      Questions
-                    </QuestionsBtn>
-                  </Link>
-                  <li className="tagsLi act">Tags</li>
-                  {isLogin ? (
-                    <Link to="/Mypage">
-                      <UsersBtn
-                        usersActive={usersActive}
-                        className="UsersLi act"
-                        onClick={() => activeUsers()}
+                    <div className="questionsBtnBox">
+                      <QuestionsBtn
+                        className="questionsLi act"
+                        onClick={() => activeQuestions()}
                         type="button"
                       >
-                        Users
-                      </UsersBtn>
+                        <FaGlobeAsia className="icon" />
+                        Questions
+                      </QuestionsBtn>
+                    </div>
+                  </Link>
+                  <div className="tagsBtnBox">
+                    <li className="tagsLi act">Tags</li>
+                  </div>
+                  {isLogin ? (
+                    <Link to="/Mypage">
+                      <div className="usersBtnBox">
+                        <UsersBtn
+                          className="UsersLi act"
+                          onClick={() => activeUsers()}
+                          type="button"
+                        >
+                          Users
+                        </UsersBtn>
+                      </div>
                     </Link>
                   ) : null}
-                  <li className="companiesLi act">Companies</li>
+                  <div className="companiesBtnBox">
+                    <li className="companiesLi act">Companies</li>
+                  </div>
                 </ul>
               </li>
               <li className="collectivesLi inact">COLLECTIVES</li>
@@ -296,7 +349,9 @@ function Header({ isLogin, changeLoginStatus }) {
           <img src={Logo} className="logoImg" alt="로고사진" />
         </a>
         <Link to="all-questions">
-          <span className="questions">All Questions</span>
+          <button className="questions" onClick={activeQuestions} type="button">
+            All Questions
+          </button>
         </Link>
         <SearchBox focus={focus}>
           <BiSearchAlt size="25" fill="#888" />
@@ -306,6 +361,8 @@ function Header({ isLogin, changeLoginStatus }) {
             type="text"
             className="search"
             placeholder="Search..."
+            onChange={e => inputChange(e)}
+            onKeyDown={handleOnKeyPress}
           />
         </SearchBox>
         {isLogin ? (

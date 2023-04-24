@@ -3,7 +3,6 @@ import { useState, useEffect, useRef } from 'react';
 import { GoCheck } from 'react-icons/go';
 import { useNavigate, Link } from 'react-router-dom';
 import { useInView } from 'react-intersection-observer';
-import useFetch from '../util/useFetch';
 
 const Box = styled.div`
   width: calc(100% - 250px);
@@ -294,17 +293,92 @@ const QuestionProfile = styled.div`
 
 const Scroll = styled.div`
   bottom: ${props => (props.inView === true ? '0px' : '10px')};
-  height: 10%;
   width: 100%;
 `;
 
 function AllQuestions() {
   const navigate = useNavigate();
-  const { datas, isPending, error } = useFetch(`
-  http://localhost:3001/questions`);
+
+  const [datas, setDatas] = useState([]);
+  const [isPending, setIsPending] = useState(false);
+  const [error, setError] = useState();
+
+  const [newDatas, setNewDatas] = useState([]);
+  const [isPendingNew, setIsPendingNew] = useState(false);
+  const [errorNew, setErrorNew] = useState();
+
+  const [topDatas, setTopDatas] = useState([]);
+  const [isPendingTop, setIsPendingTop] = useState(false);
+  const [errorTop, setErrorTop] = useState();
+
+  const URL = process.env.REACT_APP_MIRI;
+
+  useEffect(() => {
+    fetch(
+      `${URL}questions?sortInfo=HOT`
+    )
+      .then(res => {
+        if (!res.ok) {
+          throw Error('could not fetch the data for that resource');
+        }
+        return res.json();
+      })
+      .then(data => {
+        setIsPending(true);
+        setDatas(data);
+      })
+      .catch(err => {
+        setIsPending(false);
+        setError(err);
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    fetch(
+      `${URL}questions?sortInfo=NEW`
+    )
+      .then(res => {
+        if (!res.ok) {
+          throw Error('could not fetch the data for that resource');
+        }
+        return res.json();
+      })
+      .then(data => {
+        setIsPendingNew(true);
+        setNewDatas(data);
+        console.log(data);
+      })
+      .catch(err => {
+        setIsPendingNew(false);
+        setErrorNew(err);
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    fetch(
+      `${URL}questions?sortInfo=TOP`
+    )
+      .then(res => {
+        if (!res.ok) {
+          throw Error('could not fetch the data for that resource');
+        }
+        return res.json();
+      })
+      .then(data => {
+        setIsPendingTop(true);
+        setTopDatas(data);
+      })
+      .catch(err => {
+        setIsPendingTop(false);
+        setErrorTop(err);
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const [hotActive, setHotActive] = useState(false);
-  const [newActive, setNewActive] = useState(false);
+  const [newActive, setNewActive] = useState(true);
   const [topActive, setTopActive] = useState(false);
 
   function onHotActive() {
@@ -333,13 +407,44 @@ function AllQuestions() {
 
   useEffect(() => {
     if (isPending) {
-      setPrint(datas.slice(0, page.current));
-      if (inView) {
-        page.current += 5;
-        setPrint(datas.slice(0, page.current));
+      if (hotActive) {
+        setPrint(datas.questions.slice(0, page.current));
+        if (inView) {
+          page.current += 5;
+          setPrint(datas.questions.slice(0, page.current));
+        }
       }
     }
-  }, [isPending, datas, inView]);
+    if (isPendingNew) {
+      if (newActive) {
+        setPrint(newDatas.questions.slice(0, page.current));
+        if (inView) {
+          page.current += 5;
+          setPrint(newDatas.questions.slice(0, page.current));
+        }
+      }
+    }
+    if (isPendingTop) {
+      if (topActive) {
+        setPrint(topDatas.questions.slice(0, page.current));
+        if (inView) {
+          page.current += 5;
+          setPrint(topDatas.questions.slice(0, page.current));
+        }
+      }
+    }
+  }, [
+    datas.questions,
+    hotActive,
+    inView,
+    isPending,
+    isPendingNew,
+    isPendingTop,
+    newActive,
+    newDatas.questions,
+    topActive,
+    topDatas.questions,
+  ]);
 
   return (
     <Box>
@@ -434,11 +539,7 @@ function AllQuestions() {
             })
           : null}
       </ContentsBox>
-      {page.current < datasCount ? (
-        <Scroll inView={inView} ref={ref}>
-          dd
-        </Scroll>
-      ) : null}
+      <Scroll inView={inView} ref={ref} />
     </Box>
   );
 }
