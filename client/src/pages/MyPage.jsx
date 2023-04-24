@@ -176,6 +176,7 @@ const CorrectionFormBox = styled.div`
     flex-direction: column;
     justify-content: space-evenly;
     padding-left: 2rem;
+    position: relative;
   }
 
   .nameBox {
@@ -258,6 +259,21 @@ const CorrectionFormBox = styled.div`
         outline: none;
       }
     }
+  }
+
+  .confirmAlert {
+    position: absolute;
+    bottom: -20px;
+    right: 70px;
+    font-size: 0.8rem;
+  }
+
+  .verified {
+    color: rgb(107, 147, 249);
+  }
+
+  .unverified {
+    color: rgb(220, 85, 85);
   }
 `;
 
@@ -575,11 +591,12 @@ function MyPage({
 
   const [user, setUsers] = useState([]);
   const [secession, setSecession] = useState(false);
-  const [alert, setAlert] = useState(false);
+  const [secessionAlert, setSecessionAlert] = useState(false);
   const [correction, setCorrection] = useState(false);
   const [name, setName] = useState('');
   const [password, setPassword] = useState('g');
   const [rePassword, setRePassword] = useState('');
+  const [confirm, setConfirm] = useState(false);
   const [id, setId] = useState(0);
   const navigate = useNavigate();
 
@@ -593,7 +610,7 @@ function MyPage({
     })
       .then(response => {
         console.log(response);
-        setAlert(false);
+        setSecessionAlert(false);
         navigate('/');
       })
       .catch(err => {
@@ -621,11 +638,11 @@ function MyPage({
   }
 
   function onAlert() {
-    setAlert(true);
+    setSecessionAlert(true);
   }
 
   function offAlert() {
-    setAlert(false);
+    setSecessionAlert(false);
   }
 
   function onCorrection() {
@@ -648,24 +665,45 @@ function MyPage({
     setRePassword(e.target.value);
   }
 
-  const onChangePut = () => {
-    const putData = {
-      name,
-      answers: user.answers,
-    };
+  useEffect(() => {
+    if (
+      password === rePassword &&
+      password.length !== 0 &&
+      rePassword.length !== 0
+    ) {
+      setConfirm(true);
+    } else if (
+      password !== rePassword ||
+      password.length === 0 ||
+      rePassword.length === 0
+    ) {
+      setConfirm(false);
+    }
+  }, [rePassword, password, confirm]);
 
-    fetch(`http://localhost:3001/user/${id}`, {
-      method: 'PUT',
-      body: JSON.stringify(putData),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then(() => {
-        console.log(user.name);
+  const onChangePut = () => {
+    if (!confirm) {
+      alert('비밀번호를 확인해주세요!');
+    } else {
+      const putData = {
+        name,
+        answers: user.answers,
+      };
+
+      fetch(`http://localhost:3001/user/${id}`, {
+        method: 'PUT',
+        body: JSON.stringify(putData),
+        headers: {
+          'Content-Type': 'application/json',
+        },
       })
-      .catch(err => console.log(err));
-    window.location.reload();
+        .then(() => {
+          console.log(user.name);
+        })
+        .catch(err => console.log(err));
+
+      window.location.reload();
+    }
   };
 
   useEffect(() => {
@@ -776,7 +814,7 @@ function MyPage({
           secession
         </button>
       </BtnBox>
-      {alert ? (
+      {secessionAlert ? (
         <SecessionAlertBack>
           <SecessionAlertBox>
             <span className="alertText">Are you sure you want to leave?</span>
@@ -829,6 +867,11 @@ function MyPage({
                     onChange={e => changeRePassword(e)}
                   />
                 </div>
+                {confirm ? (
+                  <div className="confirmAlert verified">verified</div>
+                ) : (
+                  <div className="confirmAlert unverified">unverified</div>
+                )}
               </div>
               <div className="correctionBtnBox">
                 <button
