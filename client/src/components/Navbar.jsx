@@ -1,23 +1,23 @@
-import styled from 'styled-components';
-import { useState } from 'react';
-import { FaGlobeAsia } from 'react-icons/fa';
+import styled from "styled-components";
+import { useState } from "react";
+import { FaGlobeAsia } from "react-icons/fa";
 import {
   Routes,
   Route,
   Link,
   useNavigate,
   useLocation,
-} from 'react-router-dom';
-import Home from '../pages/Home';
-import Main from '../pages/Main';
-import AllQuestions from '../pages/AllQuestions';
-import Paging from './Paging';
-import MyPage from '../pages/MyPage';
-import NewQuestion from '../pages/NewQuestion';
-import SignUp from '../pages/SignUp';
-import LogIn from '../pages/LogIn';
-import QuestionDetail from '../pages/QuestionDetail';
-import SearchQuestions from '../pages/SearchQuestions';
+} from "react-router-dom";
+import Home from "../pages/Home";
+import Main from "../pages/Main";
+import AllQuestions from "../pages/AllQuestions";
+import Paging from "./Paging";
+import MyPage from "../pages/MyPage";
+import NewQuestion from "../pages/NewQuestion";
+import SignUpPage from "../pages/SignUpPage";
+import LogIn from "../pages/LogIn";
+import QuestionDetail from "../pages/QuestionDetail";
+import SearchQuestions from "../pages/SearchQuestions";
 
 const NavBox = styled.div`
   width: 250px;
@@ -96,26 +96,26 @@ const NavBox = styled.div`
 
 const HomeBtn = styled.button`
   border: none;
-  border-right: ${props =>
-    props.homeActive === true ? '3px solid rgb(218, 129, 49)' : 'none'};
-  background-color: ${props =>
-    props.homeActive === true ? '#F2F2F3' : 'white'};
+  border-right: ${(props) =>
+    props.homeActive === true ? "3px solid rgb(218, 129, 49)" : "none"};
+  background-color: ${(props) =>
+    props.homeActive === true ? "#F2F2F3" : "white"};
 `;
 
 const QuestionsBtn = styled.button`
   border: none;
-  border-right: ${props =>
-    props.questionsActive === true ? '3px solid rgb(218, 129, 49)' : 'none'};
-  background-color: ${props =>
-    props.questionsActive === true ? '#F2F2F3' : 'white'};
+  border-right: ${(props) =>
+    props.questionsActive === true ? "3px solid rgb(218, 129, 49)" : "none"};
+  background-color: ${(props) =>
+    props.questionsActive === true ? "#F2F2F3" : "white"};
 `;
 
 const UsersBtn = styled.button`
   border: none;
-  border-right: ${props =>
-    props.usersActive === true ? '3px solid rgb(218, 129, 49)' : 'none'};
-  background-color: ${props =>
-    props.usersActive === true ? '#F2F2F3' : 'white'};
+  border-right: ${(props) =>
+    props.usersActive === true ? "3px solid rgb(218, 129, 49)" : "none"};
+  background-color: ${(props) =>
+    props.usersActive === true ? "#F2F2F3" : "white"};
 `;
 
 function Navbar({
@@ -128,9 +128,9 @@ function Navbar({
   questionsActive,
   usersActive,
 }) {
-const navigate = useNavigate();
+  const navigate = useNavigate();
   const location = useLocation();
-  const hideNavbarRoutes = ['/login', '/signup', '/main'];
+  const hideNavbarRoutes = ["/login", "/signupPage", "/main"];
 
   const shouldHideNavbar = hideNavbarRoutes.includes(location.pathname);
 
@@ -154,7 +154,7 @@ const navigate = useNavigate();
 
   return (
     <>
-      {shouldHideNavbar ? null : (
+      {shouldHideNavbar || (!login && location.pathname === "/") ? null : (
         <NavBox>
           {login === true ? (
             <Link to="/">
@@ -217,14 +217,19 @@ const navigate = useNavigate();
         </NavBox>
       )}
       <Routes>
-        <Route path="/" element={<Main />} />
+        {login ? (
+          <Route path="/" element={<Home />} />
+        ) : (
+          <Route path="/" element={<Main />} />
+        )}
+        {/* <Route path="/" element={<Main />} /> */}
         <Route path="/main" element={<Main />} />
         <Route path="/all-questions" element={<AllQuestions />} />
         <Route path="/questions/:id" element={<QuestionDetail />} />
         <Route path="/new-question" element={<NewQuestion />} />
         <Route path="/mypage" element={<Paging />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/search-questions/title" element={<SearchQuestions />}/>
+        <Route path="/signup" element={<SignUpPage />} />
+        <Route path="/search-questions/title" element={<SearchQuestions />} />
         <Route
           path="/login"
           element={<LogIn login={login} setLogin={setLogin} />}
