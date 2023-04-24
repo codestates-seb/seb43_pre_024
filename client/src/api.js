@@ -1,6 +1,7 @@
 import axios from "axios";
 
-export const API_URL = "https://ea92-59-13-69-22.ngrok-free.app";
+export const API_URL =
+  "http://ec2-43-201-38-40.ap-northeast-2.compute.amazonaws.com:8080";
 
 export function fetchAnswerInfo({ questionId }) {
   return axios

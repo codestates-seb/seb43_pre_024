@@ -6,7 +6,7 @@ import MDEditor from "@uiw/react-md-editor";
 import AnswerList from "../components/AnswerList";
 import QuestionInfo from "../components/QuestionInfo";
 import QuestionInputBox from "../components/QuestionInputBox";
-import { API_URL } from "../index";
+import { API_URL } from "../api";
 
 function QuestionDetail() {
   const DetailPageStyle = styled.div`

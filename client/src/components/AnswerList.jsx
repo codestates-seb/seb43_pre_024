@@ -3,7 +3,6 @@ import axios from "axios";
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { AiFillHeart } from "react-icons/ai";
-import { API_URL } from "../index";
 import { fetchAnswerInfo, addLike } from "../api";
 
 const HeartButtonStyle = styled.div`

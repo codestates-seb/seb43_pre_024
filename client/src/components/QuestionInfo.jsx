@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
-import { API_URL } from "../index";
+import { API_URL } from "../api";
 
 function QuestionInfo({ questionId }) {
   const navigate = useNavigate();
