@@ -16,7 +16,6 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
 //    @Query(value = "update Question q set q.views = :views where q.questionId = :questionId")
 //    Question updateByQuestionId(long questionId, int views);
 
-
     @Query(value = "UPDATE question SET views = views + 1 WHERE question_id = :questionId", nativeQuery = true)
     void incrementViews(@Param("questionId") long questionId);
 
