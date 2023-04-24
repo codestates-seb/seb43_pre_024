@@ -2,7 +2,6 @@ import styled from "styled-components";
 import { useState } from "react";
 import { ReactComponent as GoogleLogo } from "../images/googleLogo.svg";
 import { ReactComponent as GitLogo } from "../images/gitLogo.svg";
-
 import {
   validateCheckPassword,
   validateEmail,
@@ -42,9 +41,10 @@ const TextBox = styled.div`
     display: flex;
     align-items: center;
 
-  .icon {
-    fill: #0a95ff;
-    margin-right: 10px;
+    .icon {
+      fill: #0a95ff;
+      margin-right: 10px;
+    }
   }
 `;
 
@@ -98,7 +98,7 @@ const InputBox = styled.div`
 
 const GoogleSignin = styled.button`
 width: 100%;
-padding 8px 0;
+padding: 8px 0;
 display: flex;
 align-items: center;
 justify-content: center;
@@ -111,7 +111,7 @@ svg{margin-right: 5px;}
 `;
 const GitSignin = styled.button`
   width: 100%;
-  padding 8px 0;
+  padding: 8px 0;
   margin: 10px 0 30px 0;
   display: flex;
   align-items: center;

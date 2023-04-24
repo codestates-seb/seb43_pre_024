@@ -551,6 +551,7 @@ function MyPage({
   const [name, setName] = useState('');
   const [password, setPassword] = useState('g');
   const [id, setId] = useState(0);
+  const token = localStorage.getItem('Autorization');
 
   useEffect(() => {
     setId(user.userId);
