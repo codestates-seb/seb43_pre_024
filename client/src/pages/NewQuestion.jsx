@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useEffect, useState } from "react";
 import QuestionInputBox from "../components/QuestionInputBox";
 import Confirm from "../components/Confirm";
-import { API_URL } from "../index";
+import { API_URL } from "../api";
 import axios from "axios";
 
 const NewQuestionStyle = styled.div`
