@@ -25,10 +25,6 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
     @Query("SELECT q FROM Question q WHERE q.title LIKE %:searchId%")
     List<Question> findByTitleContaining(@Param("searchId") String searchId);
 
-    // 마이페이지 내 질문목록 조회
-    @Query(value = "SELECT * FROM question WHERE member_id = :memberId ORDER BY created_at DESC", nativeQuery = true)
-    Optional<List<Question>> findQuestionsByMemberId(long memberId);
-
 
     // 질문 리스트 정렬 시, 좋아요 순으로 쿼리 구현 못함
 //    @Query(value = "select ")

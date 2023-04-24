@@ -147,6 +147,7 @@ public class SecurityConfiguration {
                 .getBuilder("github")
                 .clientId(githubClientId)
                 .clientSecret(githubClientSecret)
+                .redirectUri("http://ec2-15-164-49-219.ap-northeast-2.compute.amazonaws.com:8080/login/oauth2/code/github")
                 .build();
     }
 
