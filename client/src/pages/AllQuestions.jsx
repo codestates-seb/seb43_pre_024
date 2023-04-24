@@ -311,16 +311,11 @@ function AllQuestions() {
   const [isPendingTop, setIsPendingTop] = useState(false);
   const [errorTop, setErrorTop] = useState();
 
-  const URL = process.env.REACT_APP_JIEUN;
+  const URL = process.env.REACT_APP_MIRI;
 
   useEffect(() => {
     fetch(
-      `${URL}questions?sortInfo=HOT`,
-      {
-        headers: {
-          'ngrok-skip-browser-warning': '69420',
-        },
-      },
+      `${URL}questions?sortInfo=HOT`
     )
       .then(res => {
         if (!res.ok) {
@@ -331,7 +326,6 @@ function AllQuestions() {
       .then(data => {
         setIsPending(true);
         setDatas(data);
-        console.log(data);
       })
       .catch(err => {
         setIsPending(false);
@@ -342,12 +336,7 @@ function AllQuestions() {
 
   useEffect(() => {
     fetch(
-      `${URL}questions?sortInfo=NEW`,
-      {
-        headers: {
-          'ngrok-skip-browser-warning': '69420',
-        },
-      },
+      `${URL}questions?sortInfo=NEW`
     )
       .then(res => {
         if (!res.ok) {
@@ -358,6 +347,7 @@ function AllQuestions() {
       .then(data => {
         setIsPendingNew(true);
         setNewDatas(data);
+        console.log(data);
       })
       .catch(err => {
         setIsPendingNew(false);
@@ -368,12 +358,7 @@ function AllQuestions() {
 
   useEffect(() => {
     fetch(
-      `${URL}questions?sortInfo=TOP`,
-      {
-        headers: {
-          'ngrok-skip-browser-warning': '69420',
-        },
-      },
+      `${URL}questions?sortInfo=TOP`
     )
       .then(res => {
         if (!res.ok) {
