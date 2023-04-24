@@ -1,23 +1,24 @@
-import styled from 'styled-components';
-import { useState } from 'react';
-import { FaGlobeAsia } from 'react-icons/fa';
+import styled from "styled-components";
+import { useState } from "react";
+import { FaGlobeAsia } from "react-icons/fa";
 import {
   Routes,
   Route,
   Link,
   useNavigate,
   useLocation,
-} from 'react-router-dom';
-import Home from '../pages/Home';
-import Main from '../pages/Main';
-import AllQuestions from '../pages/AllQuestions';
-import Paging from './Paging';
-import MyPage from '../pages/MyPage';
-import NewQuestion from '../pages/NewQuestion';
-import SignUpPage from '../pages/SignUpPage';
-import LogIn from '../pages/LogIn';
-import QuestionDetail from '../pages/QuestionDetail';
-import SearchQuestions from '../pages/SearchQuestions';
+} from "react-router-dom";
+import Home from "../pages/Home";
+import Main from "../pages/Main";
+import AllQuestions from "../pages/AllQuestions";
+import Paging from "./Paging";
+import MyPage from "../pages/MyPage";
+import NewQuestion from "../pages/NewQuestion";
+import SignUpPage from "../pages/SignUpPage";
+import LogIn from "../pages/LogIn";
+import QuestionDetail from "../pages/QuestionDetail";
+import SearchQuestions from "../pages/SearchQuestions";
+import NotFound from "../pages/NotFound";
 
 const NavBox = styled.div`
   width: 250px;
@@ -96,26 +97,26 @@ const NavBox = styled.div`
 
 const HomeBtn = styled.button`
   border: none;
-  border-right: ${props =>
-    props.homeActive === true ? '3px solid rgb(218, 129, 49)' : 'none'};
-  background-color: ${props =>
-    props.homeActive === true ? '#F2F2F3' : 'white'};
+  border-right: ${(props) =>
+    props.homeActive === true ? "3px solid rgb(218, 129, 49)" : "none"};
+  background-color: ${(props) =>
+    props.homeActive === true ? "#F2F2F3" : "white"};
 `;
 
 const QuestionsBtn = styled.button`
   border: none;
-  border-right: ${props =>
-    props.questionsActive === true ? '3px solid rgb(218, 129, 49)' : 'none'};
-  background-color: ${props =>
-    props.questionsActive === true ? '#F2F2F3' : 'white'};
+  border-right: ${(props) =>
+    props.questionsActive === true ? "3px solid rgb(218, 129, 49)" : "none"};
+  background-color: ${(props) =>
+    props.questionsActive === true ? "#F2F2F3" : "white"};
 `;
 
 const UsersBtn = styled.button`
   border: none;
-  border-right: ${props =>
-    props.usersActive === true ? '3px solid rgb(218, 129, 49)' : 'none'};
-  background-color: ${props =>
-    props.usersActive === true ? '#F2F2F3' : 'white'};
+  border-right: ${(props) =>
+    props.usersActive === true ? "3px solid rgb(218, 129, 49)" : "none"};
+  background-color: ${(props) =>
+    props.usersActive === true ? "#F2F2F3" : "white"};
 `;
 
 function Navbar({
@@ -128,11 +129,21 @@ function Navbar({
   questionsActive,
   usersActive,
 }) {
-const navigate = useNavigate();
   const location = useLocation();
-  const hideNavbarRoutes = ['/login', '/signup', '/main'];
+  const navigate = useNavigate();
 
-  const shouldHideNavbar = hideNavbarRoutes.includes(location.pathname);
+  // const shouldHideNavbar = hideNavbarRoutes.includes(location.pathname);
+  const hideNavbarRoutes = [
+    "/all-questions",
+    "/new-question",
+    "/Mypage",
+    "/search-questions",
+    "/questions",
+  ];
+
+  const shouldHideNavbar = hideNavbarRoutes.every(
+    (route) => !location.pathname.includes(route)
+  );
 
   function activeHome() {
     setHomeActive(true);
@@ -224,12 +235,13 @@ const navigate = useNavigate();
         <Route path="/new-question" element={<NewQuestion />} />
         <Route path="/mypage" element={<Paging />} />
         <Route path="/signup" element={<SignUpPage />} />
-        <Route path="/search-questions/title" element={<SearchQuestions />}/>
+        <Route path="/search-questions/title" element={<SearchQuestions />} />
         <Route
           path="/login"
           element={<LogIn login={login} setLogin={setLogin} />}
         />
         <Route path="/questions/:id" element={<QuestionDetail />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </>
   );
