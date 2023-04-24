@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import useFetch from '../util/useFetch';
 import profileImg from '../images/profileImg.jpeg';
@@ -122,7 +123,7 @@ const CorrectionBox = styled.div`
   }
 
   .correctionBtnBox {
-    margin-top: 20px;
+    margin-top: 30px;
     width: 100%;
     text-align: right;
 
@@ -175,17 +176,19 @@ const CorrectionFormBox = styled.div`
     flex-direction: column;
     justify-content: space-evenly;
     padding-left: 2rem;
+    position: relative;
+    margin-top: 20px;
   }
 
   .nameBox {
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     display: flex;
     align-items: center;
 
     .name {
       display: block;
       margin-right: 10px;
-      width: 100px;
+      width: 150px;
       color: rgb(82, 82, 82);
     }
 
@@ -211,7 +214,7 @@ const CorrectionFormBox = styled.div`
     .password {
       margin-right: 10px;
       display: block;
-      width: 100px;
+      width: 150px;
       color: rgb(82, 82, 82);
     }
 
@@ -229,6 +232,66 @@ const CorrectionFormBox = styled.div`
         outline: none;
       }
     }
+  }
+
+  .rePasswordBox {
+    display: flex;
+    align-items: center;
+
+    .rePassword {
+      margin-right: 10px;
+      display: block;
+      width: 150px;
+      color: rgb(82, 82, 82);
+    }
+
+    .rePasswordInput {
+      height: 25px;
+      border: none;
+      box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
+        rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+      font-size: 1.1rem;
+      border-radius: 5px;
+      padding: 5px;
+      font-size: 1.1rem;
+
+      :focus {
+        outline: none;
+      }
+    }
+  }
+
+  .lengthNotConfirm {
+    font-size: 0.8rem;
+    margin-bottom: 15px;
+    color: rgb(220, 85, 85);
+    margin-right: 70px;
+    margin-top: 5px;
+    text-align: right;
+  }
+
+  .lengthConfirm {
+    font-size: 0.8rem;
+    margin-bottom: 15px;
+    color: rgb(107, 147, 249);
+    margin-right: 70px;
+    margin-top: 5px;
+    text-align: right;
+  }
+
+  .confirmAlert {
+    font-size: 0.8rem;
+    text-align: right;
+    margin-right: 70px;
+    margin-top: 5px;
+  }
+
+  .verified {
+    color: rgb(107, 147, 249);
+  }
+
+  .unverified {
+    color: rgb(220, 85, 85);
   }
 `;
 
@@ -546,12 +609,35 @@ function MyPage({
 
   const [user, setUsers] = useState([]);
   const [secession, setSecession] = useState(false);
-  const [alert, setAlert] = useState(false);
+  const [secessionAlert, setSecessionAlert] = useState(false);
   const [correction, setCorrection] = useState(false);
   const [name, setName] = useState('');
   const [password, setPassword] = useState('g');
+  const [lengthConfirm, setLengthConfirm] = useState(false);
+  const [rePassword, setRePassword] = useState('');
+  const [confirm, setConfirm] = useState(false);
   const [id, setId] = useState(0);
+  const navigate = useNavigate();
+
+  function deleteUser() {
+    fetch(`http://localhost:3001/user/${id}`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: '',
+        ContentType: 'application/json',
+      },
+    })
+      .then(response => {
+        console.log(response);
+        setSecessionAlert(false);
+        navigate('/');
+      })
+      .catch(err => {
+        console.log(err);
+      });
+
   const token = localStorage.getItem('Autorization');
+
 
   useEffect(() => {
     setId(user.userId);
@@ -569,14 +655,15 @@ function MyPage({
 
   function onSecession() {
     setSecession(true);
+    deleteUser();
   }
 
   function onAlert() {
-    setAlert(true);
+    setSecessionAlert(true);
   }
 
   function offAlert() {
-    setAlert(false);
+    setSecessionAlert(false);
   }
 
   function onCorrection() {
@@ -595,27 +682,59 @@ function MyPage({
     setPassword(e.target.value);
   }
 
-  const onChangePut = () => {
-    const putData = {
-      userId: user.userId,
-      profile_image: user.profileImg,
-      name,
-      questions: user.questions,
-      answers: user.answers,
-    };
+  function changeRePassword(e) {
+    setRePassword(e.target.value);
+  }
 
-    fetch(`http://localhost:3001/user/${id}`, {
-      method: 'PUT',
-      body: JSON.stringify(putData),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then(() => {
-        console.log(user.name);
+  useEffect(() => {
+    if (password.length > 7 && password.length < 20) {
+      setLengthConfirm(true);
+    } else if (password.length < 7) {
+      setLengthConfirm(false);
+    } else if (password.length > 20) {
+      setLengthConfirm(false);
+    }
+  }, [password]);
+
+  useEffect(() => {
+    if (
+      password === rePassword &&
+      password.length !== 0 &&
+      rePassword.length !== 0
+    ) {
+      setConfirm(true);
+    } else if (
+      password !== rePassword ||
+      password.length === 0 ||
+      rePassword.length === 0
+    ) {
+      setConfirm(false);
+    }
+  }, [rePassword, password, confirm]);
+
+  const onChangePut = () => {
+    if (!confirm) {
+      alert('비밀번호를 확인해주세요!');
+    } else {
+      const putData = {
+        name,
+        answers: user.answers,
+      };
+
+      fetch(`http://localhost:3001/user/${id}`, {
+        method: 'PUT',
+        body: JSON.stringify(putData),
+        headers: {
+          'Content-Type': 'application/json',
+        },
       })
-      .catch(err => console.log(err));
-    window.location.reload();
+        .then(() => {
+          console.log(user.name);
+        })
+        .catch(err => console.log(err));
+
+      window.location.reload();
+    }
   };
 
   useEffect(() => {
@@ -726,12 +845,16 @@ function MyPage({
           secession
         </button>
       </BtnBox>
-      {alert ? (
+      {secessionAlert ? (
         <SecessionAlertBack>
           <SecessionAlertBox>
             <span className="alertText">Are you sure you want to leave?</span>
             <div className="btnBox">
-              <button className="onBtn" onClick={onAlert} type="button">
+              <button
+                className="onBtn"
+                onClick={() => onSecession}
+                type="button"
+              >
                 YES
               </button>
               <button className="offBtn" onClick={offAlert} type="button">
@@ -763,10 +886,30 @@ function MyPage({
                     className="passwordInput"
                     type="password"
                     name="password"
-                    defaultValue={user.password}
                     onChange={e => changePassword(e)}
                   />
                 </div>
+                {lengthConfirm ? (
+                  <div className="lengthConfirm">verified</div>
+                ) : (
+                  <div className="lengthNotConfirm">
+                    Write more than 7 characters and less than 20 characters.
+                  </div>
+                )}
+                <div className="rePasswordBox">
+                  <span className="rePassword">confirm password</span>
+                  <input
+                    className="rePasswordInput"
+                    type="password"
+                    name="password"
+                    onChange={e => changeRePassword(e)}
+                  />
+                </div>
+                {confirm ? (
+                  <div className="confirmAlert verified">verified</div>
+                ) : (
+                  <div className="confirmAlert unverified">unverified</div>
+                )}
               </div>
               <div className="correctionBtnBox">
                 <button
