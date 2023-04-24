@@ -202,4 +202,11 @@ public class QuestionService {
         }
     }
 
+    // 마이페이지 내 질문목록 조회
+    public List<Question> findQuestionsByMemberId(long memberId) {
+        List<Question> findQuestions = questionRepository.findQuestionsByMemberId(memberId)
+                .orElseThrow(() -> new RuntimeException("not found questions"));
+        return findQuestions;
+    }
+
 }

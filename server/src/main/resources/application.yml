@@ -31,7 +31,20 @@ spring:
     hibernate:
       ddl-auto: update  #create -> update
     show-sql: true
-
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            clientId: ${GOOGLE_CLIENT_ID}
+            clientSecret: ${GOOGLE_CLIENT_SECRET}
+            scope:
+              - email
+              - profile
+          github:
+            client-id: ${GITHUB_CLIENT_ID}
+            client-secret: ${GITHUB_CLIENT_SECRET}
+            scope: name,email,avatar_url
 jwt:
   key: ${JWT_SECRET_KEY}  # token secret key
   access-token-expiration-minutes: 30  # access-token 만료시간

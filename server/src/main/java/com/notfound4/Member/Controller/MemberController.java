@@ -2,10 +2,16 @@ package com.notfound4.Member.Controller;
 
 
 
+import com.notfound4.Answer.Entity.Answer;
+import com.notfound4.Answer.Service.AnswerService;
 import com.notfound4.Member.Entity.Member;
 import com.notfound4.Member.Dto.MemberDto;
 import com.notfound4.Member.Mapper.MemberMapper;
 import com.notfound4.Member.Service.MemberService;
+import com.notfound4.Question.Entity.Like;
+import com.notfound4.Question.Entity.Question;
+import com.notfound4.Question.Service.QuestionLikeService;
+import com.notfound4.Question.Service.QuestionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -15,6 +21,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/users")
@@ -42,7 +51,7 @@ public class MemberController {
         return ResponseEntity.created(location).build();
     }
 
-    @PatchMapping("/{user-id}")
+    @PutMapping ("/{user-id}")
     public ResponseEntity patchMember(@PathVariable("user-id") @Positive long memberId,
                                       @Valid @RequestBody MemberDto.Patch requestBody) {
         requestBody.setMemberId(memberId);
@@ -54,8 +63,7 @@ public class MemberController {
 
     @GetMapping("/{user-id}")
     public ResponseEntity getMember(@PathVariable("user-id") @Positive long memberId) {
-        Member findMember = memberService.findMember(memberId);
-        return new ResponseEntity(mapper.memberToMemberResponse(findMember), HttpStatus.OK);
+        return memberService.findMyPage(memberId);
     }
 
     @DeleteMapping("/{user-id}")

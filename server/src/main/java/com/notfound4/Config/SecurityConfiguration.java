@@ -2,6 +2,7 @@ package com.notfound4.Config;
 
 import com.notfound4.Auth.Filter.JwtAuthenticationFilter;
 import com.notfound4.Auth.Filter.JwtVerificationFilter;
+import com.notfound4.Auth.Handler.OAuth2MemberSuccessHandler;
 import com.notfound4.Auth.Jwt.JwtTokenizer;
 import com.notfound4.Member.Service.MemberService;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,34 +14,43 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.config.oauth2.client.CommonOAuth2Provider;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
 import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.web.bind.annotation.CrossOrigin;
+
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
 
 import java.util.Arrays;
+import java.util.List;
 
-import static org.springframework.security.config.Customizer.withDefaults;
 
 
 @Configuration
 public class SecurityConfiguration {
 
+    @Value("${spring.security.oauth2.client.registration.google.clientId}")
+    private String googleClientId;
+
+    @Value("${spring.security.oauth2.client.registration.google.clientSecret}")
+    private String googleClientSecret;
+
+    @Value("${spring.security.oauth2.client.registration.github.client-id}")
+    private String githubClientId;
+
+    @Value("${spring.security.oauth2.client.registration.github.client-secret}")
+    private String githubClientSecret;
     private final JwtTokenizer jwtTokenizer;
+    private final MemberService memberService;
 
-
-    public SecurityConfiguration(JwtTokenizer jwtTokenizer) {
+    public SecurityConfiguration(JwtTokenizer jwtTokenizer,
+                                 MemberService memberService) {
         this.jwtTokenizer = jwtTokenizer;
-
+        this.memberService = memberService;
     }
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -57,25 +67,22 @@ public class SecurityConfiguration {
                 .apply(new CustomFilterConfigurer())
                 .and()
                 .authorizeHttpRequests(authorize -> authorize
-//                        .antMatchers(HttpMethod.POST, "/users/**").permitAll()
-//                        .antMatchers(HttpMethod.PATCH, "/users/**").authenticated()
-//                        .antMatchers(HttpMethod.GET, "/users/**").authenticated()
-//                        .antMatchers(HttpMethod.DELETE, "/users/**").authenticated()
-//                        .antMatchers(HttpMethod.POST, "/questions/ask").authenticated()
-//                        .antMatchers(HttpMethod.PATCH, "/questions/**").authenticated()
-//                        .antMatchers(HttpMethod.DELETE, "/questions/**").authenticated()
-//                        .antMatchers(HttpMethod.POST, "/questions/**/answer").authenticated()
-//                        .antMatchers(HttpMethod.POST, "/questions/**/like").authenticated()
-//                        .antMatchers(HttpMethod.PATCH, "/questions/**/answer/**").authenticated()
-//                        .antMatchers(HttpMethod.DELETE, "/questions/**/answer/**").authenticated()
+                        .antMatchers(HttpMethod.POST, "/users/**").permitAll()
+                        .antMatchers(HttpMethod.PATCH, "/users/**").authenticated()
+                        .antMatchers(HttpMethod.GET, "/users/**").authenticated()
+                        .antMatchers(HttpMethod.DELETE, "/users/**").authenticated()
+                        .antMatchers(HttpMethod.POST, "/questions/ask").authenticated()
+                        .antMatchers(HttpMethod.PATCH, "/questions/**").authenticated()
+                        .antMatchers(HttpMethod.DELETE, "/questions/**").authenticated()
+                        .antMatchers(HttpMethod.POST, "/questions/**/answer").authenticated()
+                        .antMatchers(HttpMethod.POST, "/questions/**/like").authenticated()
+                        .antMatchers(HttpMethod.PATCH, "/questions/**/answer/**").authenticated()
+                        .antMatchers(HttpMethod.DELETE, "/questions/**/answer/**").authenticated()
                         .anyRequest().permitAll()
-                );
+                )
+                .oauth2Login(oauth2 -> oauth2
+                        .successHandler(new OAuth2MemberSuccessHandler(jwtTokenizer, memberService)));
         return http.build();
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
 
@@ -85,10 +92,10 @@ public class SecurityConfiguration {
         CorsConfiguration configuration = new CorsConfiguration();
 
         configuration.setAllowCredentials(true);
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000", "https://localhost:3000", "http://localhost:3001", "https://localhost:3001"
-        , "http://127.0.0.1:4040", "https://93b9-210-100-239-193.ngrok-free.app", "https://127.0.0.1:4040", "http://localhost:8080", "https://localhost:8080"));
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000", "http://localhost:3001", "http://localhost:3002"
+                , "http://localhost:3003", "http://localhost:3004"));
         configuration.addAllowedHeader("*");
-        configuration.addAllowedMethod("*");
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "DELETE", "PUT", "OPTIONS"));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
@@ -110,6 +117,35 @@ public class SecurityConfiguration {
                     .addFilterAfter(jwtVerificationFilter, JwtAuthenticationFilter.class)
                     .addFilterAfter(jwtVerificationFilter, OAuth2LoginAuthenticationFilter.class);
         }
+    }
+
+    @Bean
+    public ClientRegistrationRepository clientRegistrationRepository() {
+        List<ClientRegistration> registrations = List.of(
+                googleClientRegistration(),
+                githubClientRegistration()
+        );
+        return new InMemoryClientRegistrationRepository(registrations);
+    }
+
+    // oauth 구글 키, 시크릿 등록
+    private ClientRegistration googleClientRegistration() {
+        return CommonOAuth2Provider
+                .GOOGLE
+                .getBuilder("google")
+                .clientId(googleClientId)
+                .clientSecret(googleClientSecret)
+                .build();
+    }
+
+    // oauth 깃허브 키, 시크릿 등록
+    private ClientRegistration githubClientRegistration() {
+        return CommonOAuth2Provider
+                .GITHUB
+                .getBuilder("github")
+                .clientId(githubClientId)
+                .clientSecret(githubClientSecret)
+                .build();
     }
 
 
