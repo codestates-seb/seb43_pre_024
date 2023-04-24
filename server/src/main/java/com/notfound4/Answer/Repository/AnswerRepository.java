@@ -17,4 +17,5 @@ public interface AnswerRepository extends JpaRepository<Answer, Long> {
     // 질문 확인 페이지 조회 시, 해당 질문에 대한 답변 리스트
     @Query(value = "from Answer an where an.question = :question")
     List<Answer> findByQuestionId(Question question);
+
 }
