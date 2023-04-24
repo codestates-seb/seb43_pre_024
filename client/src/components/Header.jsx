@@ -45,6 +45,8 @@ const Container = styled.div`
     color: rgba(0, 0, 0, 0.7);
     flex-shrink: 0;
     display: block;
+    border: none;
+    background-color: transparent;
 
     :hover {
       background-color: rgba(0, 0, 0, 0.1);
@@ -205,14 +207,17 @@ const UsersBtn = styled.button`
   margin-left: -7px;
 `;
 
-function Header({ isLogin, changeLoginStatus}) {
+function Header({
+  isLogin,
+  changeLoginStatus,
+  setHomeActive,
+  setUsersActive,
+  setQuestionsActive,
+  inputValue,
+  setInputValue,
+}) {
   const [focus, setFocus] = useState(false);
   const [toggle, setToggle] = useState(false);
-  const [inputValue, setInputValue] = useState('');
-  const [homeActive, setHomeActive] = useState(true);
-  const [questionsActive, setQuestionsActive] = useState(false);
-  const [usersActive, setUsersActive] = useState(false);
-
   const navigate = useNavigate();
 
   function searchFocus() {
@@ -223,13 +228,13 @@ function Header({ isLogin, changeLoginStatus}) {
     setFocus(false);
   }
 
-  function toggleMenu() {
-    setToggle(!toggle);
-  }
-
   function inputChange(e) {
     setInputValue(e.target.value);
     console.log(inputValue);
+  }
+
+  function toggleMenu() {
+    setToggle(!toggle);
   }
 
   function activeHome() {
@@ -265,6 +270,7 @@ function Header({ isLogin, changeLoginStatus}) {
       .then(response => {
         response.json();
         navigate('/search-questions/title');
+        activeQuestions();
         }
       )
       .then(data => console.log(data))
@@ -343,7 +349,9 @@ function Header({ isLogin, changeLoginStatus}) {
           <img src={Logo} className="logoImg" alt="로고사진" />
         </a>
         <Link to="all-questions">
-          <span className="questions">All Questions</span>
+          <button className="questions" onClick={activeQuestions} type="button">
+            All Questions
+          </button>
         </Link>
         <SearchBox focus={focus}>
           <BiSearchAlt size="25" fill="#888" />
