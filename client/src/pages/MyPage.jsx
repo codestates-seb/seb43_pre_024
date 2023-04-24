@@ -186,7 +186,7 @@ const CorrectionFormBox = styled.div`
     .name {
       display: block;
       margin-right: 10px;
-      width: 100px;
+      width: 150px;
       color: rgb(82, 82, 82);
     }
 
@@ -208,15 +208,43 @@ const CorrectionFormBox = styled.div`
   .passwordBox {
     display: flex;
     align-items: center;
+    margin-bottom: 10px;
 
     .password {
       margin-right: 10px;
       display: block;
-      width: 100px;
+      width: 150px;
       color: rgb(82, 82, 82);
     }
 
     .passwordInput {
+      height: 25px;
+      border: none;
+      box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
+        rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+      font-size: 1.1rem;
+      border-radius: 5px;
+      padding: 5px;
+      font-size: 1.1rem;
+
+      :focus {
+        outline: none;
+      }
+    }
+  }
+
+  .rePasswordBox {
+    display: flex;
+    align-items: center;
+
+    .rePassword {
+      margin-right: 10px;
+      display: block;
+      width: 150px;
+      color: rgb(82, 82, 82);
+    }
+
+    .rePasswordInput {
       height: 25px;
       border: none;
       box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
@@ -551,6 +579,7 @@ function MyPage({
   const [correction, setCorrection] = useState(false);
   const [name, setName] = useState('');
   const [password, setPassword] = useState('g');
+  const [rePassword, setRePassword] = useState('');
   const [id, setId] = useState(0);
   const navigate = useNavigate();
 
@@ -613,6 +642,10 @@ function MyPage({
 
   function changePassword(e) {
     setPassword(e.target.value);
+  }
+
+  function changeRePassword(e) {
+    setRePassword(e.target.value);
   }
 
   const onChangePut = () => {
@@ -784,8 +817,16 @@ function MyPage({
                     className="passwordInput"
                     type="password"
                     name="password"
-                    defaultValue={user.password}
                     onChange={e => changePassword(e)}
+                  />
+                </div>
+                <div className="rePasswordBox">
+                  <span className="rePassword">confirm password</span>
+                  <input
+                    className="rePasswordInput"
+                    type="password"
+                    name="password"
+                    onChange={e => changeRePassword(e)}
                   />
                 </div>
               </div>
