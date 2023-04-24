@@ -20,7 +20,6 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
     @Query(value = "UPDATE question SET views = views + 1 WHERE question_id = :questionId", nativeQuery = true)
     void incrementViews(@Param("questionId") long questionId);
 
-
     // title에서 검색어로 find
     @Query("SELECT q FROM Question q WHERE q.title LIKE %:searchId%")
     List<Question> findByTitleContaining(@Param("searchId") String searchId);
