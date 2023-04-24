@@ -21,7 +21,12 @@ function AnswerList({ questionId }) {
 
   function onClickHeartButton({ questionId }) {
     // 로그인한 유저가 이 답변에 좋아요를 눌렀는지 서버에서 알려줘야 좋아요 해제가 가능함
-    addLike({ questionId })
+    const token = localStorage.getItem("Authorization");
+    if (!token) {
+      alert("로그인이 필요합니다.");
+      return;
+    }
+    addLike({ questionId }, token)
       .then(function (response) {
         console.log(response);
         fetchAnswerInfo();

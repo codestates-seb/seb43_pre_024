@@ -1,6 +1,8 @@
 import axios from "axios";
 
-export const API_URL = process.env.REACT_APP_DAKYUNG;
+export const API_URL =
+  "http://ec2-15-164-49-219.ap-northeast-2.compute.amazonaws.com:8080";
+
 export function fetchAnswerInfo({ questionId }) {
   return axios
     .get(`${API_URL}/questions/${questionId}`)

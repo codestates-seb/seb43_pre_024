@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.css": "/static/css/main.8960c5ee.css",
+    "main.js": "/static/js/main.aa081565.js",
+    "static/media/profileImg.jpeg": "/static/media/profileImg.f62194ffe7dd5b823030.jpeg",
+    "static/media/main_img2.png": "/static/media/main_img2.93fd149589c62b14cd83.png",
+    "static/media/logo-stackoverflow.png": "/static/media/logo-stackoverflow.609d4dfb02f61f430abf.png",
+    "static/media/mainKirbi.png": "/static/media/mainKirbi.57339a66b27ee2fa243e.png",
+    "static/media/gitLogo.svg": "/static/media/gitLogo.f188f832ed4f6ec02effe304532730dd.svg",
+    "static/media/googleLogo.svg": "/static/media/googleLogo.7b660d25e049122c0bc4e77490871659.svg",
+    "index.html": "/index.html",
+    "static/media/stackoverflowMiniLogo.svg": "/static/media/stackoverflowMiniLogo.43d63165215de892af1dab94da43aa07.svg",
+    "main.8960c5ee.css.map": "/static/css/main.8960c5ee.css.map",
+    "main.aa081565.js.map": "/static/js/main.aa081565.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.8960c5ee.css",
+    "static/js/main.aa081565.js"
+  ]
+}
