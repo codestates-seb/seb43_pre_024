@@ -123,7 +123,7 @@ const CorrectionBox = styled.div`
   }
 
   .correctionBtnBox {
-    margin-top: 20px;
+    margin-top: 30px;
     width: 100%;
     text-align: right;
 
@@ -177,10 +177,11 @@ const CorrectionFormBox = styled.div`
     justify-content: space-evenly;
     padding-left: 2rem;
     position: relative;
+    margin-top: 20px;
   }
 
   .nameBox {
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     display: flex;
     align-items: center;
 
@@ -209,7 +210,6 @@ const CorrectionFormBox = styled.div`
   .passwordBox {
     display: flex;
     align-items: center;
-    margin-bottom: 10px;
 
     .password {
       margin-right: 10px;
@@ -261,11 +261,29 @@ const CorrectionFormBox = styled.div`
     }
   }
 
-  .confirmAlert {
-    position: absolute;
-    bottom: -20px;
-    right: 70px;
+  .lengthNotConfirm {
     font-size: 0.8rem;
+    margin-bottom: 15px;
+    color: rgb(220, 85, 85);
+    margin-right: 70px;
+    margin-top: 5px;
+    text-align: right;
+  }
+
+  .lengthConfirm {
+    font-size: 0.8rem;
+    margin-bottom: 15px;
+    color: rgb(107, 147, 249);
+    margin-right: 70px;
+    margin-top: 5px;
+    text-align: right;
+  }
+
+  .confirmAlert {
+    font-size: 0.8rem;
+    text-align: right;
+    margin-right: 70px;
+    margin-top: 5px;
   }
 
   .verified {
@@ -595,6 +613,7 @@ function MyPage({
   const [correction, setCorrection] = useState(false);
   const [name, setName] = useState('');
   const [password, setPassword] = useState('g');
+  const [lengthConfirm, setLengthConfirm] = useState(false);
   const [rePassword, setRePassword] = useState('');
   const [confirm, setConfirm] = useState(false);
   const [id, setId] = useState(0);
@@ -664,6 +683,16 @@ function MyPage({
   function changeRePassword(e) {
     setRePassword(e.target.value);
   }
+
+  useEffect(() => {
+    if (password.length > 7 && password.length < 20) {
+      setLengthConfirm(true);
+    } else if (password.length < 7) {
+      setLengthConfirm(false);
+    } else if (password.length > 20) {
+      setLengthConfirm(false);
+    }
+  }, [password]);
 
   useEffect(() => {
     if (
@@ -858,6 +887,13 @@ function MyPage({
                     onChange={e => changePassword(e)}
                   />
                 </div>
+                {lengthConfirm ? (
+                  <div className="lengthConfirm">verified</div>
+                ) : (
+                  <div className="lengthNotConfirm">
+                    Write more than 7 characters and less than 20 characters.
+                  </div>
+                )}
                 <div className="rePasswordBox">
                   <span className="rePassword">confirm password</span>
                   <input
