@@ -41,6 +41,7 @@ const GoogleLogin = styled.a`
   color: #2f3337;
   border: 1px solid #ccc;
   border-radius: 5px;
+  text-decoration: none;
 
   svg {
     margin-right: 5px;
@@ -56,6 +57,7 @@ const GitLogin = styled.a`
   background: #2f3337;
   color: #fff;
   border-radius: 5px;
+  text-decoration: none;
 
   svg {
     margin-right: 5px;
@@ -166,18 +168,13 @@ function LogIn({ login, setLogin }) {
         }),
       });
       if (response.ok) {
-        // const jsonString = await response.text();
-        // const data = JSON.parse(jsonString);
-        //localStorage.removeItem("token");
-        // localStorage.setItem("token", data.token);
-
         const headers = response.headers;
         const authorizationHeader = headers.get("Authorization");
-        localStorage.setItem("Authorization", authorizationHeader);
-        navigate("/home");
+        const token = authorizationHeader.split(" ")[1];
+        localStorage.setItem("Authorization", token);
         setLogin(true);
         console.log(login);
-        //ToDo : HTTP상태 코드에 따라 분기처리 하기
+        navigate("/home");
       } else if (response.status === 401) {
         throw new Error("이메일 또는 비밀번호가 틀렸습니다.");
       } else {
