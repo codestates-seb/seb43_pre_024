@@ -1,13 +1,13 @@
-import styled from 'styled-components';
-import { useState, useEffect } from 'react';
-import { ReactComponent as GoogleLogo } from '../images/googleLogo.svg';
-import { ReactComponent as GitLogo } from '../images/gitLogo.svg';
+import styled from "styled-components";
+import { useState } from "react";
+import { ReactComponent as GoogleLogo } from "../images/googleLogo.svg";
+import { ReactComponent as GitLogo } from "../images/gitLogo.svg";
 
 import {
   validateCheckPassword,
   validateEmail,
   validatePassword,
-} from '../util/validator';
+} from "../util/validator";
 
 const SignUpBox = styled.div`
   padding: 0;
@@ -28,6 +28,10 @@ const SignUpBox = styled.div`
 const TextBox = styled.div`
   max-width: 420px;
   margin-right: 50px;
+
+  .textLineBox {
+    padding-left: 0;
+  }
   .textTitle {
     font-size: 1.7rem;
     font-weight: 500;
@@ -49,6 +53,7 @@ const InputBox = styled.div`
   flex-direction: column;
 
   .inputContainer {
+    position: relative;
     height: 340px;
     background: #fff;
     padding: 40px 30px;
@@ -59,10 +64,6 @@ const InputBox = styled.div`
   label {
     font-weight: 800;
     font-size: 1rem;
-  }
-  .textLineBox {
-    padding: 0 !important;
-    padding-inline-start: 0px;
   }
 
   input {
@@ -123,7 +124,9 @@ const GitSignin = styled.button`
 `;
 
 const SignUpBtn = styled.button`
-  width: 100%;
+  width: calc(100% - 60px);
+  position: absolute;
+  bottom: 50px;
   padding: 12px 0;
   background: #0a95ff;
   border: none;
@@ -142,17 +145,16 @@ function SignUpPage() {
   const [emailIsFocused, setEmailIsFocused] = useState(false);
   const [pwIsFocused, setPwIsFocused] = useState(false);
   const [pwChIsFocused, setChPwIsFocused] = useState(false);
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [passwordCheck, setPasswordCheck] = useState('');
-  const [userData, setUserData] = useState([]);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordCheck, setPasswordCheck] = useState("");
   const [emailErrorMessage, setEmailErrorMessage] =
-    useState('이메일 형식을 확인해주세요.');
+    useState("이메일 형식을 확인해주세요.");
   const [pwErrorMessage, setPwErrorMessage] = useState(
-    '7자에서 20자 이내로 비밀번호를 입력해주세요.',
+    "7자에서 20자 이내로 비밀번호를 입력해주세요."
   );
-  const [pwCheckErrorMessage, setPwCheckErrorMessage] = useState('');
+  const [pwCheckErrorMessage, setPwCheckErrorMessage] = useState("");
 
   // display name input 클릭 시 div 포커스 효과
   const nameHandleFocus = () => {
@@ -196,52 +198,42 @@ function SignUpPage() {
     password,
   };
 
-  useEffect(() => {
-    fetch('http://localhost:4000/users/')
-      .then(response => response.json())
-      .then(data => setUserData(data));
-  }, []);
-
   const handleSubmit = () => {
-    fetch('http://localhost:4000/users/')
-      .then(response => response.json())
-      .then(data => setUserData(data));
-
-    if (
-      userData.some(m => {
-        return m.name === name;
-      })
-    ) {
-      alert('이미 존재하는 display name입니다.');
-      return;
-    }
-
-    if (
-      userData.some(m => {
-        return m.email === email;
-      })
-    ) {
-      alert('이미 존재하는 이메일입니다.');
-      return;
-    }
-
     if (
       emailErrorMessage.length !== 0 ||
       pwCheckErrorMessage.length !== 0 ||
       pwErrorMessage.length !== 0
     ) {
-      // 유효성 검사에 실패한 경우
-      // eslint-disable-next-line consistent-return
-      return alert('회원가입 실패: 유효하지 않은 데이터가 있습니다.');
+      alert("회원가입 실패: 유효하지 않은 데이터가 있습니다.");
+      return;
     }
 
-    fetch('http://localhost:4000/users/', {
-      method: 'POST',
+    fetch("http://localhost:3000/users/signup", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(user),
-    }).then(response => response.json());
+    })
+      .then((response) => {
+        // 2. HTTP 오류 처리
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        // 3. JSON 파싱 오류 처리
+        if (typeof data === "string") {
+          throw new SyntaxError("JSON parsing error");
+        }
+        // success callback
+        console.log("Data successfully sent to server: ", data);
+      })
+      .catch((error) => {
+        // 4. 네트워크 오류 처리
+        console.error("Network error: ", error);
+      });
   };
 
   return (
@@ -303,13 +295,13 @@ function SignUpPage() {
                 Display name
                 <div
                   className={
-                    nameIsFocused ? 'inputFocus focused' : 'inputFocus'
+                    nameIsFocused ? "inputFocus focused" : "inputFocus"
                   }
                 >
                   <input
                     onFocus={nameHandleFocus}
                     onBlur={nameHandleBlur}
-                    onChange={e => setName(e.target.value)}
+                    onChange={(e) => setName(e.target.value)}
                     maxLength="10"
                     type="displayName"
                     id="displayName"
@@ -322,13 +314,13 @@ function SignUpPage() {
                 Email
                 <div
                   className={
-                    emailIsFocused ? 'inputFocus focused' : 'inputFocus'
+                    emailIsFocused ? "inputFocus focused" : "inputFocus"
                   }
                 >
                   <input
                     onFocus={emailHandleFocus}
                     onBlur={emailHandleBlur}
-                    onChange={e => {
+                    onChange={(e) => {
                       setEmailErrorMessage(validateEmail(e.target.value));
                       setEmail(e.target.value);
                     }}
@@ -344,12 +336,12 @@ function SignUpPage() {
               <label htmlFor="password">
                 Password
                 <div
-                  className={pwIsFocused ? 'inputFocus focused' : 'inputFocus'}
+                  className={pwIsFocused ? "inputFocus focused" : "inputFocus"}
                 >
                   <input
                     onFocus={handleFocus}
                     onBlur={handleBlur}
-                    onChange={e => {
+                    onChange={(e) => {
                       setPwErrorMessage(validatePassword(e.target.value));
                       setPassword(e.target.value);
                     }}
@@ -368,15 +360,15 @@ function SignUpPage() {
                   Password Check
                   <div
                     className={
-                      pwChIsFocused ? 'inputFocus focused' : 'inputFocus'
+                      pwChIsFocused ? "inputFocus focused" : "inputFocus"
                     }
                   >
                     <input
                       onFocus={pwCheckHandleFocus}
                       onBlur={pwCheckHandleBlur}
-                      onChange={e => {
+                      onChange={(e) => {
                         setPwCheckErrorMessage(
-                          validateCheckPassword(password, e.target.value),
+                          validateCheckPassword(password, e.target.value)
                         );
                         setPasswordCheck(e.target.value);
                       }}
@@ -390,7 +382,7 @@ function SignUpPage() {
                 <p className="errorMessage">{pwCheckErrorMessage}</p>
               </div>
             ) : (
-              ''
+              ""
             )}
             <SignUpBtn onClick={handleSubmit} type="submit">
               Sign up
