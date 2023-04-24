@@ -15,6 +15,7 @@ import com.notfound4.Question.Mapper.QuestionMapper;
 import com.notfound4.Question.Service.QuestionLikeService;
 import com.notfound4.Question.Service.QuestionService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,15 +29,24 @@ import java.util.List;
 @RequestMapping("/questions")
 public class QuestionController {
     private final static String QUESTION_DEFAULT_URL = "/questions";
+    @Autowired
     private final QuestionMapper mapper;
+    @Autowired
     private final AnswerMapper answerMapper;
+    @Autowired
     private final QuestionService questionService;
+    @Autowired
     private final MemberService memberService;
+    @Autowired
     private final QuestionLikeService likeService;
+    @Autowired
     private final AnswerService answerService;
+    @Autowired
     private final QuestionLikeService questionLikeService;
 
+    @Autowired
     private final CommentService commentService;
+    @Autowired
     private final CommentMapper commentMapper;
 
 
