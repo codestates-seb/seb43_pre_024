@@ -31,7 +31,7 @@ const LoginLogo = styled.div`
   margin-bottom: 30px;
 `;
 
-const GoogleLogin = styled.button`
+const GoogleLogin = styled.a`
   width: 100%;
   padding: 8px 0;
   display: flex;
@@ -46,7 +46,7 @@ const GoogleLogin = styled.button`
     margin-right: 5px;
   }
 `;
-const GitLogin = styled.button`
+const GitLogin = styled.a`
   width: 100%;
   padding: 8px 0;
   margin: 10px 0 30px 0;
@@ -120,7 +120,7 @@ const LoginBtn = styled.button`
   }
 `;
 
-function LogIn({ setLogin }) {
+function LogIn({ login, setLogin }) {
   const [emailIsFocused, setEmailIsFocused] = useState(false);
   const [pwIsFocused, setPwIsFocused] = useState(false);
   const [userEmail, setUserEmail] = useState("");
@@ -154,29 +154,32 @@ function LogIn({ setLogin }) {
     }
 
     try {
-      const response = await fetch("http://localhost:3000/users/login", {
+      const response = await fetch(`${process.env.REACT_APP_MIRI}users/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: "include",
         body: JSON.stringify({
           email: userEmail,
           password: userPassword,
         }),
       });
       if (response.ok) {
-        const data = await response.json();
-        localStorage.removeItem("token");
-        localStorage.setItem("token", data.token);
+        // const jsonString = await response.text();
+        // const data = JSON.parse(jsonString);
+        //localStorage.removeItem("token");
+        // localStorage.setItem("token", data.token);
+
+        const headers = response.headers;
+        const authorizationHeader = headers.get("Authorization");
+        localStorage.setItem("Authorization", authorizationHeader);
         navigate("/home");
         setLogin(true);
+        console.log(login);
         //ToDo : HTTP상태 코드에 따라 분기처리 하기
-      } else if (response.status === 400) {
-        throw new Error("입력값이 올바르지 않습니다. 다시 시도해주세요.");
       } else if (response.status === 401) {
-        throw new Error(
-          "인증에 실패하였습니다. 이메일과 비밀번호를 확인해주세요."
-        );
+        throw new Error("이메일 또는 비밀번호가 틀렸습니다.");
       } else {
         throw new Error("알 수 없는 에러가 발생했습니다.");
       }
@@ -191,11 +194,15 @@ function LogIn({ setLogin }) {
         <LoginLogo>
           <StackLogo />
         </LoginLogo>
-        <GoogleLogin>
+        <GoogleLogin
+          href={`https://81f3-210-100-239-193.ngrok-free.app/oauth2/authorization/google`}
+        >
           <GoogleLogo />
           Log in with Google
         </GoogleLogin>
-        <GitLogin>
+        <GitLogin
+          href={`https://81f3-210-100-239-193.ngrok-free.app/oauth2/authorization/github`}
+        >
           <GitLogo />
           Log in with GitHub
         </GitLogin>

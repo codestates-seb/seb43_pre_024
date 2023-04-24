@@ -41,7 +41,7 @@ from{
 50%{
   transform: scale(1.03)
   }
-to%{
+to{
   transform: scale(1)
 }
 `;
@@ -295,7 +295,7 @@ const TeamMember = styled.div`
 
 const Skill = styled.div`
   width: 100%;
-  height: 600px
+  height: 600px;
   display: flex;
   justify-content: center;
   padding-top: 20vh;

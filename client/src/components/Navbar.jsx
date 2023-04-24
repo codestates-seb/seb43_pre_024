@@ -14,7 +14,7 @@ import AllQuestions from '../pages/AllQuestions';
 import Paging from './Paging';
 import MyPage from '../pages/MyPage';
 import NewQuestion from '../pages/NewQuestion';
-import SignUp from '../pages/SignUp';
+import SignUpPage from '../pages/SignUpPage';
 import LogIn from '../pages/LogIn';
 import QuestionDetail from '../pages/QuestionDetail';
 import SearchQuestions from '../pages/SearchQuestions';
@@ -223,7 +223,7 @@ const navigate = useNavigate();
         <Route path="/questions/:id" element={<QuestionDetail />} />
         <Route path="/new-question" element={<NewQuestion />} />
         <Route path="/mypage" element={<Paging />} />
-        <Route path="/signup" element={<SignUp />} />
+        <Route path="/signup" element={<SignUpPage />} />
         <Route path="/search-questions/title" element={<SearchQuestions />}/>
         <Route
           path="/login"
