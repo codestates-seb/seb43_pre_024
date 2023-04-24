@@ -14,12 +14,15 @@ import com.notfound4.Question.Repository.LikeRepository;
 import com.notfound4.Question.Repository.QuestionRepository;
 import com.notfound4.Question.exception.BadRequestException;
 import com.notfound4.Question.exception.NotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -39,10 +42,10 @@ public class QuestionService {
     private AnswerService answerService;
     @Autowired
     private final MemberService memberService;
-
-
     @Autowired
     private QuestionMapper questionMapper;
+    private static final Logger log = LoggerFactory.getLogger(QuestionService.class);
+
 
     public QuestionService(QuestionRepository questionRepository, AnswerRepository answerRepository, LikeRepository likeRepository, MemberService memberService) {
         this.questionRepository = questionRepository;
@@ -65,24 +68,51 @@ public class QuestionService {
             questionList = questionRepository.findByTitleContaining(searchId);
         }
 
-        questionList = sortQuestions(questionList, sortInfo, likeService);
+        questionList = sortQuestions(questionList, sortInfo);
         List<QuestionDto.Get> questionsDto = questionList.stream()
-                .map(question -> questionMapper.questionToGetQuestion(question, likeService, answerService))
+                .map(question -> {
+                    try {
+                        return questionMapper.questionToGetQuestion(question, likeService, answerService);
+                    } catch (NullPointerException e) {
+                        log.error("Error while mapping question to DTO: ", e);
+                        return null;
+                    }
+                }).filter(Objects::nonNull)
                 .collect(Collectors.toList());
 
         return new ResponseEntity<>(new QuestionsDto<>(questionsDto), HttpStatus.OK);
     }
 
-    private List<Question> sortQuestions(List<Question> questions, String sortInfo, QuestionLikeService likeService) {
+//    private List<Question> sortQuestions(List<Question> questions, String sortInfo, QuestionLikeService likeService) {
+//        switch (sortInfo.toUpperCase()) {
+//            case "HOT":
+//                Map<Question, Integer> likesMap = new HashMap<>();
+//                for (Question question : questions) {
+//                    likesMap.put(question, likeService.likes(question));
+//                }
+//                return questions.stream()
+//                        .sorted(Comparator.comparing((Question q) -> likesMap.getOrDefault(q, 0)).reversed())
+//                        .collect(Collectors.toList());
+//            case "NEW":
+//                return questions.stream()
+//                        .sorted(Comparator.comparing((Question q) -> q.getCreatedAt() != null ? q.getCreatedAt() : Instant.EPOCH).reversed())
+//                        .collect(Collectors.toList());
+//            case "TOP":
+//                return questions.stream()
+//                        .sorted(Comparator.comparing((Question q) -> q.getViews() != null ? q.getViews() : 0).reversed())
+//                        .collect(Collectors.toList());
+//            default:
+//                throw new IllegalArgumentException("Invalid sortInfo: " + sortInfo);
+//        }
+//    }
+
+    public static List<Question> sortQuestions(List<Question> questions, String sortInfo) {
         switch (sortInfo.toUpperCase()) {
-            case "HOT":
-                Map<Question, Integer> likesMap = new HashMap<>();
-                for (Question question : questions) {
-                    likesMap.put(question, likeService.likes(question));
-                }
+            case "HOT": // like수
                 return questions.stream()
-                        .sorted(Comparator.comparing(likesMap::get).reversed())
+                        .sorted(Comparator.comparing((Question q) -> (q.getLikeList() != null) ? q.getLikeList().size() : 0).reversed())
                         .collect(Collectors.toList());
+
             case "NEW":
                 return questions.stream()
                         .sorted(Comparator.comparing(Question::getCreatedAt).reversed())
@@ -95,7 +125,6 @@ public class QuestionService {
                 throw new IllegalArgumentException("Invalid sortInfo: " + sortInfo);
         }
     }
-
     // 질문 등록 시, 저장
     public void createQuestion(Question question) {
         questionRepository.save(question);
