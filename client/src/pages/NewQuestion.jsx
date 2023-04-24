@@ -1,196 +1,169 @@
-import Autocomplete from '@mui/material/Autocomplete';
-import TextField from '@mui/material/TextField';
-import styled from 'styled-components';
-import { useState } from 'react';
-import MDEditor from '@uiw/react-md-editor';
-import { colors } from '@mui/material';
+import styled from "styled-components";
+import { useEffect, useState } from "react";
+import QuestionInputBox from "../components/QuestionInputBox";
+import Confirm from "../components/Confirm";
+import { API_URL } from "../api";
+import axios from "axios";
 
 const NewQuestionStyle = styled.div`
   display: flex;
   flex-direction: column;
   text-align: left;
-  padding: 20px;
+  padding: 20px 50px 100px 50px;
+  background-color: #fafafa;
+  width: 100%;
 `;
 
-function NewQuestion() {
-  const [title, setTitle] = useState('');
-  const [body, setBody] = useState('');
-  const [tags, setTags] = useState('');
+const ButtonListStyle = styled.div`
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+`;
+
+const ButtonStyle = styled.button`
+  width: 150px;
+  height: 40px;
+  background: ${(props) =>
+    props.buttonType === "danger" ? "#ffffff" : "#0a95ff"};
+  color: ${(props) => (props.buttonType === "danger" ? "red" : "white")};
+  border-radius: 5px;
+  border: none;
+  :hover {
+    cursor: pointer;
+    background: ${(props) =>
+      props.buttonType === "danger" ? "#fff2f2" : "#0055aa"};
+    color: ${(props) => (props.buttonType === "danger" ? "#f00" : "white")};
+  }
+  :active {
+    background: ${(props) =>
+      props.buttonType === "danger" ? "#ffcccc" : "#003366"};
+    color: ${(props) => (props.buttonType === "danger" ? "#c00" : "white")};
+  }
+`;
+
+function NewQuestion({ questionId }) {
+  const [title, setTitle] = useState("");
+  const [body, setBody] = useState("");
+  const [tags, setTags] = useState([]);
   const [currentStep, setCurrentStep] = useState(0);
 
+  // 컨펌 모달을 위한 상태들
+  const [isCorfirmOpen, setIsConfirmOpen] = useState(false);
+  const [confirmMessage, setConfirmMessage] = useState("");
+  const [onClickConfirm, setOnClickConfirm] = useState(() => {});
+  const [onClickCancel, setOnClickCancel] = useState(() => {});
+
+  function onConfirmDiscard() {
+    setTitle("");
+    setBody("");
+    setTags([]);
+    setIsConfirmOpen(false);
+  }
+
+  function onCancelDiscard() {
+    setIsConfirmOpen(false);
+  }
+
+  function onClickDiscardButton() {
+    setConfirmMessage("작성중인 내용을 모두 삭제하시겠습니까?");
+    setOnClickConfirm(() => onConfirmDiscard);
+    setOnClickCancel(() => onCancelDiscard);
+    setIsConfirmOpen(true);
+  }
+
+  function onClickNextButton(text, minLength) {
+    if (text.length < minLength) {
+      setConfirmMessage(`${minLength}자 이상 입력해주세요.`);
+      setOnClickConfirm(() => () => {
+        setIsConfirmOpen(false);
+      });
+      setOnClickCancel(null);
+      setIsConfirmOpen(true);
+    } else {
+      setCurrentStep(currentStep + 1);
+    }
+  }
+
   return (
-    <NewQuestionStyle>
-      <h2>Ask a public question</h2>
-      <QuestionInputBox
-        title="Title"
-        inputType="text"
-        description="Be specific and imagine you’re asking a question to another person."
-        placeholder="e.g. Is there an R function for finding the index of an element in a vector?"
-        value={title}
-        setValue={setTitle}
-        hasNextButton={currentStep === 0}
-        disabled={currentStep < 0}
-        onClickNext={() => {
-          if (title.length < 10) {
-            alert('10자 이상 입력해주세요.');
-          } else {
-            setCurrentStep(1);
-          }
-        }}
-      />
-      <QuestionInputBox
-        title="What are the details of your problem? "
-        inputType="md-editor"
-        description="Introduce the problem and expand on what you put in the title. Minimum 20 characters."
-        value={body}
-        setValue={setBody}
-        hasNextButton={currentStep === 1}
-        disabled={currentStep < 1}
-        onClickNext={() => {
-          if (title.length < 10) {
-            alert('10자 이상 입력해주세요.');
-          } else {
-            setCurrentStep(2);
-          }
-        }}
-      />
-      <QuestionInputBox
-        title="Tags"
-        inputType="tags"
-        description="Add up to 5 tags to describe what your question is about. Start typing to see suggestions."
-        placeholder="e.g. javascript, react, java, python, c++"
-        value={tags}
-        setValue={setTags}
-        disabled={currentStep < 2}
-        hasNextButton={false}
-      />
-      <button
-        style={{
-          width: '150px',
-          height: '40px',
-          background: '#0A95FF',
-          color: 'white',
-          borderRadius: '5px',
-          border: 'none',
-        }}
-        type="button"
-        onClick={() => {
-          console.log('title', title);
-          console.log('body', body);
-          console.log('tags', tags);
-        }}
-      >
-        Post your question
-      </button>
-      <button
-        style={{
-          width: '150px',
-          height: '40px',
-          background: 'beige',
-          color: 'red',
-          borderRadius: '5px',
-          border: 'none',
-        }}
-        type="button"
-        onClick={() => {
-          setTitle('');
-        }}
-      >
-        Discard draft
-      </button>
-    </NewQuestionStyle>
+    <>
+      <NewQuestionStyle>
+        <h1>Ask a public question</h1>
+        <QuestionInputBox
+          title="Title"
+          inputType="text"
+          description="Be specific and imagine you’re asking a question to another person."
+          placeholder="e.g. Is there an R function for finding the index of an element in a vector?"
+          value={title}
+          setValue={setTitle}
+          hasNextButton={currentStep === 0}
+          disabled={currentStep < 0}
+          onClickNext={() => onClickNextButton(title, 10)}
+        />
+        <QuestionInputBox
+          title="What are the details of your problem? "
+          inputType="md-editor"
+          description="Introduce the problem and expand on what you put in the title. Minimum 20 characters."
+          value={body}
+          setValue={setBody}
+          hasNextButton={currentStep === 1}
+          disabled={currentStep < 1}
+          onClickNext={() => onClickNextButton(body, 20)}
+        />
+        <QuestionInputBox
+          title="Tags"
+          inputType="tags"
+          description="Add up to 5 tags to describe what your question is about. Start typing to see suggestions."
+          placeholder="e.g. javascript, react, java, python, c++"
+          value={tags}
+          setValue={setTags}
+          disabled={currentStep < 2}
+          hasNextButton={false}
+        />
+        <ButtonListStyle>
+          <ButtonStyle
+            type="button"
+            onClick={() => {
+              console.log("title", title);
+              console.log("body", body);
+              console.log("tags", tags);
+              axios
+                .post(`${API_URL}/questions/ask`, {
+                  // TODO: 로그인 기능 구현 후 수정
+                  email: "abc@gmail.com",
+                  title: title,
+                  content: body,
+                })
+                .then(function (response) {
+                  console.log(response);
+                })
+                .catch(function (error) {
+                  console.log(error);
+                  alert("질문 작성에 실패했습니다.");
+                });
+            }}
+          >
+            Post your question
+          </ButtonStyle>
+          <ButtonStyle
+            type="button"
+            buttonType="danger"
+            onClick={() => {
+              onClickDiscardButton();
+            }}
+          >
+            Discard draft
+          </ButtonStyle>
+        </ButtonListStyle>
+      </NewQuestionStyle>
+      {isCorfirmOpen && (
+        <Confirm
+          message={confirmMessage}
+          onConfirm={onClickConfirm}
+          onCancel={onClickCancel}
+        />
+      )}
+    </>
   );
 }
 
-function QuestionInputBox(props) {
-  const {
-    title,
-    description,
-    inputType,
-    placeholder,
-    value,
-    setValue,
-    hasNextButton,
-    onClickNext,
-    disabled,
-  } = props;
-  return (
-    <div style={{ opacity: disabled ? 0.5 : 1 }}>
-      <h4>{title}</h4>
-      <p>{description}</p>
-      {inputType === 'text' && (
-        <input
-          type="text"
-          placeholder={placeholder}
-          value={value}
-          onChange={e => setValue(e.target.value)}
-          style={{ width: '100%' }}
-          disabled={disabled}
-        />
-      )}
-      {inputType === 'md-editor' && (
-        <MDEditor
-          value={value}
-          style={{ width: '100%' }}
-          onChange={event => {
-            if (!disabled) {
-              setValue(event);
-            }
-          }}
-        />
-      )}
-      {inputType === 'tags' && (
-        <LimitTags
-          type="text"
-          placeholder={placeholder}
-          style={{ width: '100%' }}
-          onChange={event => {
-            if (!disabled) {
-              setValue(event);
-            }
-          }}
-        />
-      )}
-      {hasNextButton && (
-        <button
-          type="button"
-          onClick={onClickNext}
-          style={{ marginTop: '5px' }}
-        >
-          Next
-        </button>
-      )}
-    </div>
-  );
-}
-function LimitTags(props) {
-  const { placeholder } = props;
-  const tagsList = [
-    { label: 'JavaScript' },
-    { label: 'React' },
-    { label: 'Java' },
-    { label: 'Python' },
-    { label: 'C++' },
-  ];
-  const [tags, setTags] = useState([]);
-
-  return (
-    <Autocomplete
-      multiple
-      limitTags={2}
-      id="multiple-limit-tags"
-      options={tagsList}
-      getOptionLabel={option => option.label}
-      defaultValue={[tagsList[0]]}
-      onChange={(event, newValue) => {
-        setTags(newValue);
-      }}
-      renderInput={params => (
-        <TextField {...params} label="Tags" placeholder={placeholder} />
-      )}
-      sx={{ width: '500px' }}
-    />
-  );
-}
-
-export { NewQuestion, LimitTags };
+export default NewQuestion;

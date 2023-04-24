@@ -8,6 +8,10 @@ import Header from './components/Header';
 function App() {
   const [login, setLogin] = useState(false);
   const navigate = useNavigate();
+  const [homeActive, setHomeActive] = useState(true);
+  const [questionsActive, setQuestionsActive] = useState(false);
+  const [usersActive, setUsersActive] = useState(false);
+  const [inputValue, setInputValue] = useState('');
 
   function changeLoginStatus() {
     if (login === true) {
@@ -26,15 +30,30 @@ function App() {
         changeLoginStatus={() => {
           changeLoginStatus();
         }}
+        homeActive={homeActive}
+        questionsActive={questionsActive}
+        usersActive={usersActive}
+        setHomeActive={setHomeActive}
+        setQuestionsActive={setQuestionsActive}
+        setUsersActive={setUsersActive}
+        inputValue={inputValue}
+        setInputValue={setInputValue}
       />
       <div
         style={{
-          paddingTop: 70,
           display: 'flex',
           flexDirection: 'row',
         }}
       >
-        <Navbar login={login} />
+        <Navbar
+          login={login}
+          homeActive={homeActive}
+          questionsActive={questionsActive}
+          usersActive={usersActive}
+          setHomeActive={setHomeActive}
+          setQuestionsActive={setQuestionsActive}
+          setUsersActive={setUsersActive}
+        />
       </div>
       <Footer />
     </div>
