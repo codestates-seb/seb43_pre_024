@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-
 import { useState, useEffect, useRef } from 'react';
 import { GoCheck } from 'react-icons/go';
 import { useNavigate, Link } from 'react-router-dom';
@@ -312,9 +311,11 @@ function AllQuestions() {
   const [isPendingTop, setIsPendingTop] = useState(false);
   const [errorTop, setErrorTop] = useState();
 
+  const URL = process.env.REACT_APP_JIEUN;
+
   useEffect(() => {
     fetch(
-      'https://e5dd-210-100-239-193.ngrok-free.app/questions?sortInfo=NEW',
+      `${URL}questions?sortInfo=HOT`,
       {
         headers: {
           'ngrok-skip-browser-warning': '69420',
@@ -330,6 +331,7 @@ function AllQuestions() {
       .then(data => {
         setIsPending(true);
         setDatas(data);
+        console.log(data);
       })
       .catch(err => {
         setIsPending(false);
@@ -340,7 +342,7 @@ function AllQuestions() {
 
   useEffect(() => {
     fetch(
-      'https://e5dd-210-100-239-193.ngrok-free.app/questions?sortInfo=NEW',
+      `${URL}questions?sortInfo=NEW`,
       {
         headers: {
           'ngrok-skip-browser-warning': '69420',
@@ -363,11 +365,10 @@ function AllQuestions() {
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  console.log(newDatas);
 
   useEffect(() => {
     fetch(
-      'https://e5dd-210-100-239-193.ngrok-free.app/questions?sortInfo=TOP',
+      `${URL}questions?sortInfo=TOP`,
       {
         headers: {
           'ngrok-skip-browser-warning': '69420',
