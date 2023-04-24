@@ -232,7 +232,7 @@ function SignUpPage() {
       })
       .catch((error) => {
         // 4. 네트워크 오류 처리
-        console.error("Network error: ", error);
+        alert("Network error: ", error);
       });
   };
 
