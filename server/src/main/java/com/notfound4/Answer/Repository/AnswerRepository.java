@@ -18,4 +18,7 @@ public interface AnswerRepository extends JpaRepository<Answer, Long> {
     @Query(value = "from Answer an where an.question = :question")
     List<Answer> findByQuestionId(Question question);
 
+    // 마이페이지 답변 조회 시, 내가 남긴 답변 리스트
+    @Query(value = "SELECT * FROM answer WHERE member_id = :memberId ORDER BY created_at DESC", nativeQuery = true)
+    List<Answer> findByMemberId(long memberId);
 }
