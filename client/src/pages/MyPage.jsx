@@ -635,6 +635,7 @@ function MyPage({
       .catch(err => {
         console.log(err);
       });
+  }
 
   const token = localStorage.getItem('Autorization');
 
@@ -934,5 +935,6 @@ function MyPage({
     </MypageBox>
   );
 }
+
 
 export default MyPage;
