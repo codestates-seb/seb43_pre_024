@@ -79,11 +79,11 @@ public class QuestionController {
         // 저장할 질문 매핑
         Question question = mapper.postQuestionToQuestion(postQuestion, findMember);
         // 질문 저장
-        questionService.createQuestion(question);
+        Question saveQuestion = questionService.createQuestion(question);
         // 질문 저장 후 /questions/x  페이지로 리다이렉션할 URI 생성
         URI location = UriComponentsBuilder
                 .newInstance()
-                .path(QUESTION_DEFAULT_URL + "/{question_id}")
+                .path(QUESTION_DEFAULT_URL + "/" + saveQuestion.getQuestionId())
                 .buildAndExpand(question.getQuestionId())
                 .toUri();
 
@@ -214,7 +214,5 @@ public class QuestionController {
                 .build();
 
     }
-
-
 }
 
