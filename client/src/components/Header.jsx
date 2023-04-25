@@ -344,9 +344,9 @@ function Header({
             </ul>
           </MenuBox>
         ) : null}
-        <a href="/">
+        <Link to="/">
           <img src={Logo} className="logoImg" alt="로고사진" />
-        </a>
+        </Link>
         <Link to="all-questions">
           <button className="questions" onClick={activeQuestions} type="button">
             All Questions
