@@ -156,17 +156,20 @@ function LogIn({ login, setLogin }) {
     }
 
     try {
-      const response = await fetch(`${process.env.REACT_APP_MIRI}users/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify({
-          email: userEmail,
-          password: userPassword,
-        }),
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_FRONT}/users/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({
+            email: userEmail,
+            password: userPassword,
+          }),
+        }
+      );
       if (response.ok) {
         const headers = response.headers;
         const authorizationHeader = headers.get("Authorization");
@@ -192,13 +195,13 @@ function LogIn({ login, setLogin }) {
           <StackLogo />
         </LoginLogo>
         <GoogleLogin
-          href={`https://81f3-210-100-239-193.ngrok-free.app/oauth2/authorization/google`}
+          href={`${process.env.REACT_APP_FRONT}/oauth2/authorization/google`}
         >
           <GoogleLogo />
           Log in with Google
         </GoogleLogin>
         <GitLogin
-          href={`https://81f3-210-100-239-193.ngrok-free.app/oauth2/authorization/github`}
+          href={`${process.env.REACT_APP_FRONT}/oauth2/authorization/github`}
         >
           <GitLogo />
           Log in with GitHub

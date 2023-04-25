@@ -1,8 +1,8 @@
-import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import useFetch from '../util/useFetch';
-import profileImg from '../images/profileImg.jpeg';
+import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import useFetch from "../util/useFetch";
+import profileImg from "../images/profileImg.jpeg";
 
 const MypageBox = styled.div`
   width: 100%;
@@ -312,10 +312,10 @@ const TabBox = styled.div`
 
 const QuestionsBtn = styled.button`
   border: none;
-  background-color: ${props =>
+  background-color: ${(props) =>
     props.questionsActive === true
-      ? 'rgb(107, 147, 249)'
-      : 'rgb(168, 198, 232)'};
+      ? "rgb(107, 147, 249)"
+      : "rgb(168, 198, 232)"};
   color: white;
   padding: 1rem;
   width: 140px;
@@ -328,8 +328,8 @@ const QuestionsBtn = styled.button`
 
 const AnswersBtn = styled.button`
   border: none;
-  background-color: ${props =>
-    props.answersActive === true ? 'rgb(107, 147, 249)' : 'rgb(168, 198, 232)'};
+  background-color: ${(props) =>
+    props.answersActive === true ? "rgb(107, 147, 249)" : "rgb(168, 198, 232)"};
   color: white;
   padding: 1rem;
   width: 140px;
@@ -604,41 +604,40 @@ function MyPage({
   questionsActive,
   answersActive,
 }) {
-  const { datas, isPending, error } = useFetch(`
-  http://localhost:3001/user`);
-
   const [user, setUsers] = useState([]);
   const [secession, setSecession] = useState(false);
   const [secessionAlert, setSecessionAlert] = useState(false);
   const [correction, setCorrection] = useState(false);
-  const [name, setName] = useState('');
-  const [password, setPassword] = useState('g');
+  const [name, setName] = useState("");
+  const [password, setPassword] = useState("g");
   const [lengthConfirm, setLengthConfirm] = useState(false);
-  const [rePassword, setRePassword] = useState('');
+  const [rePassword, setRePassword] = useState("");
   const [confirm, setConfirm] = useState(false);
   const [id, setId] = useState(0);
   const navigate = useNavigate();
+  const URL = process.env.REACT_APP_FRONT;
+  const { datas, isPending, error } = useFetch(`
+  ${URL}/users/${id}`);
 
   function deleteUser() {
-    fetch(`http://localhost:3001/user/${id}`, {
-      method: 'DELETE',
+    fetch(`${URL}/users/${id}`, {
+      method: "DELETE",
       headers: {
-        Authorization: '',
-        ContentType: 'application/json',
+        Authorization: "",
+        ContentType: "application/json",
       },
     })
-      .then(response => {
+      .then((response) => {
         console.log(response);
         setSecessionAlert(false);
-        navigate('/');
+        navigate("/");
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   }
 
-  const token = localStorage.getItem('Autorization');
-
+  const token = localStorage.getItem("Autorization");
 
   useEffect(() => {
     setId(user.userId);
@@ -715,24 +714,24 @@ function MyPage({
 
   const onChangePut = () => {
     if (!confirm) {
-      alert('비밀번호를 확인해주세요!');
+      alert("비밀번호를 확인해주세요!");
     } else {
       const putData = {
         name,
         answers: user.answers,
       };
 
-      fetch(`http://localhost:3001/user/${id}`, {
-        method: 'PUT',
+      fetch(`${URL}/users/${id}`, {
+        method: "PUT",
         body: JSON.stringify(putData),
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
       })
         .then(() => {
           console.log(user.name);
         })
-        .catch(err => console.log(err));
+        .catch((err) => console.log(err));
 
       window.location.reload();
     }
@@ -787,7 +786,7 @@ function MyPage({
         {questionsActive ? (
           <QuestionsBox>
             {pageData
-              ? pageData.map(question => {
+              ? pageData.map((question) => {
                   return (
                     <div key={question.questionId} className="questionBox">
                       <div className="detailBox">
@@ -799,7 +798,7 @@ function MyPage({
                       </div>
                       <div className="title">{question.title}</div>
                       <div className="tagsBox">
-                        {question.tagsList.map(tag => {
+                        {question.tagsList.map((tag) => {
                           return <div className="tag"> {tag.label} </div>;
                         })}
                       </div>
@@ -815,7 +814,7 @@ function MyPage({
         {answersActive ? (
           <AnswersBox>
             {pageAnswersData
-              ? pageAnswersData.map(answer => {
+              ? pageAnswersData.map((answer) => {
                   return (
                     <div key={answer.questionId} className="questionBox">
                       <div className="detailBox">
@@ -827,7 +826,7 @@ function MyPage({
                       </div>
                       <div className="title">{answer.title}</div>
                       <div className="tagsBox">
-                        {answer.tagsList.map(tag => {
+                        {answer.tagsList.map((tag) => {
                           return <div className="tag"> {tag.label} </div>;
                         })}
                       </div>
@@ -878,7 +877,7 @@ function MyPage({
                     type="text"
                     name="name"
                     defaultValue={user.name}
-                    onChange={e => changeName(e)}
+                    onChange={(e) => changeName(e)}
                   />
                 </div>
                 <div className="passwordBox">
@@ -887,7 +886,7 @@ function MyPage({
                     className="passwordInput"
                     type="password"
                     name="password"
-                    onChange={e => changePassword(e)}
+                    onChange={(e) => changePassword(e)}
                   />
                 </div>
                 {lengthConfirm ? (
@@ -903,7 +902,7 @@ function MyPage({
                     className="rePasswordInput"
                     type="password"
                     name="password"
-                    onChange={e => changeRePassword(e)}
+                    onChange={(e) => changeRePassword(e)}
                   />
                 </div>
                 {confirm ? (
@@ -935,6 +934,5 @@ function MyPage({
     </MypageBox>
   );
 }
-
 
 export default MyPage;

@@ -1,8 +1,8 @@
-import styled from 'styled-components';
-import { useState, useEffect, useRef } from 'react';
-import { GoCheck } from 'react-icons/go';
-import { useNavigate, Link } from 'react-router-dom';
-import { useInView } from 'react-intersection-observer';
+import styled from "styled-components";
+import { useState, useEffect, useRef } from "react";
+import { GoCheck } from "react-icons/go";
+import { useNavigate, Link } from "react-router-dom";
+import { useInView } from "react-intersection-observer";
 
 const Box = styled.div`
   width: calc(100% - 250px);
@@ -94,8 +94,8 @@ const HotBtn = styled.button`
   border-bottom-left-radius: 5px;
   cursor: pointer;
 
-  background-color: ${props =>
-    props.hotActive === true ? 'rgb(205, 205, 205)' : 'white'};
+  background-color: ${(props) =>
+    props.hotActive === true ? "rgb(205, 205, 205)" : "white"};
 `;
 
 const NewBtn = styled.button`
@@ -105,8 +105,8 @@ const NewBtn = styled.button`
   border-left: 1px solid black;
   border-right: 1px solid black;
 
-  background-color: ${props =>
-    props.newActive === true ? 'rgb(205, 205, 205)' : 'white'};
+  background-color: ${(props) =>
+    props.newActive === true ? "rgb(205, 205, 205)" : "white"};
 `;
 
 const TopBtn = styled.button`
@@ -117,8 +117,8 @@ const TopBtn = styled.button`
   border-bottom-right-radius: 5px;
   cursor: pointer;
 
-  background-color: ${props =>
-    props.topActive === true ? 'rgb(205, 205, 205)' : 'white'};
+  background-color: ${(props) =>
+    props.topActive === true ? "rgb(205, 205, 205)" : "white"};
 `;
 
 const ContentsBox = styled.div`
@@ -186,11 +186,11 @@ const CountBox = styled.div`
 `;
 
 const Answers = styled.div`
-  background-color: ${props =>
-    props.accepted === true ? 'rgb(74, 111, 72)' : 'white'};
-  color: ${props => (props.accepted === true ? 'white' : 'rgb(74, 111, 72)')};
-  border: ${props =>
-    props.accepted === true ? 'none' : '1px solid rgb(74, 111, 72)'};
+  background-color: ${(props) =>
+    props.accepted === true ? "rgb(74, 111, 72)" : "white"};
+  color: ${(props) => (props.accepted === true ? "white" : "rgb(74, 111, 72)")};
+  border: ${(props) =>
+    props.accepted === true ? "none" : "1px solid rgb(74, 111, 72)"};
   padding: 5px;
   padding-right: 10px;
   border-radius: 5px;
@@ -292,7 +292,7 @@ const QuestionProfile = styled.div`
 `;
 
 const Scroll = styled.div`
-  bottom: ${props => (props.inView === true ? '0px' : '10px')};
+  bottom: ${(props) => (props.inView === true ? "0px" : "10px")};
   width: 100%;
 `;
 
@@ -311,23 +311,21 @@ function AllQuestions() {
   const [isPendingTop, setIsPendingTop] = useState(false);
   const [errorTop, setErrorTop] = useState();
 
-  const URL = process.env.REACT_APP_MIRI;
+  const URL = process.env.REACT_APP_FRONT;
 
   useEffect(() => {
-    fetch(
-      `${URL}questions?sortInfo=HOT`
-    )
-      .then(res => {
+    fetch(`${URL}/questions?sortInfo=HOT`)
+      .then((res) => {
         if (!res.ok) {
-          throw Error('could not fetch the data for that resource');
+          throw Error("could not fetch the data for that resource");
         }
         return res.json();
       })
-      .then(data => {
+      .then((data) => {
         setIsPending(true);
         setDatas(data);
       })
-      .catch(err => {
+      .catch((err) => {
         setIsPending(false);
         setError(err);
       });
@@ -335,21 +333,19 @@ function AllQuestions() {
   }, []);
 
   useEffect(() => {
-    fetch(
-      `${URL}questions?sortInfo=NEW`
-    )
-      .then(res => {
+    fetch(`${URL}/questions?sortInfo=NEW`)
+      .then((res) => {
         if (!res.ok) {
-          throw Error('could not fetch the data for that resource');
+          throw Error("could not fetch the data for that resource");
         }
         return res.json();
       })
-      .then(data => {
+      .then((data) => {
         setIsPendingNew(true);
         setNewDatas(data);
         console.log(data);
       })
-      .catch(err => {
+      .catch((err) => {
         setIsPendingNew(false);
         setErrorNew(err);
       });
@@ -357,20 +353,18 @@ function AllQuestions() {
   }, []);
 
   useEffect(() => {
-    fetch(
-      `${URL}questions?sortInfo=TOP`
-    )
-      .then(res => {
+    fetch(`${URL}/questions?sortInfo=TOP`)
+      .then((res) => {
         if (!res.ok) {
-          throw Error('could not fetch the data for that resource');
+          throw Error("could not fetch the data for that resource");
         }
         return res.json();
       })
-      .then(data => {
+      .then((data) => {
         setIsPendingTop(true);
         setTopDatas(data);
       })
-      .catch(err => {
+      .catch((err) => {
         setIsPendingTop(false);
         setErrorTop(err);
       });
@@ -457,7 +451,7 @@ function AllQuestions() {
             <button
               type="button"
               className="askBtn"
-              onClick={() => navigate('/new-question')}
+              onClick={() => navigate("/new-question")}
             >
               Ask Question
             </button>
@@ -494,7 +488,7 @@ function AllQuestions() {
       </TitleBox>
       <ContentsBox>
         {print
-          ? print.slice(0, page.current).map(data => {
+          ? print.slice(0, page.current).map((data) => {
               return (
                 <QuestionBox>
                   <CountBox>
@@ -521,7 +515,7 @@ function AllQuestions() {
                     <span className="content">{data.content}</span>
                     <div className="tagsBox">
                       {data.tagsList
-                        ? data.tagsList.map(tag => {
+                        ? data.tagsList.map((tag) => {
                             return <span className="tag">{tag.label}</span>;
                           })
                         : null}
