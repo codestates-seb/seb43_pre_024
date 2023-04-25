@@ -127,6 +127,8 @@ function Navbar({
   homeActive,
   questionsActive,
   usersActive,
+  userId, 
+  setUserId,
 }) {
   const navigate = useNavigate();
   const location = useLocation();
@@ -232,7 +234,7 @@ function Navbar({
         <Route path="/search-questions/title" element={<SearchQuestions />}/>
         <Route
           path="/login"
-          element={<LogIn login={login} setLogin={setLogin} />}
+          element={<LogIn login={login} setLogin={setLogin} userId={userId} setUserId={setUserId} />}
         />
         <Route path="/questions/:id" element={<QuestionDetail />} />
       </Routes>

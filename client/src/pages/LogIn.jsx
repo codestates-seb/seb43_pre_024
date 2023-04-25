@@ -122,7 +122,7 @@ const LoginBtn = styled.button`
   }
 `;
 
-function LogIn({ login, setLogin }) {
+function LogIn({ login, setLogin, userId, setUserId }) {
   const [emailIsFocused, setEmailIsFocused] = useState(false);
   const [pwIsFocused, setPwIsFocused] = useState(false);
   const [userEmail, setUserEmail] = useState("");
@@ -176,6 +176,7 @@ function LogIn({ login, setLogin }) {
         const token = authorizationHeader.split(" ")[1];
         localStorage.setItem("Authorization", token);
         setLogin(true);
+        setUserId(response.body);
         console.log(login);
         navigate("/home");
       } else if (response.status === 401) {

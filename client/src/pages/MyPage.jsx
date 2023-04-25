@@ -1,8 +1,7 @@
-import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-import useFetch from "../util/useFetch";
-import profileImg from "../images/profileImg.jpeg";
+import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import profileImg from '../images/profileImg.jpeg';
 
 const MypageBox = styled.div`
   width: 100%;
@@ -312,10 +311,10 @@ const TabBox = styled.div`
 
 const QuestionsBtn = styled.button`
   border: none;
-  background-color: ${(props) =>
+  background-color: ${props =>
     props.questionsActive === true
-      ? "rgb(107, 147, 249)"
-      : "rgb(168, 198, 232)"};
+      ? 'rgb(107, 147, 249)'
+      : 'rgb(168, 198, 232)'};
   color: white;
   padding: 1rem;
   width: 140px;
@@ -328,8 +327,8 @@ const QuestionsBtn = styled.button`
 
 const AnswersBtn = styled.button`
   border: none;
-  background-color: ${(props) =>
-    props.answersActive === true ? "rgb(107, 147, 249)" : "rgb(168, 198, 232)"};
+  background-color: ${props =>
+    props.answersActive === true ? 'rgb(107, 147, 249)' : 'rgb(168, 198, 232)'};
   color: white;
   padding: 1rem;
   width: 140px;
@@ -604,44 +603,68 @@ function MyPage({
   questionsActive,
   answersActive,
 }) {
+
   const [user, setUsers] = useState([]);
   const [secession, setSecession] = useState(false);
   const [secessionAlert, setSecessionAlert] = useState(false);
   const [correction, setCorrection] = useState(false);
-  const [name, setName] = useState("");
-  const [password, setPassword] = useState("g");
+  const [name, setName] = useState('');
+  const [password, setPassword] = useState('g');
   const [lengthConfirm, setLengthConfirm] = useState(false);
-  const [rePassword, setRePassword] = useState("");
+  const [rePassword, setRePassword] = useState('');
   const [confirm, setConfirm] = useState(false);
-  const [id, setId] = useState(0);
+  const [id, setId] = useState(1);
+  const [isPending, setIsPending] = useState(false);
   const navigate = useNavigate();
+
   const URL = process.env.REACT_APP_FRONT;
-  const { datas, isPending, error } = useFetch(`
-  ${URL}/users/${id}`);
+  const token = localStorage.getItem("Authorization");
+
+  useEffect(() => {
+    fetch(
+      `${URL}/users/1`, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`
+      },
+      })
+      .then(res => {
+        if (!res.ok) {
+          throw Error('could not fetch the data for that resource');
+        }
+        return res.json();
+      })
+      .then(data => {
+        setIsPending(true);
+        console.log(data);
+        setUsers(data.questions);
+        // setId(user.userId);
+        console.log(user);
+      })
+      .catch(err => {
+        setIsPending(false);
+        console.log(err);
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   function deleteUser() {
-    fetch(`${URL}/users/${id}`, {
-      method: "DELETE",
+    fetch(`${URL}/users/1`, {
+      method: 'DELETE',
       headers: {
-        Authorization: "",
-        ContentType: "application/json",
+        Authorization: '',
+        ContentType: 'application/json',
       },
     })
-      .then((response) => {
-        console.log(response);
+      .then(response => {
+  
         setSecessionAlert(false);
-        navigate("/");
+        navigate('/');
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
       });
   }
-
-  const token = localStorage.getItem("Autorization");
-
-  useEffect(() => {
-    setId(user.userId);
-  }, [user]);
 
   function activeQuestions() {
     setQuestionsActive(true);
@@ -714,34 +737,28 @@ function MyPage({
 
   const onChangePut = () => {
     if (!confirm) {
-      alert("비밀번호를 확인해주세요!");
+      alert('비밀번호를 확인해주세요!');
     } else {
       const putData = {
         name,
         answers: user.answers,
       };
 
-      fetch(`${URL}/users/${id}`, {
-        method: "PUT",
+      fetch(`${URL}/users/1`, {
+        method: 'PUT',
         body: JSON.stringify(putData),
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
       })
         .then(() => {
           console.log(user.name);
         })
-        .catch((err) => console.log(err));
+        .catch(err => console.log(err));
 
       window.location.reload();
     }
   };
-
-  useEffect(() => {
-    if (isPending) {
-      setUsers(datas[0]);
-    }
-  }, [datas, isPending, error]);
 
   return (
     <MypageBox>
@@ -758,10 +775,10 @@ function MyPage({
           </div>
           <div className="countBox">
             <span className="countQuestions">
-              <b>{pageData ? pageData.length : null}</b>&nbsp;questions&nbsp;
+              <b>{user.questions ? user.questions.length : null}</b>&nbsp;questions&nbsp;
             </span>
             <span className="countQuestions">
-              <b>{pageData ? pageData.length : null}</b>&nbsp;answers
+              <b>{user.questions ? user.questions.length : null}</b>&nbsp;answers
             </span>
           </div>
         </ProfileDetail>
@@ -785,8 +802,8 @@ function MyPage({
         </TabBox>
         {questionsActive ? (
           <QuestionsBox>
-            {pageData
-              ? pageData.map((question) => {
+            {user.questions
+              ? user.questions.map(question => {
                   return (
                     <div key={question.questionId} className="questionBox">
                       <div className="detailBox">
@@ -798,7 +815,7 @@ function MyPage({
                       </div>
                       <div className="title">{question.title}</div>
                       <div className="tagsBox">
-                        {question.tagsList.map((tag) => {
+                        {question.tagsList.map(tag => {
                           return <div className="tag"> {tag.label} </div>;
                         })}
                       </div>
@@ -813,8 +830,8 @@ function MyPage({
         ) : null}
         {answersActive ? (
           <AnswersBox>
-            {pageAnswersData
-              ? pageAnswersData.map((answer) => {
+            {user.answers
+              ? user.answers.map(answer => {
                   return (
                     <div key={answer.questionId} className="questionBox">
                       <div className="detailBox">
@@ -826,7 +843,7 @@ function MyPage({
                       </div>
                       <div className="title">{answer.title}</div>
                       <div className="tagsBox">
-                        {answer.tagsList.map((tag) => {
+                        {answer.tagsList.map(tag => {
                           return <div className="tag"> {tag.label} </div>;
                         })}
                       </div>
@@ -877,7 +894,7 @@ function MyPage({
                     type="text"
                     name="name"
                     defaultValue={user.name}
-                    onChange={(e) => changeName(e)}
+                    onChange={e => changeName(e)}
                   />
                 </div>
                 <div className="passwordBox">
@@ -886,7 +903,7 @@ function MyPage({
                     className="passwordInput"
                     type="password"
                     name="password"
-                    onChange={(e) => changePassword(e)}
+                    onChange={e => changePassword(e)}
                   />
                 </div>
                 {lengthConfirm ? (
@@ -902,7 +919,7 @@ function MyPage({
                     className="rePasswordInput"
                     type="password"
                     name="password"
-                    onChange={(e) => changeRePassword(e)}
+                    onChange={e => changeRePassword(e)}
                   />
                 </div>
                 {confirm ? (
@@ -934,5 +951,6 @@ function MyPage({
     </MypageBox>
   );
 }
+
 
 export default MyPage;

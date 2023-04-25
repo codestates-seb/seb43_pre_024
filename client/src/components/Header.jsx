@@ -365,6 +365,7 @@ function Header({
           />
         </SearchBox>
         {isLogin ? (
+          <Link to="/">
           <LogoutOrSignUp
             type="button"
             onClick={() => {
@@ -374,6 +375,7 @@ function Header({
           >
             Log out
           </LogoutOrSignUp>
+          </Link>
         ) : (
           <SignIn type="button" onClick={changeLoginStatus}>
             Log in
