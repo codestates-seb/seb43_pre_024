@@ -12,7 +12,6 @@ const HeartButtonStyle = styled.div`
 
 function AnswerList({ questionId }) {
   const [answers, setAnswers] = useState([]);
-
   useEffect(() => {
     fetchAnswerInfo({ questionId }).then((data) => {
       setAnswers(data);

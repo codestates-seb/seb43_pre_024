@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 import QuestionInputBox from "../components/QuestionInputBox";
+import { useNavigate } from "react-router-dom";
 import Confirm from "../components/Confirm";
 import { API_URL } from "../api";
 import axios from "axios";
@@ -46,6 +47,7 @@ function NewQuestion({ questionId }) {
   const [body, setBody] = useState("");
   const [tags, setTags] = useState([]);
   const [currentStep, setCurrentStep] = useState(0);
+  const navigate = useNavigate();
 
   // 컨펌 모달을 위한 상태들
   const [isCorfirmOpen, setIsConfirmOpen] = useState(false);
@@ -126,15 +128,20 @@ function NewQuestion({ questionId }) {
               console.log("title", title);
               console.log("body", body);
               console.log("tags", tags);
+              const token = localStorage.getItem("token");
               axios
                 .post(`${API_URL}/questions/ask`, {
                   // TODO: 로그인 기능 구현 후 수정
+                  headers: {
+                    Authorization: `Bearer ${token}`,
+                  },
                   email: "abc@gmail.com",
                   title: title,
                   content: body,
                 })
                 .then(function (response) {
                   console.log(response);
+                  navigate("/all-questions");
                 })
                 .catch(function (error) {
                   console.log(error);
