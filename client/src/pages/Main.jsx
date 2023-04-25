@@ -7,11 +7,14 @@ const jump = keyframes`
   from {
     transform: translateY(0px) scaleX(1) rotate(0deg) translateX(0);
   }
-  40%{
+  15%{
     transform: translateY(0px) scaleX(1) rotate(0deg) translateX(0);
   }
+  40% {
+    transform: translateY(-70px) scaleX(1.1) rotate(-5deg) translateX(-5px);
+  }
   65% {
-    transform: translateY(-50px) scaleX(1.1) rotate(-5deg) translateX(-5px);
+    transform: translateY(0px) scaleX(1) rotate(0deg) translateX(0);
   }
   to {
     transform: translateY(0px) scaleX(1) rotate(0deg) translateX(0);
@@ -118,7 +121,6 @@ const MainKirbi = styled.i`
 
   &.hovered {
     animation: ${jump} 3s;
-    animation-iteration-count: infinite;
   }
 `;
 
@@ -348,7 +350,6 @@ const Skill = styled.div`
   }
   .skills .skillImg:hover {
     animation: ${bounce} 0.7s cubic-bezier(0.9, -0.06, 0.54, 1.24);
-    animation-iteration-count: infinite;
   }
   .skillImg.html {
     background-position: 0px 159px;
