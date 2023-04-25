@@ -1,6 +1,7 @@
 package com.notfound4.Auth.Filter;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.notfound4.Member.Entity.Member;
 import com.notfound4.Auth.Dto.LoginDto;
@@ -14,6 +15,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import javax.servlet.FilterChain;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -22,6 +25,7 @@ import java.util.Map;
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
     private final JwtTokenizer jwtTokenizer;
+
 //    private final RedisTemplate<String, String> redisTemplate;
     public JwtAuthenticationFilter(AuthenticationManager authenticationManager,
                                    JwtTokenizer jwtTokenizer) {
@@ -49,7 +53,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     protected void successfulAuthentication(HttpServletRequest request,
                                             HttpServletResponse response,
                                             FilterChain chain,
-                                            Authentication authResult) {
+                                            Authentication authResult) throws IOException {
         Member member = (Member) authResult.getPrincipal();
 
         String accessToken = delegateAccessToken(member);
@@ -61,6 +65,18 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         response.setHeader("Authorization", "Bearer " + accessToken);
         response.setHeader("Refresh", refreshToken);
+
+        // json 데이터 생성후 바디 응답 : memberId
+        Map<String, Object> jsonData = new HashMap<>();
+        jsonData.put("memberId", member.getMemberId());
+
+        ObjectMapper mapper = new ObjectMapper();
+        String jsonString = mapper.writeValueAsString(jsonData);
+
+        response.setContentType("application/json");
+
+        PrintWriter writer = response.getWriter();
+        writer.write(jsonString);
     }
 
     // Access Token 생성 로직

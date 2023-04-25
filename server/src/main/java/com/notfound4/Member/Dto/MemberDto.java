@@ -36,9 +36,21 @@ public class MemberDto {
     public static class Patch {
     // 유효성 추가하기
         private long memberId;
+        private String email; // 본인확인 위해 필요
         private String name;
         private String password;
 
+        public void setMemberId(long memberId) {
+            this.memberId = memberId;
+        }
+    }
+
+    @Getter
+    @AllArgsConstructor
+    public static class Delete {
+        // 유효성 추가하기
+        private long memberId;
+        private String email; // 본인확인 위해 필요
         public void setMemberId(long memberId) {
             this.memberId = memberId;
         }
@@ -60,6 +72,7 @@ public class MemberDto {
     @Setter
     public static class GetResponse {
 //        private long memberId;
+        private String email;
         private String name;
         private List<MyPageQuestion> questions;
         private List<MyPageAnswer> answers;

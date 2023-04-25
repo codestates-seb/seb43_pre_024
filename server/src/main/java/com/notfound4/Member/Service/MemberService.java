@@ -55,6 +55,9 @@ public class MemberService {
 
     public Member updateMember(Member member) {
         Member findMember = findVerifiedMember(member.getMemberId());
+        String findMemberEmail = findMember.getEmail();; // 멤버아이디로 가져오 이메일
+        String identificationEmail = member.getEmail(); // 본인 이메일
+        identificationMember(findMemberEmail, identificationEmail); // 이메일 검증
 
         Optional.ofNullable(member.getName())
                 .ifPresent(name -> findMember.setName(name));
@@ -96,9 +99,12 @@ public class MemberService {
         }
         return true;
     }
+
     // status만 lock으로 변경후 저장
-    public void deleteMember(long memberId) {
-        Member findMember = findVerifiedMember(memberId);
+    public void deleteMember(Member member) {
+        Member findMember = findVerifiedMember(member.getMemberId());
+        identificationMember(member.getEmail(), findMember.getEmail());
+
         // memberStatus가 active가 아닐시 예외처리
         if (findMember.getStatus() != Member.Status.ACTIVE) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Member already lock");
@@ -106,6 +112,13 @@ public class MemberService {
         findMember.setStatus(Member.Status.LOCK);
         memberRepository.save(findMember);
     }
+
+    // 이메일 끼리 검증 : 삭제, 수정에서 사용중
+    private void identificationMember(String email, String findEmail) {
+        if (!email.equals(findEmail))
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Bad request");
+    }
+
 
     private Member findVerifiedMember(long memberId) {
         Optional<Member> optionalMember = memberRepository.findById(memberId);

@@ -67,8 +67,10 @@ public class MemberController {
     }
 
     @DeleteMapping("/{user-id}")
-    public ResponseEntity deleteMember(@PathVariable("user-id") @Positive long memberId) {
-        memberService.deleteMember(memberId);
+    public ResponseEntity deleteMember(@PathVariable("user-id") @Positive long memberId,
+                                       @Valid @RequestBody MemberDto.Delete requestBody) {
+        requestBody.setMemberId(memberId);
+        memberService.deleteMember(mapper.memberDeleteToMember(requestBody));
         return new ResponseEntity(HttpStatus.OK);
     }
 

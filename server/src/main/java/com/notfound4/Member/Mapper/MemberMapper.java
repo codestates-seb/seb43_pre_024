@@ -44,6 +44,21 @@ public class MemberMapper {
         member.setName( requestBody.getName() );
         member.setMemberId( requestBody.getMemberId() );
         member.setPassword( requestBody.getPassword() );
+        member.setEmail( requestBody.getEmail() );
+
+        return member;
+    }
+
+    public Member memberDeleteToMember(MemberDto.Delete requestBody) {
+        if ( requestBody == null ) {
+            return null;
+        }
+
+        Member member = new Member();
+
+
+        member.setMemberId( requestBody.getMemberId() );
+        member.setEmail( requestBody.getEmail() );
 
         return member;
     }
@@ -131,6 +146,7 @@ public class MemberMapper {
 
     public MemberDto.GetResponse setGetResponse(List<MemberDto.MyPageQuestion> myPageQuestions, List<MemberDto.MyPageAnswer> myPageAnswers, Member member) {
         MemberDto.GetResponse getResponse = new MemberDto.GetResponse();
+        getResponse.setEmail(member.getEmail());
         getResponse.setName(member.getName());
         getResponse.setQuestions(myPageQuestions);
         getResponse.setAnswers(myPageAnswers);
