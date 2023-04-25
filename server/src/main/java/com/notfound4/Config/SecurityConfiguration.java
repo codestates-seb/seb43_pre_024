@@ -127,7 +127,7 @@ public class SecurityConfiguration {
                 .getBuilder("google")
                 .clientId(googleClientId)
                 .clientSecret(googleClientSecret)
-                .redirectUri("http://ec2-15-164-49-219.ap-northeast-2.compute.amazonaws.com:8080/login/oauth2/code/google")
+                .redirectUri("http://ec2-43-201-38-40.ap-northeast-2.compute.amazonaws.com:8080//login/oauth2/code/google")
                 .build();
     }
 
@@ -138,7 +138,7 @@ public class SecurityConfiguration {
                 .getBuilder("github")
                 .clientId(githubClientId)
                 .clientSecret(githubClientSecret)
-                .redirectUri("http://ec2-15-164-49-219.ap-northeast-2.compute.amazonaws.com:8080/login/oauth2/code/github")
+                .redirectUri("http://ec2-43-201-38-40.ap-northeast-2.compute.amazonaws.com:8080/login/oauth2/code/github")
                 .build();
     }
 
