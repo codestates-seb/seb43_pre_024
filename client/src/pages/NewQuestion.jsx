@@ -128,24 +128,26 @@ function NewQuestion({ questionId }) {
               console.log("title", title);
               console.log("body", body);
               console.log("tags", tags);
-              const token = localStorage.getItem("token");
-              axios
-                .post(`${API_URL}/questions/ask`, {
-                  // TODO: 로그인 기능 구현 후 수정
-                  headers: {
-                    Authorization: `Bearer ${token}`,
-                  },
+              const token = localStorage.getItem("Authorization");
+              fetch(`${API_URL}/questions/ask`, {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify({
                   email: "abc@gmail.com",
                   title: title,
-                  content: body,
-                })
+                  content: body.data,
+                }),
+              })
                 .then(function (response) {
                   console.log(response);
-                  navigate("/all-questions");
+                  // navigate("/all-questions");
                 })
                 .catch(function (error) {
                   console.log(error);
-                  alert("질문 작성에 실패했습니다.");
+                  alert("질문 등록에 실패했습니다.");
                 });
             }}
           >
