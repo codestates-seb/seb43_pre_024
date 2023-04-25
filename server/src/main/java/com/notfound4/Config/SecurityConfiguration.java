@@ -2,6 +2,9 @@ package com.notfound4.Config;
 
 import com.notfound4.Auth.Filter.JwtAuthenticationFilter;
 import com.notfound4.Auth.Filter.JwtVerificationFilter;
+import com.notfound4.Auth.Handler.MemberAuthenticationEntryPoint;
+import com.notfound4.Auth.Handler.MemberAuthenticationFailureHandler;
+import com.notfound4.Auth.Handler.MemberAuthenticationSuccessHandler;
 import com.notfound4.Auth.Handler.OAuth2MemberSuccessHandler;
 import com.notfound4.Auth.Jwt.JwtTokenizer;
 import com.notfound4.Member.Service.MemberService;
@@ -64,6 +67,9 @@ public class SecurityConfiguration {
                 .and()
                 .formLogin().disable()
                 .httpBasic().disable()
+                .exceptionHandling()
+                .authenticationEntryPoint(new MemberAuthenticationEntryPoint())
+                .and()
                 .apply(new CustomFilterConfigurer())
                 .and()
                 .authorizeHttpRequests(authorize -> authorize
@@ -103,6 +109,8 @@ public class SecurityConfiguration {
             jwtAuthenticationFilter.setFilterProcessesUrl("/users/login");
 
             JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtTokenizer);
+            jwtAuthenticationFilter.setAuthenticationSuccessHandler(new MemberAuthenticationSuccessHandler());
+            jwtAuthenticationFilter.setAuthenticationFailureHandler(new MemberAuthenticationFailureHandler());
 
             builder
                     .addFilter(jwtAuthenticationFilter)
