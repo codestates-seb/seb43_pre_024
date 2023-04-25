@@ -7,17 +7,16 @@ import {
   Link,
   useNavigate,
   useLocation,
-} from 'react-router-dom';
-import Home from '../pages/Home';
-import Main from '../pages/Main';
-import AllQuestions from '../pages/AllQuestions';
-import Paging from './Paging';
-import MyPage from '../pages/MyPage';
-import NewQuestion from '../pages/NewQuestion';
-import SignUpPage from '../pages/SignUpPage';
-import LogIn from '../pages/LogIn';
-import QuestionDetail from '../pages/QuestionDetail';
-import SearchQuestions from '../pages/SearchQuestions';
+} from "react-router-dom";
+import Main from "../pages/Main";
+import AllQuestions from "../pages/AllQuestions";
+import Paging from "./Paging";
+import MyPage from "../pages/MyPage";
+import NewQuestion from "../pages/NewQuestion";
+import SignUpPage from "../pages/SignUpPage";
+import LogIn from "../pages/LogIn";
+import QuestionDetail from "../pages/QuestionDetail";
+import SearchQuestions from "../pages/SearchQuestions";
 
 const NavBox = styled.div`
   width: 250px;
@@ -127,12 +126,12 @@ function Navbar({
   homeActive,
   questionsActive,
   usersActive,
-  userId, 
+  userId,
   setUserId,
 }) {
   const navigate = useNavigate();
   const location = useLocation();
-  const hideNavbarRoutes = ["/login", "/signupPage", "/main"];
+  const hideNavbarRoutes = ["/login", "/signupPage", "/main", "/signup"];
 
   const shouldHideNavbar = hideNavbarRoutes.includes(location.pathname);
 
@@ -220,21 +219,27 @@ function Navbar({
       )}
       <Routes>
         {login ? (
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<AllQuestions />} />
         ) : (
           <Route path="/" element={<Main />} />
         )}
-        {/* <Route path="/" element={<Main />} /> */}
         <Route path="/main" element={<Main />} />
         <Route path="/all-questions" element={<AllQuestions />} />
         <Route path="/questions/:id" element={<QuestionDetail />} />
         <Route path="/new-question" element={<NewQuestion />} />
         <Route path="/mypage" element={<Paging />} />
         <Route path="/signup" element={<SignUpPage />} />
-        <Route path="/search-questions/title" element={<SearchQuestions />}/>
+        <Route path="/search-questions/title" element={<SearchQuestions />} />
         <Route
           path="/login"
-          element={<LogIn login={login} setLogin={setLogin} userId={userId} setUserId={setUserId} />}
+          element={
+            <LogIn
+              login={login}
+              setLogin={setLogin}
+              userId={userId}
+              setUserId={setUserId}
+            />
+          }
         />
         <Route path="/questions/:id" element={<QuestionDetail />} />
       </Routes>

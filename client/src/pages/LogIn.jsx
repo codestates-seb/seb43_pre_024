@@ -178,7 +178,7 @@ function LogIn({ login, setLogin, userId, setUserId }) {
         setLogin(true);
         setUserId(response.body);
         console.log(login);
-        navigate("/home");
+        navigate("/");
       } else if (response.status === 401) {
         throw new Error("이메일 또는 비밀번호가 틀렸습니다.");
       } else {
