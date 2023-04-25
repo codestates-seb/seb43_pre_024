@@ -604,7 +604,7 @@ function MyPage({
   answersActive,
 }) {
 
-  const [user, setUsers] = useState([]);
+  const [userName, setUsersName] = useState('');
   const [secession, setSecession] = useState(false);
   const [secessionAlert, setSecessionAlert] = useState(false);
   const [correction, setCorrection] = useState(false);
@@ -614,6 +614,8 @@ function MyPage({
   const [rePassword, setRePassword] = useState('');
   const [confirm, setConfirm] = useState(false);
   const [id, setId] = useState(1);
+  const [questions, setQuestions] = useState([]);
+  const [answers, setAnswers] = useState([]);
   const [isPending, setIsPending] = useState(false);
   const navigate = useNavigate();
 
@@ -637,16 +639,16 @@ function MyPage({
       .then(data => {
         setIsPending(true);
         console.log(data);
-        setUsers(data.questions);
-        // setId(user.userId);
-        console.log(user);
+        setQuestions(data.questions);
+        console.log("questions:", questions);
+        setAnswers(data.answers)
+        setUsersName(data.name);
       })
       .catch(err => {
         setIsPending(false);
         console.log(err);
       });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [isPending]);
 
   function deleteUser() {
     fetch(`${URL}/users/1`, {
@@ -741,7 +743,7 @@ function MyPage({
     } else {
       const putData = {
         name,
-        answers: user.answers,
+        answers: answers,
       };
 
       fetch(`${URL}/users/1`, {
@@ -752,7 +754,7 @@ function MyPage({
         },
       })
         .then(() => {
-          console.log(user.name);
+          console.log(userName);
         })
         .catch(err => console.log(err));
 
@@ -768,17 +770,17 @@ function MyPage({
         </ProfileImg>
         <ProfileDetail>
           <div className="nameBox">
-            {user.name}
+            {userName}
             <CorrectionBtn onClick={() => onCorrection()}>
               Correction
             </CorrectionBtn>
           </div>
           <div className="countBox">
             <span className="countQuestions">
-              <b>{user.questions ? user.questions.length : null}</b>&nbsp;questions&nbsp;
+              <b>{questions ? questions.length : null}</b>&nbsp;questions&nbsp;
             </span>
             <span className="countQuestions">
-              <b>{user.questions ? user.questions.length : null}</b>&nbsp;answers
+              <b>{questions ? questions.length : null}</b>&nbsp;answers
             </span>
           </div>
         </ProfileDetail>
@@ -802,8 +804,8 @@ function MyPage({
         </TabBox>
         {questionsActive ? (
           <QuestionsBox>
-            {user.questions
-              ? user.questions.map(question => {
+            {questions.length
+              && questions.map(question => {
                   return (
                     <div key={question.questionId} className="questionBox">
                       <div className="detailBox">
@@ -815,23 +817,22 @@ function MyPage({
                       </div>
                       <div className="title">{question.title}</div>
                       <div className="tagsBox">
-                        {question.tagsList.map(tag => {
+                        {/* {question.tagsList.map(tag => {
                           return <div className="tag"> {tag.label} </div>;
-                        })}
+                        })} */}
                       </div>
                       <div className="createdAt">
                         asked &nbsp;{question.created_at}
                       </div>
                     </div>
                   );
-                })
-              : null}
+                })}
           </QuestionsBox>
         ) : null}
         {answersActive ? (
           <AnswersBox>
-            {user.answers
-              ? user.answers.map(answer => {
+            {answers.length
+              && answers.map(answer => {
                   return (
                     <div key={answer.questionId} className="questionBox">
                       <div className="detailBox">
@@ -843,17 +844,16 @@ function MyPage({
                       </div>
                       <div className="title">{answer.title}</div>
                       <div className="tagsBox">
-                        {answer.tagsList.map(tag => {
+                        {/* {answer.tagsList.map(tag => {
                           return <div className="tag"> {tag.label} </div>;
-                        })}
+                        })} */}
                       </div>
                       <div className="createdAt">
                         asked &nbsp;{answer.created_at}
                       </div>
                     </div>
                   );
-                })
-              : null}
+                })}
           </AnswersBox>
         ) : null}
       </ContentBox>
@@ -893,7 +893,7 @@ function MyPage({
                     className="nameInput"
                     type="text"
                     name="name"
-                    defaultValue={user.name}
+                    defaultValue={userName}
                     onChange={e => changeName(e)}
                   />
                 </div>
