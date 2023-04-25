@@ -69,16 +69,6 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(authorize -> authorize
                         .antMatchers(HttpMethod.POST, "/users/**").permitAll()
                         .antMatchers(HttpMethod.GET, "/questions/**").permitAll()
-//                        .antMatchers(HttpMethod.PATCH, "/users/**").authenticated()
-//                        .antMatchers(HttpMethod.GET, "/users/**").authenticated()
-//                        .antMatchers(HttpMethod.DELETE, "/users/**").authenticated()
-//                        .antMatchers(HttpMethod.POST, "/questions/ask").authenticated()
-//                        .antMatchers(HttpMethod.PATCH, "/questions/**").authenticated()
-//                        .antMatchers(HttpMethod.DELETE, "/questions/**").authenticated()
-//                        .antMatchers(HttpMethod.POST, "/questions/**/answer").authenticated()
-//                        .antMatchers(HttpMethod.POST, "/questions/**/like").authenticated()
-//                        .antMatchers(HttpMethod.PATCH, "/questions/**/answer/**").authenticated()
-//                        .antMatchers(HttpMethod.DELETE, "/questions/**/answer/**").authenticated()
                         .anyRequest().authenticated()
                 )
                 .oauth2Login(oauth2 -> oauth2
@@ -137,6 +127,7 @@ public class SecurityConfiguration {
                 .getBuilder("google")
                 .clientId(googleClientId)
                 .clientSecret(googleClientSecret)
+                .redirectUri("http://ec2-15-164-49-219.ap-northeast-2.compute.amazonaws.com:8080/login/oauth2/code/google")
                 .build();
     }
 
