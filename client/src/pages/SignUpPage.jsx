@@ -97,17 +97,19 @@ const InputBox = styled.div`
 `;
 
 const GoogleSignin = styled.button`
-width: 100%;
-padding: 8px 0;
-display: flex;
-align-items: center;
-justify-content: center;
-background:#fff;
-color:#2f3337;
-border: 1px solid #ccc;
-border-radius: 5px;
+  width: 100%;
+  padding: 8px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  color: #2f3337;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 
-svg{margin-right: 5px;}
+  svg {
+    margin-right: 5px;
+  }
 `;
 const GitSignin = styled.button`
   width: 100%;
@@ -116,11 +118,13 @@ const GitSignin = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  background:#2f3337;
-  color:#fff;
+  background: #2f3337;
+  color: #fff;
   border-radius: 5px;
 
-  svg{margin-right: 5px;}
+  svg {
+    margin-right: 5px;
+  }
 `;
 
 const SignUpBtn = styled.button`
@@ -208,7 +212,7 @@ function SignUpPage() {
       return;
     }
 
-    fetch("http://localhost:3000/users/signup", {
+    fetch(`${process.env.REACT_APP_FRONT}/users/signup`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

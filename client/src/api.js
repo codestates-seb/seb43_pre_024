@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const API_URL =
-  "http://ec2-15-164-49-219.ap-northeast-2.compute.amazonaws.com:8080";
+  "http://ec2-43-200-3-23.ap-northeast-2.compute.amazonaws.com:8080";
 
 export function fetchAnswerInfo({ questionId }) {
   return axios

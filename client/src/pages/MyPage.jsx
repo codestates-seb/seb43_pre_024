@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import useFetch from '../util/useFetch';
 import profileImg from '../images/profileImg.jpeg';
 
 const MypageBox = styled.div`
@@ -604,8 +603,6 @@ function MyPage({
   questionsActive,
   answersActive,
 }) {
-  const { datas, isPending, error } = useFetch(`
-  http://localhost:3001/user`);
 
   const [user, setUsers] = useState([]);
   const [secession, setSecession] = useState(false);
@@ -616,11 +613,43 @@ function MyPage({
   const [lengthConfirm, setLengthConfirm] = useState(false);
   const [rePassword, setRePassword] = useState('');
   const [confirm, setConfirm] = useState(false);
-  const [id, setId] = useState(0);
+  const [id, setId] = useState(1);
+  const [isPending, setIsPending] = useState(false);
   const navigate = useNavigate();
 
+  const URL = process.env.REACT_APP_FRONT;
+  const token = localStorage.getItem("Authorization");
+
+  useEffect(() => {
+    fetch(
+      `${URL}/users/1`, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`
+      },
+      })
+      .then(res => {
+        if (!res.ok) {
+          throw Error('could not fetch the data for that resource');
+        }
+        return res.json();
+      })
+      .then(data => {
+        setIsPending(true);
+        console.log(data);
+        setUsers(data.questions);
+        // setId(user.userId);
+        console.log(user);
+      })
+      .catch(err => {
+        setIsPending(false);
+        console.log(err);
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   function deleteUser() {
-    fetch(`http://localhost:3001/user/${id}`, {
+    fetch(`${URL}/users/1`, {
       method: 'DELETE',
       headers: {
         Authorization: '',
@@ -628,7 +657,7 @@ function MyPage({
       },
     })
       .then(response => {
-        console.log(response);
+  
         setSecessionAlert(false);
         navigate('/');
       })
@@ -636,13 +665,6 @@ function MyPage({
         console.log(err);
       });
   }
-
-  const token = localStorage.getItem('Autorization');
-
-
-  useEffect(() => {
-    setId(user.userId);
-  }, [user]);
 
   function activeQuestions() {
     setQuestionsActive(true);
@@ -722,7 +744,7 @@ function MyPage({
         answers: user.answers,
       };
 
-      fetch(`http://localhost:3001/user/${id}`, {
+      fetch(`${URL}/users/1`, {
         method: 'PUT',
         body: JSON.stringify(putData),
         headers: {
@@ -737,12 +759,6 @@ function MyPage({
       window.location.reload();
     }
   };
-
-  useEffect(() => {
-    if (isPending) {
-      setUsers(datas[0]);
-    }
-  }, [datas, isPending, error]);
 
   return (
     <MypageBox>
@@ -759,10 +775,10 @@ function MyPage({
           </div>
           <div className="countBox">
             <span className="countQuestions">
-              <b>{pageData ? pageData.length : null}</b>&nbsp;questions&nbsp;
+              <b>{user.questions ? user.questions.length : null}</b>&nbsp;questions&nbsp;
             </span>
             <span className="countQuestions">
-              <b>{pageData ? pageData.length : null}</b>&nbsp;answers
+              <b>{user.questions ? user.questions.length : null}</b>&nbsp;answers
             </span>
           </div>
         </ProfileDetail>
@@ -786,8 +802,8 @@ function MyPage({
         </TabBox>
         {questionsActive ? (
           <QuestionsBox>
-            {pageData
-              ? pageData.map(question => {
+            {user.questions
+              ? user.questions.map(question => {
                   return (
                     <div key={question.questionId} className="questionBox">
                       <div className="detailBox">
@@ -814,8 +830,8 @@ function MyPage({
         ) : null}
         {answersActive ? (
           <AnswersBox>
-            {pageAnswersData
-              ? pageAnswersData.map(answer => {
+            {user.answers
+              ? user.answers.map(answer => {
                   return (
                     <div key={answer.questionId} className="questionBox">
                       <div className="detailBox">

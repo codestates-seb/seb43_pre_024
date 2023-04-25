@@ -41,6 +41,7 @@ const GoogleLogin = styled.a`
   color: #2f3337;
   border: 1px solid #ccc;
   border-radius: 5px;
+  text-decoration: none;
 
   svg {
     margin-right: 5px;
@@ -56,6 +57,7 @@ const GitLogin = styled.a`
   background: #2f3337;
   color: #fff;
   border-radius: 5px;
+  text-decoration: none;
 
   svg {
     margin-right: 5px;
@@ -120,7 +122,7 @@ const LoginBtn = styled.button`
   }
 `;
 
-function LogIn({ login, setLogin }) {
+function LogIn({ login, setLogin, userId, setUserId }) {
   const [emailIsFocused, setEmailIsFocused] = useState(false);
   const [pwIsFocused, setPwIsFocused] = useState(false);
   const [userEmail, setUserEmail] = useState("");
@@ -154,30 +156,29 @@ function LogIn({ login, setLogin }) {
     }
 
     try {
-      const response = await fetch(`${process.env.REACT_APP_MIRI}users/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify({
-          email: userEmail,
-          password: userPassword,
-        }),
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_FRONT}/users/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({
+            email: userEmail,
+            password: userPassword,
+          }),
+        }
+      );
       if (response.ok) {
-        // const jsonString = await response.text();
-        // const data = JSON.parse(jsonString);
-        //localStorage.removeItem("token");
-        // localStorage.setItem("token", data.token);
-
         const headers = response.headers;
         const authorizationHeader = headers.get("Authorization");
-        localStorage.setItem("Authorization", authorizationHeader);
-        navigate("/home");
+        const token = authorizationHeader.split(" ")[1];
+        localStorage.setItem("Authorization", token);
         setLogin(true);
+        setUserId(response.body);
         console.log(login);
-        //ToDo : HTTP상태 코드에 따라 분기처리 하기
+        navigate("/home");
       } else if (response.status === 401) {
         throw new Error("이메일 또는 비밀번호가 틀렸습니다.");
       } else {
@@ -195,13 +196,13 @@ function LogIn({ login, setLogin }) {
           <StackLogo />
         </LoginLogo>
         <GoogleLogin
-          href={`https://81f3-210-100-239-193.ngrok-free.app/oauth2/authorization/google`}
+          href={`${process.env.REACT_APP_FRONT}/oauth2/authorization/google`}
         >
           <GoogleLogo />
           Log in with Google
         </GoogleLogin>
         <GitLogin
-          href={`https://81f3-210-100-239-193.ngrok-free.app/oauth2/authorization/github`}
+          href={`${process.env.REACT_APP_FRONT}/oauth2/authorization/github`}
         >
           <GitLogo />
           Log in with GitHub
