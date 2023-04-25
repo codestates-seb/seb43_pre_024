@@ -1,11 +1,22 @@
 import axios from "axios";
 
 export const API_URL =
-  "http://ec2-43-200-3-23.ap-northeast-2.compute.amazonaws.com:8080";
+  // "http://ec2-43-201-38-40.ap-northeast-2.compute.amazonaws.com:8080/";
+  "http://ec2-43-200-3-23.ap-northeast-2.compute.amazonaws.com:8080/";
+// "http://ec2-15-164-49-219.ap-northeast-2.compute.amazonaws.com:8080/";
+
+const headers = {
+  Authorization: `Bearer ${localStorage.getItem("token")}`,
+  "Content-Type": "application/json",
+};
+export const apiClient = axios.create({
+  baseURL: API_URL,
+  headers: headers,
+});
 
 export function fetchAnswerInfo({ questionId }) {
-  return axios
-    .get(`${API_URL}/questions/${questionId}`)
+  return apiClient
+    .get(`questions/${questionId}`)
     .then(function (response) {
       // 성공 핸들링
       console.log(response);
@@ -45,5 +56,5 @@ export function fetchAnswerInfo({ questionId }) {
 }
 
 export function addLike({ questionId }) {
-  return axios.post(`${API_URL}/questions/${questionId}/like`);
+  return apiClient.post(`questions/${questionId}/like`);
 }

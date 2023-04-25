@@ -1,10 +1,9 @@
 import styled from "styled-components";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import QuestionInputBox from "../components/QuestionInputBox";
 import { useNavigate } from "react-router-dom";
 import Confirm from "../components/Confirm";
-import { API_URL } from "../api";
-import axios from "axios";
+import { apiClient } from "../api";
 
 const NewQuestionStyle = styled.div`
   display: flex;
@@ -128,21 +127,16 @@ function NewQuestion({ questionId }) {
               console.log("title", title);
               console.log("body", body);
               console.log("tags", tags);
-              const token = localStorage.getItem("Authorization");
-              fetch(`${API_URL}/questions/ask`, {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                  Authorization: `Bearer ${token}`,
-                },
-                body: JSON.stringify({
-                  email: "abc@gmail.com",
+              apiClient
+                .post(`questions/ask`, {
+                  email: "zzzzzzz@naver.com",
                   title: title,
-                  content: body.data,
-                }),
-              })
+                  content: body,
+                  // tags: tags,
+                })
                 .then(function (response) {
-                  console.log(response);
+                  // console.log(response);
+                  console.log(response.body);
                   // navigate("/all-questions");
                 })
                 .catch(function (error) {
