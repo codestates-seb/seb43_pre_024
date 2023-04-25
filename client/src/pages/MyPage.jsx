@@ -604,8 +604,6 @@ function MyPage({
   questionsActive,
   answersActive,
 }) {
-  const { datas, isPending, error } = useFetch(`
-  http://localhost:3001/user`);
 
   const [user, setUsers] = useState([]);
   const [secession, setSecession] = useState(false);
@@ -639,9 +637,13 @@ function MyPage({
 
   const token = localStorage.getItem('Autorization');
 
+  const URL = process.env.REACT_APP_MIRI;
+  const { datas, isPending, error } = useFetch(`
+  ${URL}users/{${id}}`);
 
   useEffect(() => {
     setId(user.userId);
+    console.log(id);
   }, [user]);
 
   function activeQuestions() {
@@ -687,6 +689,17 @@ function MyPage({
     setRePassword(e.target.value);
   }
 
+
+    fetch(`
+    ${URL}users/{${id}}`, {
+      method: 'PUT',
+      body: JSON.stringify(putData),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(() => {
+        console.log(user.name);
   useEffect(() => {
     if (password.length > 7 && password.length < 20) {
       setLengthConfirm(true);
