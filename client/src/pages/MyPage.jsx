@@ -339,16 +339,14 @@ const AnswersBtn = styled.button`
 `;
 
 const QuestionsBox = styled.div`
-  border-left: 1px solid rgb(176, 171, 171);
-  border-top: 1px solid rgb(176, 171, 171);
-  border-right: 1px solid rgb(176, 171, 171);
+  border: 1px solid rgb(176, 171, 171);
   border-radius: 5px;
   box-sizing: border-box;
   width: 80%;
-  height: 340px;
+  height: 300px;
 
   .questionBox {
-    border-bottom: 1px solid rgb(176, 171, 171);
+    border-bottom: 0.5px solid rgb(176, 171, 171);
     box-sizing: border-box;
     height: 50%;
     padding: 1rem;
@@ -414,22 +412,20 @@ const QuestionsBox = styled.div`
 
   .createdAt {
     text-align: right;
-    margin-top: 15px;
+    margin-top: 40px;
     color: rgb(61, 66, 70);
   }
 `;
 
 const AnswersBox = styled.div`
-  border-left: 1px solid rgb(176, 171, 171);
-  border-top: 1px solid rgb(176, 171, 171);
-  border-right: 1px solid rgb(176, 171, 171);
+  border: 1px solid rgb(176, 171, 171);
   border-radius: 5px;
-  height: 340px;
+  height: 300px;
   width: 80%;
   box-sizing: border-box;
 
   .questionBox {
-    border-bottom: 1px solid rgb(176, 171, 171);
+    border-bottom: 0.5px solid rgb(176, 171, 171);
     box-sizing: border-box;
     height: 50%;
     padding: 1rem;
@@ -495,7 +491,7 @@ const AnswersBox = styled.div`
 
   .createdAt {
     text-align: right;
-    margin-top: 15px;
+    margin-top: 40px;
     color: rgb(61, 66, 70);
   }
 `;
@@ -654,12 +650,11 @@ function MyPage({
     fetch(`${URL}/users/1`, {
       method: 'DELETE',
       headers: {
-        Authorization: '',
         ContentType: 'application/json',
+        Authorization: `Bearer ${token}`,
       },
     })
       .then(response => {
-  
         setSecessionAlert(false);
         navigate('/');
       })
@@ -741,17 +736,13 @@ function MyPage({
     if (!confirm) {
       alert('비밀번호를 확인해주세요!');
     } else {
-      const putData = {
-        name,
-        answers: answers,
-      };
-
       fetch(`${URL}/users/1`, {
         method: 'PUT',
-        body: JSON.stringify(putData),
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
         },
+        body: JSON.stringify({ name, answers })
       })
         .then(() => {
           console.log(userName);
@@ -816,11 +807,11 @@ function MyPage({
                         <span className="views">{question.views} views</span>
                       </div>
                       <div className="title">{question.title}</div>
-                      <div className="tagsBox">
-                        {/* {question.tagsList.map(tag => {
+                      {/* <div className="tagsBox">
+                        {question.tagsList.map(tag => {
                           return <div className="tag"> {tag.label} </div>;
-                        })} */}
-                      </div>
+                        })}
+                      </div> */}
                       <div className="createdAt">
                         asked &nbsp;{question.created_at}
                       </div>
@@ -843,11 +834,11 @@ function MyPage({
                         <span className="views">{answer.views} views</span>
                       </div>
                       <div className="title">{answer.title}</div>
-                      <div className="tagsBox">
-                        {/* {answer.tagsList.map(tag => {
+                      {/* <div className="tagsBox">
+                        {answer.tagsList.map(tag => {
                           return <div className="tag"> {tag.label} </div>;
-                        })} */}
-                      </div>
+                        })}
+                      </div> */}
                       <div className="createdAt">
                         asked &nbsp;{answer.created_at}
                       </div>
