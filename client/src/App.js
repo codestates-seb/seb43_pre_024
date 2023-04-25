@@ -24,10 +24,20 @@ function App() {
     }
   }
 
+  useEffect(() => {
+    const token = localStorage.getItem("Authorization");
+    if (token) {
+      setLogin(true);
+    } else {
+      setLogin(false);
+    }
+  }, []);
+
   return (
     <div className="App">
       <Header
         isLogin={login}
+        setLogin={setLogin}
         changeLoginStatus={() => {
           changeLoginStatus();
         }}
