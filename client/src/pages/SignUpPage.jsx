@@ -97,7 +97,7 @@ const InputBox = styled.div`
   }
 `;
 
-const GoogleSignin = styled.button`
+const GoogleSignin = styled.a`
   width: 100%;
   padding: 8px 0;
   display: flex;
@@ -107,12 +107,13 @@ const GoogleSignin = styled.button`
   color: #2f3337;
   border: 1px solid #ccc;
   border-radius: 5px;
+  text-decoration: none;
 
   svg {
     margin-right: 5px;
   }
 `;
-const GitSignin = styled.button`
+const GitSignin = styled.a`
   width: 100%;
   padding: 8px 0;
   margin: 10px 0 30px 0;
@@ -122,6 +123,7 @@ const GitSignin = styled.button`
   background: #2f3337;
   color: #fff;
   border-radius: 5px;
+  text-decoration: none;
 
   svg {
     margin-right: 5px;
@@ -282,11 +284,15 @@ function SignUpPage() {
           </ul>
         </TextBox>
         <InputBox>
-          <GoogleSignin>
+          <GoogleSignin
+            href={`${process.env.REACT_APP_FRONT}/oauth2/authorization/google`}
+          >
             <GoogleLogo />
             Sign in with Google
           </GoogleSignin>
-          <GitSignin>
+          <GitSignin
+            href={`${process.env.REACT_APP_FRONT}/oauth2/authorization/github`}
+          >
             <GitLogo />
             Sign in with GitHub
           </GitSignin>
