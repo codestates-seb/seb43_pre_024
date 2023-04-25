@@ -7,17 +7,17 @@ import {
   Link,
   useNavigate,
   useLocation,
-} from "react-router-dom";
-import Home from "../pages/Home";
-import Main from "../pages/Main";
-import AllQuestions from "../pages/AllQuestions";
-import Paging from "./Paging";
-import MyPage from "../pages/MyPage";
-import NewQuestion from "../pages/NewQuestion";
-import SignUpPage from "../pages/SignUpPage";
-import LogIn from "../pages/LogIn";
-import QuestionDetail from "../pages/QuestionDetail";
-import SearchQuestions from "../pages/SearchQuestions";
+} from 'react-router-dom';
+import Home from '../pages/Home';
+import Main from '../pages/Main';
+import AllQuestions from '../pages/AllQuestions';
+import Paging from './Paging';
+import MyPage from '../pages/MyPage';
+import NewQuestion from '../pages/NewQuestion';
+import SignUpPage from '../pages/SignUpPage';
+import LogIn from '../pages/LogIn';
+import QuestionDetail from '../pages/QuestionDetail';
+import SearchQuestions from '../pages/SearchQuestions';
 
 const NavBox = styled.div`
   width: 250px;
@@ -229,7 +229,7 @@ function Navbar({
         <Route path="/new-question" element={<NewQuestion />} />
         <Route path="/mypage" element={<Paging />} />
         <Route path="/signup" element={<SignUpPage />} />
-        <Route path="/search-questions/title" element={<SearchQuestions />} />
+        <Route path="/search-questions/title" element={<SearchQuestions />}/>
         <Route
           path="/login"
           element={<LogIn login={login} setLogin={setLogin} />}
