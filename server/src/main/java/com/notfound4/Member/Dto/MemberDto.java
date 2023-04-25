@@ -1,11 +1,17 @@
 package com.notfound4.Member.Dto;
 
+import com.notfound4.Answer.Entity.Answer;
 import com.notfound4.Member.Entity.Member;
+import com.notfound4.Question.Entity.Question;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import java.time.LocalDateTime;
+import java.util.List;
 
 public class MemberDto {
 
@@ -46,5 +52,42 @@ public class MemberDto {
         private String email;
         private String password;
         private Member.Status memberStatus;
+    }
+
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Getter
+    @Setter
+    public static class GetResponse {
+//        private long memberId;
+        private String name;
+        private List<MyPageQuestion> questions;
+        private List<MyPageAnswer> answers;
+    }
+
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Getter
+    @Setter
+    public static class MyPageQuestion {
+        private Long questionId;
+        private String title;
+        private int likes;
+        private int answer_cnt;
+        private int views;
+        private LocalDateTime created_at;
+    }
+
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Getter
+    @Setter
+    public static class MyPageAnswer {
+        private Long questionId;
+        private String title;
+        private int likes;
+        private int answer_cnt;
+        private int views;
+        private LocalDateTime created_at;
     }
 }

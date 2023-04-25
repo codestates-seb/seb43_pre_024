@@ -1,11 +1,11 @@
-import styled from 'styled-components';
-import { Link, useNavigate } from 'react-router-dom';
-import { BiSearchAlt } from 'react-icons/bi';
-import { AiOutlineClose } from 'react-icons/ai';
-import { FiMenu } from 'react-icons/fi';
-import { useState } from 'react';
-import { FaGlobeAsia } from 'react-icons/fa';
-import Logo from '../images/logo.png';
+import styled from "styled-components";
+import { Link, useNavigate } from "react-router-dom";
+import { BiSearchAlt } from "react-icons/bi";
+import { AiOutlineClose } from "react-icons/ai";
+import { FiMenu } from "react-icons/fi";
+import { useState } from "react";
+import { FaGlobeAsia } from "react-icons/fa";
+import Logo from "../images/logo.png";
 
 const HeaderBox = styled.div`
   width: 100%;
@@ -77,13 +77,13 @@ const SearchBox = styled.div`
   padding: 5px;
   border-radius: 3px;
 
-  border: ${props =>
+  border: ${(props) =>
     props.focus === true
-      ? '1px solid rgba(95, 149, 248)'
-      : '1px solid rgba(0, 0, 0, 0.2)'};
+      ? "1px solid rgba(95, 149, 248)"
+      : "1px solid rgba(0, 0, 0, 0.2)"};
 
-  box-shadow: ${props =>
-    props.focus === true ? 'rgba(3, 102, 214, 0.3) 0px 0px 0px 3px' : null};
+  box-shadow: ${(props) =>
+    props.focus === true ? "rgba(3, 102, 214, 0.3) 0px 0px 0px 3px" : null};
 
   .search {
     border: none;
@@ -258,23 +258,22 @@ function Header({
     setToggle(false);
   }
 
-  const handleOnKeyPress = e => {
+  const handleOnKeyPress = (e) => {
     const requestOptions = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ input: inputValue })
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ input: inputValue }),
     };
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       // fetch('https://e5dd-210-100-239-193.ngrok-free.app/questions/search/title', requestOptions)
-      fetch('http://localhost:3001/questions', requestOptions)
-      .then(response => {
-        response.json();
-        navigate('/search-questions/title');
-        activeQuestions();
-        }
-      )
-      .then(data => console.log(data))
-      .catch(error => console.error(error));
+      fetch("http://localhost:3001/questions", requestOptions)
+        .then((response) => {
+          response.json();
+          navigate("/search-questions/title");
+          activeQuestions();
+        })
+        .then((data) => console.log(data))
+        .catch((error) => console.error(error));
     }
   };
 
@@ -345,9 +344,9 @@ function Header({
             </ul>
           </MenuBox>
         ) : null}
-        <a href="/">
+        <Link to="/">
           <img src={Logo} className="logoImg" alt="로고사진" />
-        </a>
+        </Link>
         <Link to="all-questions">
           <button className="questions" onClick={activeQuestions} type="button">
             All Questions
@@ -361,12 +360,18 @@ function Header({
             type="text"
             className="search"
             placeholder="Search..."
-            onChange={e => inputChange(e)}
+            onChange={(e) => inputChange(e)}
             onKeyDown={handleOnKeyPress}
           />
         </SearchBox>
         {isLogin ? (
-          <LogoutOrSignUp type="button" onClick={changeLoginStatus}>
+          <LogoutOrSignUp
+            type="button"
+            onClick={() => {
+              changeLoginStatus();
+              localStorage.removeItem("token");
+            }}
+          >
             Log out
           </LogoutOrSignUp>
         ) : (
