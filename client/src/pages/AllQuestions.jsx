@@ -230,6 +230,7 @@ const QuestionMain = styled.div`
     display: -webkit-box;
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
+    cursor: pointer;
 
     :hover {
       color: rgb(77, 139, 221);
@@ -393,6 +394,10 @@ function AllQuestions() {
     setTopActive(true);
   }
 
+  function navigateTo(id) {
+    navigate(`/questions/${id}`)
+  }
+
   const [ref, inView] = useInView();
 
   const datasCount = datas ? datas.length : 0;
@@ -509,9 +514,7 @@ function AllQuestions() {
                     </div>
                   </CountBox>
                   <QuestionMain>
-                    <Link to="/questions/:id">
-                      <span className="title">{data.title}</span>
-                    </Link>
+                    <span onClick={() => {navigateTo(data.questionId)}} className="title">{data.title}</span>
                     <span className="content">{data.content}</span>
                     <div className="tagsBox">
                       {data.tagsList
