@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import profileImg from '../images/profileImg.jpeg';
+import { FaRegSadCry } from 'react-icons/fa';
 
 const MypageBox = styled.div`
   width: 100%;
@@ -302,6 +303,15 @@ const ContentBox = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 8%;
+
+  .noData {
+    font-size: 1.5rem;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 `;
 
 const TabBox = styled.div`
@@ -620,7 +630,7 @@ function MyPage({
 
   useEffect(() => {
     fetch(
-      `${URL}/users/1`, {
+      `${URL}/users/5`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`
@@ -647,7 +657,7 @@ function MyPage({
   }, [isPending]);
 
   function deleteUser() {
-    fetch(`${URL}/users/1`, {
+    fetch(`${URL}/users/5`, {
       method: 'DELETE',
       headers: {
         ContentType: 'application/json',
@@ -736,7 +746,7 @@ function MyPage({
     if (!confirm) {
       alert('비밀번호를 확인해주세요!');
     } else {
-      fetch(`${URL}/users/1`, {
+      fetch(`${URL}/users/5`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -749,7 +759,7 @@ function MyPage({
         })
         .catch(err => console.log(err));
 
-      window.location.reload();
+      // window.location.reload();
     }
   };
 
@@ -796,7 +806,7 @@ function MyPage({
         {questionsActive ? (
           <QuestionsBox>
             {questions.length
-              && questions.map(question => {
+              ? questions.map(question => {
                   return (
                     <div key={question.questionId} className="questionBox">
                       <div className="detailBox">
@@ -817,13 +827,14 @@ function MyPage({
                       </div>
                     </div>
                   );
-                })}
+                }) :
+                <div className="noData">No Questions...<FaRegSadCry /></div>}
           </QuestionsBox>
         ) : null}
         {answersActive ? (
           <AnswersBox>
             {answers.length
-              && answers.map(answer => {
+              ? answers.map(answer => {
                   return (
                     <div key={answer.questionId} className="questionBox">
                       <div className="detailBox">
@@ -844,7 +855,8 @@ function MyPage({
                       </div>
                     </div>
                   );
-                })}
+                }) :
+                <div className="noData">No Answers...<FaRegSadCry /></div>}
           </AnswersBox>
         ) : null}
       </ContentBox>
