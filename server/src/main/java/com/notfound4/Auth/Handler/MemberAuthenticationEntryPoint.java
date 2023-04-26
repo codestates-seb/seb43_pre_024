@@ -2,7 +2,6 @@ package com.notfound4.Auth.Handler;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.notfound4.Auth.Dto.Utils.ErrorResponder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
