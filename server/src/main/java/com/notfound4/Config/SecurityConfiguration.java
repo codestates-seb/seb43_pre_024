@@ -2,6 +2,9 @@ package com.notfound4.Config;
 
 import com.notfound4.Auth.Filter.JwtAuthenticationFilter;
 import com.notfound4.Auth.Filter.JwtVerificationFilter;
+import com.notfound4.Auth.Handler.MemberAuthenticationEntryPoint;
+import com.notfound4.Auth.Handler.MemberAuthenticationFailureHandler;
+import com.notfound4.Auth.Handler.MemberAuthenticationSuccessHandler;
 import com.notfound4.Auth.Handler.OAuth2MemberSuccessHandler;
 import com.notfound4.Auth.Jwt.JwtTokenizer;
 import com.notfound4.Member.Service.MemberService;
@@ -64,6 +67,9 @@ public class SecurityConfiguration {
                 .and()
                 .formLogin().disable()
                 .httpBasic().disable()
+                .exceptionHandling()
+                .authenticationEntryPoint(new MemberAuthenticationEntryPoint())
+                .and()
                 .apply(new CustomFilterConfigurer())
                 .and()
                 .authorizeHttpRequests(authorize -> authorize
@@ -103,6 +109,8 @@ public class SecurityConfiguration {
             jwtAuthenticationFilter.setFilterProcessesUrl("/users/login");
 
             JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtTokenizer);
+            jwtAuthenticationFilter.setAuthenticationSuccessHandler(new MemberAuthenticationSuccessHandler());
+            jwtAuthenticationFilter.setAuthenticationFailureHandler(new MemberAuthenticationFailureHandler());
 
             builder
                     .addFilter(jwtAuthenticationFilter)
@@ -127,7 +135,7 @@ public class SecurityConfiguration {
                 .getBuilder("google")
                 .clientId(googleClientId)
                 .clientSecret(googleClientSecret)
-                .redirectUri("http://ec2-43-201-38-40.ap-northeast-2.compute.amazonaws.com:8080//login/oauth2/code/google")
+                .redirectUri("http://notfound404test.s3-website.ap-northeast-2.amazonaws.com/login/oauth2/code/google")
                 .build();
     }
 
@@ -138,7 +146,7 @@ public class SecurityConfiguration {
                 .getBuilder("github")
                 .clientId(githubClientId)
                 .clientSecret(githubClientSecret)
-                .redirectUri("http://ec2-43-201-38-40.ap-northeast-2.compute.amazonaws.com:8080/login/oauth2/code/github")
+                .redirectUri("http://notfound404test.s3-website.ap-northeast-2.amazonaws.com/login/oauth2/code/github")
                 .build();
     }
 
