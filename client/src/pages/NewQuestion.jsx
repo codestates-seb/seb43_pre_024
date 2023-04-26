@@ -41,12 +41,13 @@ const ButtonStyle = styled.button`
   }
 `;
 
-function NewQuestion({ questionId }) {
+function NewQuestion({questionId, lastSegment, setLastSegment  }) {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [tags, setTags] = useState([]);
   const [currentStep, setCurrentStep] = useState(0);
   const navigate = useNavigate();
+
 
   // 컨펌 모달을 위한 상태들
   const [isCorfirmOpen, setIsConfirmOpen] = useState(false);
@@ -139,16 +140,18 @@ function NewQuestion({ questionId }) {
                   },
                   {
                     headers: {
-                      Authorization: `Bearer eyJhbGciOiJIUzM4NCJ9.eyJyb2xlcyI6WyJST0xFX1VTRVIiXSwidXNlcm5hbWUiOiJkb3p5dGVzdDFAZ21haWwuY29tIiwic3ViIjoiZG96eXRlc3QxQGdtYWlsLmNvbSIsImlhdCI6MTY4MjQ4NDM3NSwiZXhwIjoxNjgyNDg2MTc1fQ.juqTYnhmOAzLaqQtYrRK6rb_DjSetP2ZhjwdmUGQeefrRMeK-waS2USeB0Ux-h1Y`,
+                      Authorization: `Bearer ${token}`,
                       "Content-Type": "application/json",
                     },
                   }
                 )
                 .then(function (response) {
-                  console.log(response);
-                  // console.log(questionId);
-                  const id = response.data.id;
-                  navigate(`/questions/${id}`);
+                  // console.log(response.headers.get("Location"));
+                  console.log(`나와랑 ! ${response.request['responseURL']}`);
+                  const navUrl = response.request['responseURL'];
+                  const urlSegments = navUrl.split('/');
+                  // setLastSegment(urlSegments[urlSegments.length - 1]);
+                  navigate(`/all-questions`);
                 })
                 .catch(function (error) {
                   console.log(error);

@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import profileImg from "../images/profileImg.jpeg";
+import {FaRegSadCry} from 'react-icons/fa';
 
 const MypageBox = styled.div`
   width: 100%;
@@ -302,6 +303,15 @@ const ContentBox = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 8%;
+
+  .noData {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+  }
 `;
 
 const TabBox = styled.div`
@@ -598,10 +608,9 @@ function MyPage({
   setAnswersActive,
   questionsActive,
   answersActive,
-  setUserId,
-  userId,
 }) {
   const [userName, setUsersName] = useState("");
+  const [email, setEmail] = useState("");
   const [secession, setSecession] = useState(false);
   const [secessionAlert, setSecessionAlert] = useState(false);
   const [correction, setCorrection] = useState(false);
@@ -620,7 +629,7 @@ function MyPage({
   const token = localStorage.getItem("Authorization");
 
   useEffect(() => {
-    fetch(`${URL}/users/1`, {
+    fetch(`${URL}/users/${memberId}`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -634,11 +643,9 @@ function MyPage({
       })
       .then((data) => {
         setIsPending(true);
-        console.log(data);
         setQuestions(data.questions);
-        console.log("questions:", questions);
-        setAnswers(data.answers);
         setUsersName(data.name);
+        setEmail(data.email);
       })
       .catch((err) => {
         setIsPending(false);
@@ -647,16 +654,20 @@ function MyPage({
   }, [isPending]);
 
   function deleteUser() {
-    fetch(`${URL}/users/1`, {
+    fetch(`${URL}/users/${memberId}`, {
       method: "DELETE",
       headers: {
-        ContentType: "application/json",
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
+      body: JSON.stringify({ email }),
     })
       .then((response) => {
         setSecessionAlert(false);
+        localStorage.removeItem("Authorization");
+        localStorage.removeItem("member-id");
         navigate("/");
+        window.location.reload();
       })
       .catch((err) => {
         console.log(err);
@@ -706,10 +717,14 @@ function MyPage({
     setRePassword(e.target.value);
   }
 
+  function toNavigate(id) {
+    navigate(`/questions/${id}`);
+  }
+
   useEffect(() => {
-    if (password.length > 7 && password.length < 20) {
+    if (password.length > 6 && password.length < 20) {
       setLengthConfirm(true);
-    } else if (password.length < 7) {
+    } else if (password.length < 6) {
       setLengthConfirm(false);
     } else if (password.length > 20) {
       setLengthConfirm(false);
@@ -732,25 +747,27 @@ function MyPage({
     }
   }, [rePassword, password, confirm]);
 
+  const memberId = localStorage.getItem("member-id");
+
   const onChangePut = () => {
     if (!confirm) {
       alert("비밀번호를 확인해주세요!");
     } else {
-      fetch(`${URL}/users/1`, {
+      fetch(`${URL}/users/${memberId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ name, answers }),
+        body: JSON.stringify({ name, password, email }),
       })
         .then(() => {
           console.log(userName);
+          offCorrection();
         })
         .catch((err) => console.log(err));
-
-      window.location.reload();
     }
+    window.location.reload();
   };
 
   return (
@@ -771,7 +788,7 @@ function MyPage({
               <b>{questions ? questions.length : null}</b>&nbsp;questions&nbsp;
             </span>
             <span className="countQuestions">
-              <b>{questions ? questions.length : null}</b>&nbsp;answers
+              <b>{answers ? answers.length : 0}</b>&nbsp;answers
             </span>
           </div>
         </ProfileDetail>
@@ -795,8 +812,8 @@ function MyPage({
         </TabBox>
         {questionsActive ? (
           <QuestionsBox>
-            {questions.length &&
-              questions.map((question) => {
+            {pageData ?
+              pageData.map((question) => {
                 return (
                   <div key={question.questionId} className="questionBox">
                     <div className="detailBox">
@@ -806,24 +823,19 @@ function MyPage({
                       </span>
                       <span className="views">{question.views} views</span>
                     </div>
-                    <div className="title">{question.title}</div>
-                    {/* <div className="tagsBox">
-                        {question.tagsList.map(tag => {
-                          return <div className="tag"> {tag.label} </div>;
-                        })}
-                      </div> */}
+                    <div className="title" onClick={() => toNavigate(question.questionId)}>{question.title}</div>
                     <div className="createdAt">
                       asked &nbsp;{question.created_at}
                     </div>
                   </div>
                 );
-              })}
+              }) : <div className="noData">No Questions...<FaRegSadCry /></div>}
           </QuestionsBox>
         ) : null}
         {answersActive ? (
           <AnswersBox>
-            {answers.length &&
-              answers.map((answer) => {
+            {pageAnswersData ?
+              pageAnswersData.map((answer) => {
                 return (
                   <div key={answer.questionId} className="questionBox">
                     <div className="detailBox">
@@ -833,18 +845,13 @@ function MyPage({
                       </span>
                       <span className="views">{answer.views} views</span>
                     </div>
-                    <div className="title">{answer.title}</div>
-                    {/* <div className="tagsBox">
-                        {answer.tagsList.map(tag => {
-                          return <div className="tag"> {tag.label} </div>;
-                        })}
-                      </div> */}
+                    <div className="title" onClick={() => toNavigate(answer.questionId)}>{answer.title}</div>
                     <div className="createdAt">
                       asked &nbsp;{answer.created_at}
                     </div>
                   </div>
                 );
-              })}
+              }) : <div className="noData">No Answers...<FaRegSadCry /></div>}
           </AnswersBox>
         ) : null}
       </ContentBox>
@@ -860,7 +867,7 @@ function MyPage({
             <div className="btnBox">
               <button
                 className="onBtn"
-                onClick={() => onSecession}
+                onClick={() => deleteUser()}
                 type="button"
               >
                 YES

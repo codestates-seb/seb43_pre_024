@@ -12,7 +12,6 @@ function App() {
   const [questionsActive, setQuestionsActive] = useState(false);
   const [usersActive, setUsersActive] = useState(false);
   const [inputValue, setInputValue] = useState("");
-  const [userId, setUserId] = useState("");
 
   function changeLoginStatus() {
     if (login === true) {
@@ -65,8 +64,6 @@ function App() {
           setHomeActive={setHomeActive}
           setQuestionsActive={setQuestionsActive}
           setUsersActive={setUsersActive}
-          userId={userId}
-          setUserId={setUserId}
         />
       </div>
       <Footer />

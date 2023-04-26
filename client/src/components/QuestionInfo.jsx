@@ -29,6 +29,7 @@ function QuestionInfo({ questionId }) {
   const [isLogin, setIsLogin] = useState(false);
 
   function fetchQuestionInfo() {
+    const token = localStorage.getItem("Authorization");
     axios
       .get(`${API_URL}/questions/${questionId}`)
       .then(function (response) {
@@ -36,6 +37,12 @@ function QuestionInfo({ questionId }) {
         console.log(response);
         setData(response.data);
         console.log(response.data);
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
       })
       .catch(function (error) {
         // 에러 핸들링

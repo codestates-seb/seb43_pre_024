@@ -61,7 +61,7 @@ const Container = styled.div`
   position: relative;
 `;
 
-function Paging({userId}) {
+function Paging() {
   const [userName, setUsersName] = useState('');
   const [questions, setQuestions] = useState([]);
   const [answers, setAnswers] = useState([]);
@@ -69,10 +69,11 @@ function Paging({userId}) {
 
   const URL = process.env.REACT_APP_FRONT;
   const token = localStorage.getItem("Authorization");
+  const memberId = localStorage.getItem("member-id");
 
   useEffect(() => {
     fetch(
-      `${URL}/users/1`, {
+      `${URL}/users/${memberId}`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`
@@ -86,10 +87,8 @@ function Paging({userId}) {
       })
       .then(data => {
         setIsPending(true);
-        console.log(data);
         setQuestions(data.questions);
-        console.log("questions:", questions);
-        setAnswers(data.answers)
+        setAnswers(data.answers);
         setUsersName(data.name);
       })
       .catch(err => {
@@ -154,7 +153,6 @@ function Paging({userId}) {
         setQuestionsActive={setQuestionsActive}
         answersActive={answersActive}
         setAnswersActive={setAnswersActive}
-        userId={userId}
       />
       <PagingBox>
         {questionsActive ? (

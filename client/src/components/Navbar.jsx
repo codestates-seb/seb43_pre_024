@@ -127,8 +127,6 @@ function Navbar({
   homeActive,
   questionsActive,
   usersActive,
-  userId,
-  setUserId,
 }) {
   const navigate = useNavigate();
   const location = useLocation();
@@ -141,6 +139,8 @@ function Navbar({
   ];
 
   const shouldHideNavbar = hideNavbarRoutes.includes(location.pathname);
+
+  const [lastSegment, setLastSegment] = useState('');
 
   function activeHome() {
     setHomeActive(true);
@@ -232,9 +232,9 @@ function Navbar({
         )}
         <Route path="/main" element={<Main />} />
         <Route path="/all-questions" element={<AllQuestions />} />
-        <Route path="/questions/qestionId" element={<QuestionDetail />} />
-        <Route path="/new-question" element={<NewQuestion />} />
-        <Route path="/mypage" element={<Paging />} userId={userId} />
+        <Route path="/questions/:id" element={<QuestionDetail />} lastSegment={lastSegment} setLastSegment={setLastSegment} />
+        <Route path="/new-question" element={<NewQuestion />} lastSegment={lastSegment} setLastSegment={setLastSegment} />
+        <Route path="/mypage" element={<Paging />} />
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/search-questions/title" element={<SearchQuestions />} />
         <Route
@@ -243,8 +243,6 @@ function Navbar({
             <LogIn
               login={login}
               setLogin={setLogin}
-              userId={userId}
-              setUserId={setUserId}
             />
           }
         />

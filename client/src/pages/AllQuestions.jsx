@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import { GoCheck } from "react-icons/go";
 import { useNavigate, Link } from "react-router-dom";
 import { useInView } from "react-intersection-observer";
+import {FaRegSadCry} from 'react-icons/fa';
 
 const Box = styled.div`
   width: calc(100% - 250px);
@@ -125,6 +126,10 @@ const ContentsBox = styled.div`
   width: 100%;
   height: 100%;
   box-sizing: border-box;
+
+  .noData {
+    font-size: 1.3rem;
+  }
 `;
 
 const QuestionBox = styled.div`
@@ -537,7 +542,7 @@ function AllQuestions() {
                 </QuestionBox>
               );
             })
-          : null}
+          : <div className="noData">No questions......<FaRegSadCry /></div>}
       </ContentsBox>
       <Scroll inView={inView} ref={ref} />
     </Box>
