@@ -61,7 +61,7 @@ const Container = styled.div`
   position: relative;
 `;
 
-function Paging() {
+function Paging({userId}) {
   const [userName, setUsersName] = useState('');
   const [questions, setQuestions] = useState([]);
   const [answers, setAnswers] = useState([]);
@@ -154,6 +154,7 @@ function Paging() {
         setQuestionsActive={setQuestionsActive}
         answersActive={answersActive}
         setAnswersActive={setAnswersActive}
+        userId={userId}
       />
       <PagingBox>
         {questionsActive ? (
