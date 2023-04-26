@@ -348,7 +348,6 @@ function AllQuestions() {
       .then((data) => {
         setIsPendingNew(true);
         setNewDatas(data);
-        console.log(data);
       })
       .catch((err) => {
         setIsPendingNew(false);
@@ -499,7 +498,7 @@ function AllQuestions() {
         {print
           ? print.slice(0, page.current).map((data) => {
               return (
-                <QuestionBox>
+                <QuestionBox key={data.questionId}>
                   <CountBox>
                     <div className="likes">
                       <span className="likesValue">{data.likes}</span>
