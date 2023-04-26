@@ -366,16 +366,8 @@ function Header({
           />
         </SearchBox>
         {isLogin ? (
-          <Link to="/">
-            <LogoutOrSignUp
-              type="button"
-              onClick={() => {
-                localStorage.removeItem("Authorization");
-                setLogin(false);
-              }}
-            >
-              Log out
-            </LogoutOrSignUp>
+          <Link to="/logout">
+            <LogoutOrSignUp type="button">Log out</LogoutOrSignUp>
           </Link>
         ) : (
           <Link to="/login">

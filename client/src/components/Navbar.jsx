@@ -17,6 +17,7 @@ import SignUpPage from "../pages/SignUpPage";
 import LogIn from "../pages/LogIn";
 import QuestionDetail from "../pages/QuestionDetail";
 import SearchQuestions from "../pages/SearchQuestions";
+import Logout from "../pages/Logout";
 
 const NavBox = styled.div`
   width: 250px;
@@ -131,7 +132,13 @@ function Navbar({
 }) {
   const navigate = useNavigate();
   const location = useLocation();
-  const hideNavbarRoutes = ["/login", "/signupPage", "/main", "/signup"];
+  const hideNavbarRoutes = [
+    "/login",
+    "/signupPage",
+    "/main",
+    "/signup",
+    "/logout",
+  ];
 
   const shouldHideNavbar = hideNavbarRoutes.includes(location.pathname);
 
@@ -242,6 +249,7 @@ function Navbar({
           }
         />
         <Route path="/questions/:id" element={<QuestionDetail />} />
+        <Route path="/logout" element={<Logout setLogin={setLogin} />} />
       </Routes>
     </>
   );
