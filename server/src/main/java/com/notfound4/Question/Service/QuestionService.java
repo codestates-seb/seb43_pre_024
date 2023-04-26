@@ -126,8 +126,8 @@ public class QuestionService {
         }
     }
     // 질문 등록 시, 저장
-    public void createQuestion(Question question) {
-        questionRepository.save(question);
+    public Question createQuestion(Question question) {
+        return questionRepository.save(question);
     }
 
     // 질문 확인 페이지 조회 - 질문 조회

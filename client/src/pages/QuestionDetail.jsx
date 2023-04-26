@@ -7,6 +7,7 @@ import AnswerList from "../components/AnswerList";
 import QuestionInfo from "../components/QuestionInfo";
 import QuestionInputBox from "../components/QuestionInputBox";
 import { API_URL } from "../api";
+import { apiClient } from "../api";
 
 function QuestionDetail() {
   const DetailPageStyle = styled.div`
@@ -68,13 +69,9 @@ function NewAnswerInput({ questionId }) {
       <PostButtonStyle
         type="button"
         onClick={() => {
-          const token = localStorage.getItem("token");
-          axios
-            .post(`${API_URL}/questions/${questionId}/answer`, {
+          apiClient
+            .post(`questions/${questionId}/answer`, {
               //TODO : 로그인 기능 구현 후, 로그인한 사용자의 email을 넣어야 함
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
               email: "abc@gmail.com",
               content: value,
             })

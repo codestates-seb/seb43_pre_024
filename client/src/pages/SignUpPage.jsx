@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { ReactComponent as GoogleLogo } from "../images/googleLogo.svg";
 import { ReactComponent as GitLogo } from "../images/gitLogo.svg";
 import {
@@ -96,7 +97,7 @@ const InputBox = styled.div`
   }
 `;
 
-const GoogleSignin = styled.button`
+const GoogleSignin = styled.a`
   width: 100%;
   padding: 8px 0;
   display: flex;
@@ -106,12 +107,13 @@ const GoogleSignin = styled.button`
   color: #2f3337;
   border: 1px solid #ccc;
   border-radius: 5px;
+  text-decoration: none;
 
   svg {
     margin-right: 5px;
   }
 `;
-const GitSignin = styled.button`
+const GitSignin = styled.a`
   width: 100%;
   padding: 8px 0;
   margin: 10px 0 30px 0;
@@ -121,6 +123,7 @@ const GitSignin = styled.button`
   background: #2f3337;
   color: #fff;
   border-radius: 5px;
+  text-decoration: none;
 
   svg {
     margin-right: 5px;
@@ -159,7 +162,7 @@ function SignUpPage() {
     "7자에서 20자 이내로 비밀번호를 입력해주세요."
   );
   const [pwCheckErrorMessage, setPwCheckErrorMessage] = useState("");
-
+  const navigate = useNavigate();
   // display name input 클릭 시 div 포커스 효과
   const nameHandleFocus = () => {
     setNameIsFocused(true);
@@ -202,7 +205,7 @@ function SignUpPage() {
     password,
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async (e) => {
     if (
       emailErrorMessage.length !== 0 ||
       pwCheckErrorMessage.length !== 0 ||
@@ -212,32 +215,28 @@ function SignUpPage() {
       return;
     }
 
-    fetch(`${process.env.REACT_APP_FRONT}/users/signup`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(user),
-    })
-      .then((response) => {
-        // 2. HTTP 오류 처리
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_FRONT}/users/signup`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(user),
         }
-        return response.json();
-      })
-      .then((data) => {
-        // 3. JSON 파싱 오류 처리
-        if (typeof data === "string") {
-          throw new SyntaxError("JSON parsing error");
-        }
-        // success callback
-        console.log("Data successfully sent to server: ", data);
-      })
-      .catch((error) => {
-        // 4. 네트워크 오류 처리
-        alert("Network error: ", error);
-      });
+      );
+      if (response.ok) {
+        alert("회원가입이 완료되었습니다.");
+        navigate("/login");
+      } else if (response.status === 409) {
+        throw new Error("이미 가입된 회원입니다.");
+      } else {
+        throw new Error("알 수 없는 에러가 발생했습니다.");
+      }
+    } catch (error) {
+      alert(error);
+    }
   };
 
   return (
@@ -285,11 +284,15 @@ function SignUpPage() {
           </ul>
         </TextBox>
         <InputBox>
-          <GoogleSignin>
+          <GoogleSignin
+            href={`${process.env.REACT_APP_FRONT}/oauth2/authorization/google`}
+          >
             <GoogleLogo />
             Sign in with Google
           </GoogleSignin>
-          <GitSignin>
+          <GitSignin
+            href={`${process.env.REACT_APP_FRONT}/oauth2/authorization/github`}
+          >
             <GitLogo />
             Sign in with GitHub
           </GitSignin>

@@ -1,10 +1,9 @@
 import styled from "styled-components";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import QuestionInputBox from "../components/QuestionInputBox";
 import { useNavigate } from "react-router-dom";
 import Confirm from "../components/Confirm";
-import { API_URL } from "../api";
-import axios from "axios";
+import { apiClient } from "../api";
 
 const NewQuestionStyle = styled.div`
   display: flex;
@@ -128,24 +127,21 @@ function NewQuestion({ questionId }) {
               console.log("title", title);
               console.log("body", body);
               console.log("tags", tags);
-              const token = localStorage.getItem("token");
-              axios
-                .post(`${API_URL}/questions/ask`, {
-                  // TODO: 로그인 기능 구현 후 수정
-                  headers: {
-                    Authorization: `Bearer ${token}`,
-                  },
-                  email: "abc@gmail.com",
+              apiClient
+                .post(`questions/ask`, {
+                  email: "zzzzzzz@naver.com",
                   title: title,
                   content: body,
+                  // tags: tags,
                 })
                 .then(function (response) {
-                  console.log(response);
-                  navigate("/all-questions");
+                  // console.log(response);
+                  console.log(response.body);
+                  // navigate("/all-questions");
                 })
                 .catch(function (error) {
                   console.log(error);
-                  alert("질문 작성에 실패했습니다.");
+                  alert("질문 등록에 실패했습니다.");
                 });
             }}
           >

@@ -209,6 +209,7 @@ const UsersBtn = styled.button`
 
 function Header({
   isLogin,
+  setLogin,
   changeLoginStatus,
   setHomeActive,
   setUsersActive,
@@ -365,24 +366,16 @@ function Header({
           />
         </SearchBox>
         {isLogin ? (
-          <Link to="/">
-          <LogoutOrSignUp
-            type="button"
-            onClick={() => {
-              changeLoginStatus();
-              localStorage.removeItem("token");
-            }}
-          >
-            Log out
-          </LogoutOrSignUp>
+          <Link to="/logout">
+            <LogoutOrSignUp type="button">Log out</LogoutOrSignUp>
           </Link>
         ) : (
-          <SignIn type="button" onClick={changeLoginStatus}>
-            Log in
-          </SignIn>
+          <Link to="/login">
+            <SignIn type="button">Log in</SignIn>
+          </Link>
         )}
         {isLogin === false && (
-          <Link to="signup">
+          <Link to="/signup">
             <LogoutOrSignUp type="button">Sign up</LogoutOrSignUp>
           </Link>
         )}

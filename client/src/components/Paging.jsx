@@ -62,29 +62,50 @@ const Container = styled.div`
 `;
 
 function Paging() {
-  const { datas, isPending, error } = useFetch(`
-  http://localhost:3001/user`);
-
-  const [user, setUsers] = useState([]);
+  const [userName, setUsersName] = useState('');
   const [questions, setQuestions] = useState([]);
   const [answers, setAnswers] = useState([]);
+  const [isPending, setIsPending] = useState(false);
+
+  const URL = process.env.REACT_APP_FRONT;
+  const token = localStorage.getItem("Authorization");
+
+  useEffect(() => {
+    fetch(
+      `${URL}/users/1`, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`
+      },
+      })
+      .then(res => {
+        if (!res.ok) {
+          throw Error('could not fetch the data for that resource');
+        }
+        return res.json();
+      })
+      .then(data => {
+        setIsPending(true);
+        console.log(data);
+        setQuestions(data.questions);
+        console.log("questions:", questions);
+        setAnswers(data.answers)
+        setUsersName(data.name);
+      })
+      .catch(err => {
+        setIsPending(false);
+        console.log(err);
+      });
+  }, [isPending]);
 
   const [questionsActive, setQuestionsActive] = useState(true);
   const [answersActive, setAnswersActive] = useState(false);
-
-  useEffect(() => {
-    if (isPending) {
-      setUsers(datas[0]);
-      setQuestions(user.questions);
-      setAnswers(user.answers);
-    }
-  }, [datas, isPending, user]);
 
   const [page, setPage] = useState(1);
 
   const questionsCount = questions ? questions.length : 0;
   const questionsPerPage = 2;
-  const totalPage = questionsCount / questionsPerPage;
+  const totalPage = Math.floor(questionsCount / questionsPerPage);
 
   const dataPerPage = [];
 
@@ -104,7 +125,7 @@ function Paging() {
 
   const answersCount = answers ? answers.length : 0;
   const answersPerPage = 2;
-  const answersTotalPage = answersCount / answersPerPage;
+  const answersTotalPage = Math.floor(answersCount / answersPerPage);
 
   const [answersPage, setAnswersPage] = useState(1);
 
