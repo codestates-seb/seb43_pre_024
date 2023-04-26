@@ -135,7 +135,7 @@ public class SecurityConfiguration {
                 .getBuilder("google")
                 .clientId(googleClientId)
                 .clientSecret(googleClientSecret)
-                .redirectUri("http://ec2-43-201-38-40.ap-northeast-2.compute.amazonaws.com:8080//login/oauth2/code/google")
+                .redirectUri("http://notfound404test.s3-website.ap-northeast-2.amazonaws.com/login/oauth2/code/google")
                 .build();
     }
 
@@ -146,7 +146,7 @@ public class SecurityConfiguration {
                 .getBuilder("github")
                 .clientId(githubClientId)
                 .clientSecret(githubClientSecret)
-                .redirectUri("http://ec2-43-201-38-40.ap-northeast-2.compute.amazonaws.com:8080/login/oauth2/code/github")
+                .redirectUri("http://notfound404test.s3-website.ap-northeast-2.amazonaws.com/login/oauth2/code/github")
                 .build();
     }
 
