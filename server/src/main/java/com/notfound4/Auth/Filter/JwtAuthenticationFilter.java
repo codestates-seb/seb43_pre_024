@@ -65,6 +65,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         response.setHeader("Authorization", "Bearer " + accessToken);
         response.setHeader("Refresh", refreshToken);
+        response.setHeader("member-id", member.getMemberId().toString());
 
         // json 데이터 생성후 바디 응답 : memberId
         Map<String, Object> jsonData = new HashMap<>();
