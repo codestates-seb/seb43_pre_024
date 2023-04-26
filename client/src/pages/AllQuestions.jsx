@@ -16,7 +16,7 @@ const Box = styled.div`
 `;
 
 const TitleBox = styled.div`
-  width: 80%;
+  width: 1100px;
   height: 20%;
   border-bottom: 1px solid rgb(214, 216, 219);
   padding: 45px 0px 20px 30px;
@@ -122,14 +122,14 @@ const TopBtn = styled.button`
 `;
 
 const ContentsBox = styled.div`
-  width: 80%;
+  width: 100%;
   height: 100%;
   box-sizing: border-box;
 `;
 
 const QuestionBox = styled.div`
   border-bottom: 1px solid rgb(214, 216, 219);
-  width: 100%;
+  width: 1100px;
   height: 200px;
   display: flex;
   flex-direction: row;
@@ -138,7 +138,7 @@ const QuestionBox = styled.div`
 `;
 
 const CountBox = styled.div`
-  width: 20%;
+  width: 200px;
   height: 150px;
   display: flex;
   flex-direction: column;
@@ -146,6 +146,8 @@ const CountBox = styled.div`
   align-items: end;
   padding-right: 30px;
   box-sizing: border-box;
+  margin-right: 30px;
+  margin-left: 10px;
 
   .likesValue {
     font-weight: bold;
@@ -205,11 +207,12 @@ const Answers = styled.div`
 `;
 
 const QuestionMain = styled.div`
-  width: 80%;
+  width: 860px;
   height: 160px;
   box-sizing: border-box;
   display: flex;
   justify-content: center;
+  flex-wrap: nowrap;
   flex-direction: column;
 
   a {
