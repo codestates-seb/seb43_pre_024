@@ -1,24 +1,74 @@
 import MDEditor from "@uiw/react-md-editor";
-import axios from "axios";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
-import { API_URL } from "../api";
+import { apiClient } from "../api";
 
-function QuestionInfo({ questionId }) {
+const QuestionButtonStyle = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 150px;
+  height: 40px;
+  border: none;
+  background-color: #5594fc;
+  color: white;
+  padding: 20px;
+  margin-left: 50px;
+  border-radius: 5px;
+  :hover {
+    background-color: #3b7ddd;
+    cursor: pointer;
+  }
+`;
+
+const EditDeleteButtonStyle = styled.div`
+  width: 80%;
+  border-bottom: 1px solid #e1e4e8;
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 40px;
+  .editButton,
+  .deleteButton {
+    background-color: white;
+    border: none;
+    width: 50px;
+    font-size: 16px;
+    color: gray;
+    :hover {
+      cursor: pointer;
+      font-weight: bold;
+    }
+  }
+`;
+
+const HeartButtonStyle = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  .heartButton {
+    border: 1px solid red;
+  }
+  :hover {
+    cursor: pointer;
+  }
+`;
+
+function QuestionInfo({ questionDetail, fetchQuestionDetail, questionId }) {
   const navigate = useNavigate();
 
-  const [data, setData] = useState({});
-  const [questionContent, setQuestionContent] = useState(data);
+  const [questionContent, setQuestionContent] = useState(
+    questionDetail?.content || ""
+  );
 
   useEffect(() => {
-    fetchQuestionInfo();
+    fetchQuestionDetail();
   }, []);
 
   useEffect(() => {
-    setQuestionContent(data.content || "");
-  }, [data]);
+    setQuestionContent(questionDetail?.content || "");
+  }, [questionDetail]);
 
   // TODO: API 연동
   const tags = ["javascript", "react", "java", "python", "c++"];
@@ -28,98 +78,13 @@ function QuestionInfo({ questionId }) {
   const [count, setCount] = useState(0);
   const [isLogin, setIsLogin] = useState(false);
 
-  function fetchQuestionInfo() {
-    const token = localStorage.getItem("Authorization");
-    axios
-      .get(`${API_URL}/questions/${questionId}`)
-      .then(function (response) {
-        // 성공 핸들링
-        console.log(response);
-        setData(response.data);
-        console.log(response.data);
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      })
-      .catch(function (error) {
-        // 에러 핸들링
-        console.log(error);
-        setData({
-          questionId: 1,
-          title:
-            "Why is processing a sorted array faster than processing an unsorted array?",
-          content:
-            "\n I accidentally committed the wrong files to Git, but didn`\nt push the commit to the server yet. \n How do I undo those commits from the local repository?\n ```javascript\n const a = 1;\n console.log(a);\n```",
-          name: "김지은",
-          likes: "0",
-          answer_cnt: "2",
-          views: "1",
-          created_at: "2023-04-18 13:52",
-          accepted_answer: true,
-        });
-      });
-  }
-
-  const QuestionButtonStyle = styled.button`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 150px;
-    height: 40px;
-    border: none;
-    background-color: #5594fc;
-    color: white;
-    padding: 20px;
-    margin-left: 50px;
-    border-radius: 5px;
-    :hover {
-      background-color: #3b7ddd;
-      cursor: pointer;
-    }
-  `;
-
-  const EditDeleteButtonStyle = styled.div`
-    width: 80%;
-    border-bottom: 1px solid #e1e4e8;
-    display: flex;
-    justify-content: flex-start;
-    margin-top: 40px;
-    .editButton,
-    .deleteButton {
-      background-color: white;
-      border: none;
-      width: 50px;
-      font-size: 16px;
-      color: gray;
-      :hover {
-        cursor: pointer;
-        font-weight: bold;
-      }
-    }
-  `;
-
-  const HeartButtonStyle = styled.div`
-    display: flex;
-    align-items: center;
-    padding: 20px;
-    .heartButton {
-      border: 1px solid red;
-    }
-    :hover {
-      cursor: pointer;
-    }
-  `;
-
   function onClickHeartButton() {
     setIsFilled(!isFilled);
     setCount(count + 1);
     setCount(!isFilled ? count + 1 : count - 1);
   }
 
-  if (!data) {
+  if (!questionDetail) {
     return <div>존재하지 않는 질문입니다.</div>;
   }
 
@@ -133,7 +98,7 @@ function QuestionInfo({ questionId }) {
           alignItems: "center",
         }}
       >
-        <h2>{data.title}</h2>
+        <h2>{questionDetail.title}</h2>
         <QuestionButtonStyle
           type="button"
           onClick={() => navigate("/new-question")}
@@ -150,7 +115,10 @@ function QuestionInfo({ questionId }) {
           style={{ width: "80%" }}
         />
       ) : (
-        <MDEditor.Markdown source={data.content} style={{ width: "80%" }} />
+        <MDEditor.Markdown
+          source={questionDetail.content}
+          style={{ width: "80%" }}
+        />
       )}
 
       <div style={{ marginTop: 16 }}>
@@ -180,13 +148,13 @@ function QuestionInfo({ questionId }) {
                 // 저장하기가 눌렸음
                 setIsEditing(false);
 
-                axios
-                  .patch(`${API_URL}/questions/${questionId}/edit`, {
-                    title: data.title,
+                apiClient
+                  .patch(`questions/${questionId}/edit`, {
+                    title: questionDetail.title,
                     content: questionContent,
                   })
                   .then(() => {
-                    fetchQuestionInfo();
+                    fetchQuestionDetail();
                   })
                   .catch(() => {
                     alert("수정 실패");
@@ -207,8 +175,8 @@ function QuestionInfo({ questionId }) {
               if (isLogin === false) {
                 navigate("/login");
               }
-              axios
-                .delete(`${API_URL}/questions/${questionId}`)
+              apiClient
+                .delete(`questions/${questionId}`)
                 .then(() => {
                   navigate("/");
                 })
@@ -234,7 +202,7 @@ function QuestionInfo({ questionId }) {
                   style={{ color: "black" }}
                 />
               )}
-              {data.likes}
+              {questionDetail.likes}
             </div>
           </HeartButtonStyle>
         </EditDeleteButtonStyle>

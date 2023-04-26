@@ -3,7 +3,6 @@ import { useState } from "react";
 import QuestionInputBox from "../components/QuestionInputBox";
 import { useNavigate } from "react-router-dom";
 import Confirm from "../components/Confirm";
-import { apiClient } from "../api";
 
 const NewQuestionStyle = styled.div`
   display: flex;
@@ -41,13 +40,12 @@ const ButtonStyle = styled.button`
   }
 `;
 
-function NewQuestion({questionId, lastSegment, setLastSegment  }) {
+function NewQuestion() {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [tags, setTags] = useState([]);
   const [currentStep, setCurrentStep] = useState(0);
   const navigate = useNavigate();
-
 
   // 컨펌 모달을 위한 상태들
   const [isCorfirmOpen, setIsConfirmOpen] = useState(false);
@@ -125,34 +123,22 @@ function NewQuestion({questionId, lastSegment, setLastSegment  }) {
           <ButtonStyle
             type="button"
             onClick={() => {
-              console.log("title", title);
-              console.log("body", body);
-              console.log("tags", tags);
+              const data = {
+                email: "aaa@naver.com",
+                title: title,
+                content: body,
+              };
               const token = localStorage.getItem("Authorization");
-              console.log(token);
-              apiClient
-                .post(
-                  `questions/ask`,
-                  {
-                    email: "zzzzzzz@naver.com",
-                    title: title,
-                    content: body,
-                  },
-                  {
-                    headers: {
-                      Authorization: `Bearer ${token}`,
-                      "Content-Type": "application/json",
-                    },
-                  }
-                )
-                .then(function (response) {
-                  // console.log(response.headers.get("Location"));
-                  console.log(`나와랑 ! ${response.request['responseURL']}`);
-                  // const navUrl = response.request['responseURL'];
-                  // const urlSegments = navUrl.split('/');
-                  // setLastSegment(urlSegments[urlSegments.length - 1]);
-                  navigate(`/all-questions`);
-                })
+
+              fetch(`${process.env.REACT_APP_FRONT}/questions/ask`, {
+                method: "POST",
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+              })
+                .then(function (response) {})
                 .catch(function (error) {
                   console.log(error);
                   alert("질문 등록에 실패했습니다.");

@@ -1,18 +1,17 @@
 import axios from "axios";
 
-export const API_URL =
-  // "http://ec2-43-201-38-40.ap-northeast-2.compute.amazonaws.com:8080/";
-  // "http://ec2-43-200-3-23.ap-northeast-2.compute.amazonaws.com:8080/";
-  "http://ec2-15-164-49-219.ap-northeast-2.compute.amazonaws.com:8080/";
-
-const token = localStorage.getItem("token");
+const token = localStorage.getItem("Authorization");
 const headers = {
   Authorization: `Bearer ${token}`,
   "Content-Type": "application/json",
+  "Cache-Control": "no-cache, no-store, must-revalidate",
+  "Access-Control-Allow-Origin":
+    "http://ec2-15-164-49-219.ap-northeast-2.compute.amazonaws.com:8080",
 };
 export const apiClient = axios.create({
-  baseURL: API_URL,
+  baseURL: process.env.REACT_APP_FRONT,
   headers: headers,
+  withCredentials: true,
 });
 
 export function fetchAnswerInfo({ questionId }) {
@@ -20,7 +19,7 @@ export function fetchAnswerInfo({ questionId }) {
     .get(`questions/${questionId}`)
     .then(function (response) {
       // 성공 핸들링
-      console.log(response);
+      console.warn(response);
       console.log(response.data);
       return response.data.answers;
     })

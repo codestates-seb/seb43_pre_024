@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import { GoCheck } from "react-icons/go";
 import { useNavigate, Link } from "react-router-dom";
 import { useInView } from "react-intersection-observer";
-import {FaRegSadCry} from 'react-icons/fa';
+import { FaRegSadCry } from "react-icons/fa";
 
 const Box = styled.div`
   width: calc(100% - 250px);
@@ -403,7 +403,7 @@ function AllQuestions() {
   }
 
   function navigateTo(id) {
-    navigate(`/questions/${id}`)
+    navigate(`/questions/${id}`);
   }
 
   const [ref, inView] = useInView();
@@ -500,49 +500,61 @@ function AllQuestions() {
         </div>
       </TitleBox>
       <ContentsBox>
-        {print
-          ? print.slice(0, page.current).map((data) => {
-              return (
-                <QuestionBox>
-                  <CountBox>
-                    <div className="likes">
-                      <span className="likesValue">{data.likes}</span>
-                      <span className="likesText">likes</span>
-                    </div>
-                    <Answers accepted={data.accepted_answer}>
-                      {data.accepted_answer === true ? (
-                        <GoCheck size="30" />
-                      ) : null}
-                      <span className="answersValue">{data.answer_cnt}</span>
-                      <span className="answersText">answers</span>
-                    </Answers>
-                    <div className="views">
-                      <span className="viewsValue">{data.views}</span>
-                      <span className="viewsText">views</span>
-                    </div>
-                  </CountBox>
-                  <QuestionMain>
-                    <span onClick={() => {navigateTo(data.questionId)}} className="title">{data.title}</span>
-                    <span className="content">{data.content}</span>
-                    <div className="tagsBox">
-                      {data.tagsList
-                        ? data.tagsList.map((tag) => {
-                            return <span className="tag">{tag.label}</span>;
-                          })
-                        : null}
-                    </div>
-                  </QuestionMain>
-                  <QuestionProfile>
-                    <span className="name">{data.name}</span>
-                    <span className="createdAt">
-                      asked {data.created_at.slice(0, 10)} &nbsp;at
-                      {data.created_at.slice(10)}
-                    </span>
-                  </QuestionProfile>
-                </QuestionBox>
-              );
-            })
-          : <div className="noData">No questions......<FaRegSadCry /></div>}
+        {print ? (
+          print.slice(0, page.current).map((data) => {
+            return (
+              <QuestionBox>
+                <CountBox>
+                  <div className="likes">
+                    <span className="likesValue">{data.likes}</span>
+                    <span className="likesText">likes</span>
+                  </div>
+                  <Answers accepted={data.accepted_answer}>
+                    {data.accepted_answer === true ? (
+                      <GoCheck size="30" />
+                    ) : null}
+                    <span className="answersValue">{data.answer_cnt}</span>
+                    <span className="answersText">answers</span>
+                  </Answers>
+                  <div className="views">
+                    <span className="viewsValue">{data.views}</span>
+                    <span className="viewsText">views</span>
+                  </div>
+                </CountBox>
+                <QuestionMain>
+                  <span
+                    onClick={() => {
+                      navigateTo(data.questionId);
+                    }}
+                    className="title"
+                  >
+                    {data.title}
+                  </span>
+                  <span className="content">{data.content}</span>
+                  <div className="tagsBox">
+                    {data.tagsList
+                      ? data.tagsList.map((tag) => {
+                          return <span className="tag">{tag.label}</span>;
+                        })
+                      : null}
+                  </div>
+                </QuestionMain>
+                <QuestionProfile>
+                  <span className="name">{data.name}</span>
+                  <span className="createdAt">
+                    asked {data.created_at.slice(0, 10)} &nbsp;at
+                    {data.created_at.slice(10)}
+                  </span>
+                </QuestionProfile>
+              </QuestionBox>
+            );
+          })
+        ) : (
+          <div className="noData">
+            No questions......
+            <FaRegSadCry />
+          </div>
+        )}
       </ContentsBox>
       <Scroll inView={inView} ref={ref} />
     </Box>
