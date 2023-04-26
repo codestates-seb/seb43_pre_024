@@ -459,7 +459,7 @@ function AllQuestions() {
         </div>
         <div className="secondLine">
           <div className="questionsCount">
-            <h3>{datas ? datas.length : null} questions</h3>
+            <h3>{print ? print.length : null} questions</h3>
           </div>
           <div className="sortBtnBox">
             <HotBtn
