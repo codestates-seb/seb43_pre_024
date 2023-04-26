@@ -234,7 +234,10 @@ function Navbar({
         <Route path="/all-questions" element={<AllQuestions />} />
         <Route path="/questions/:id" element={<QuestionDetail />} />
         <Route path="/new-question" element={<NewQuestion />} />
-        <Route path="/mypage" element={<Paging />} />
+        <Route
+          path="/mypage"
+          element={<Paging setUserId={setUserId} userId={userId} />}
+        />
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/search-questions/title" element={<SearchQuestions />} />
         <Route

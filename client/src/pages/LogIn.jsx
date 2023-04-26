@@ -173,11 +173,11 @@ function LogIn({ login, setLogin, userId, setUserId }) {
       if (response.ok) {
         const headers = response.headers;
         const authorizationHeader = headers.get("Authorization");
+        const memberId = headers.get("member-id");
         const token = authorizationHeader.split(" ")[1];
         localStorage.setItem("Authorization", token);
         setLogin(true);
-        setUserId(response.body);
-        console.log(login);
+        setUserId(memberId);
         navigate("/all-questions");
       } else if (response.status === 401) {
         throw new Error("이메일 또는 비밀번호가 틀렸습니다.");

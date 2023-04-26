@@ -1,9 +1,9 @@
-import styled from 'styled-components';
-import Pagination from 'react-js-pagination';
-import { useState, useEffect } from 'react';
-import { BiChevronLeft, BiChevronRight } from 'react-icons/bi';
-import useFetch from '../util/useFetch';
-import MyPage from '../pages/MyPage';
+import styled from "styled-components";
+import Pagination from "react-js-pagination";
+import { useState, useEffect } from "react";
+import { BiChevronLeft, BiChevronRight } from "react-icons/bi";
+import useFetch from "../util/useFetch";
+import MyPage from "../pages/MyPage";
 
 const PagingBox = styled.div`
   width: 35%;
@@ -61,8 +61,8 @@ const Container = styled.div`
   position: relative;
 `;
 
-function Paging() {
-  const [userName, setUsersName] = useState('');
+function Paging({ setUserId, userId }) {
+  const [userName, setUsersName] = useState("");
   const [questions, setQuestions] = useState([]);
   const [answers, setAnswers] = useState([]);
   const [isPending, setIsPending] = useState(false);
@@ -71,28 +71,27 @@ function Paging() {
   const token = localStorage.getItem("Authorization");
 
   useEffect(() => {
-    fetch(
-      `${URL}/users/1`, {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${token}`
+    fetch(`${URL}/users/1`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
       },
-      })
-      .then(res => {
+    })
+      .then((res) => {
         if (!res.ok) {
-          throw Error('could not fetch the data for that resource');
+          throw Error("could not fetch the data for that resource");
         }
         return res.json();
       })
-      .then(data => {
+      .then((data) => {
         setIsPending(true);
         console.log(data);
         setQuestions(data.questions);
         console.log("questions:", questions);
-        setAnswers(data.answers)
+        setAnswers(data.answers);
         setUsersName(data.name);
       })
-      .catch(err => {
+      .catch((err) => {
         setIsPending(false);
         console.log(err);
       });
@@ -154,6 +153,8 @@ function Paging() {
         setQuestionsActive={setQuestionsActive}
         answersActive={answersActive}
         setAnswersActive={setAnswersActive}
+        setUserId={setUserId}
+        userId={userId}
       />
       <PagingBox>
         {questionsActive ? (
@@ -164,7 +165,7 @@ function Paging() {
             pageRangeDisplayed={totalPage}
             prevPageText={<BiChevronLeft className="left" size="30" />}
             nextPageText={<BiChevronRight className="right" size="30" />}
-            onChange={e => handlePageChange(e)}
+            onChange={(e) => handlePageChange(e)}
           />
         ) : (
           <Pagination
@@ -174,7 +175,7 @@ function Paging() {
             pageRangeDisplayed={answersTotalPage}
             prevPageText={<BiChevronLeft className="left" size="30" />}
             nextPageText={<BiChevronRight className="right" size="30" />}
-            onChange={e => handleAnswersPageChange(e)}
+            onChange={(e) => handleAnswersPageChange(e)}
           />
         )}
       </PagingBox>
