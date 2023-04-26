@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import { GoCheck } from "react-icons/go";
 import { useNavigate, Link } from "react-router-dom";
 import { useInView } from "react-intersection-observer";
+import { FaRegSadCry } from 'react-icons/fa';
 
 const Box = styled.div`
   width: calc(100% - 250px);
@@ -467,7 +468,7 @@ function AllQuestions() {
         </div>
         <div className="secondLine">
           <div className="questionsCount">
-            <h3>{print ? print.length : null} questions</h3>
+            <h3>{print ? print.length : 0} questions</h3>
           </div>
           <div className="sortBtnBox">
             <HotBtn
@@ -537,7 +538,7 @@ function AllQuestions() {
                 </QuestionBox>
               );
             })
-          : null}
+          : <div className="noData">No Questions...<FaRegSadCry /></div>}
       </ContentsBox>
       <Scroll inView={inView} ref={ref} />
     </Box>
