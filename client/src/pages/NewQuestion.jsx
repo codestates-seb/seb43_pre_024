@@ -127,17 +127,28 @@ function NewQuestion({ questionId }) {
               console.log("title", title);
               console.log("body", body);
               console.log("tags", tags);
+              const token = localStorage.getItem("Authorization");
+              console.log(token);
               apiClient
-                .post(`questions/ask`, {
-                  email: "zzzzzzz@naver.com",
-                  title: title,
-                  content: body,
-                  // tags: tags,
-                })
+                .post(
+                  `questions/ask`,
+                  {
+                    email: "zzzzzzz@naver.com",
+                    title: title,
+                    content: body,
+                  },
+                  {
+                    headers: {
+                      Authorization: `Bearer eyJhbGciOiJIUzM4NCJ9.eyJyb2xlcyI6WyJST0xFX1VTRVIiXSwidXNlcm5hbWUiOiJkb3p5dGVzdDFAZ21haWwuY29tIiwic3ViIjoiZG96eXRlc3QxQGdtYWlsLmNvbSIsImlhdCI6MTY4MjQ4NDM3NSwiZXhwIjoxNjgyNDg2MTc1fQ.juqTYnhmOAzLaqQtYrRK6rb_DjSetP2ZhjwdmUGQeefrRMeK-waS2USeB0Ux-h1Y`,
+                      "Content-Type": "application/json",
+                    },
+                  }
+                )
                 .then(function (response) {
-                  // console.log(response);
-                  console.log(response.body);
-                  // navigate("/all-questions");
+                  console.log(response);
+                  // console.log(questionId);
+                  const id = response.data.id;
+                  navigate(`/questions/${id}`);
                 })
                 .catch(function (error) {
                   console.log(error);

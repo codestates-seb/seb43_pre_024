@@ -26,6 +26,7 @@ function QuestionInfo({ questionId }) {
   const [isEditing, setIsEditing] = useState(false);
   const [isFilled, setIsFilled] = useState(false);
   const [count, setCount] = useState(0);
+  const [isLogin, setIsLogin] = useState(false);
 
   function fetchQuestionInfo() {
     axios
@@ -165,10 +166,9 @@ function QuestionInfo({ questionId }) {
             className="editButton"
             onClick={() => {
               // TODO: 로그인 여부에 따라 다르게 동작하도록 수정 (로그인 여부를 이 컴포넌트에서 확인할 수 있게 해야힘)
-              // if (isLogin === false) {
-              //   navigate("/login");
-              // }
-
+              if (isLogin === false) {
+                navigate("/login");
+              }
               if (isEditing === true) {
                 // 저장하기가 눌렸음
                 setIsEditing(false);
@@ -197,7 +197,9 @@ function QuestionInfo({ questionId }) {
             className="deleteButton"
             onClick={() => {
               // TODO: 로그인 되어 있는지 확인, 작성자인지 확인
-              // navigate("/login");
+              if (isLogin === false) {
+                navigate("/login");
+              }
               axios
                 .delete(`${API_URL}/questions/${questionId}`)
                 .then(() => {

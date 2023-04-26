@@ -2,11 +2,12 @@ import axios from "axios";
 
 export const API_URL =
   // "http://ec2-43-201-38-40.ap-northeast-2.compute.amazonaws.com:8080/";
-  "http://ec2-43-200-3-23.ap-northeast-2.compute.amazonaws.com:8080/";
-// "http://ec2-15-164-49-219.ap-northeast-2.compute.amazonaws.com:8080/";
+  // "http://ec2-43-200-3-23.ap-northeast-2.compute.amazonaws.com:8080/";
+  "http://ec2-15-164-49-219.ap-northeast-2.compute.amazonaws.com:8080/";
 
+const token = localStorage.getItem("token");
 const headers = {
-  Authorization: `Bearer ${localStorage.getItem("token")}`,
+  Authorization: `Bearer ${token}`,
   "Content-Type": "application/json",
 };
 export const apiClient = axios.create({
