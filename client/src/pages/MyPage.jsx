@@ -1,7 +1,7 @@
-import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import profileImg from '../images/profileImg.jpeg';
+import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import profileImg from "../images/profileImg.jpeg";
 
 const MypageBox = styled.div`
   width: 100%;
@@ -311,10 +311,10 @@ const TabBox = styled.div`
 
 const QuestionsBtn = styled.button`
   border: none;
-  background-color: ${props =>
+  background-color: ${(props) =>
     props.questionsActive === true
-      ? 'rgb(107, 147, 249)'
-      : 'rgb(168, 198, 232)'};
+      ? "rgb(107, 147, 249)"
+      : "rgb(168, 198, 232)"};
   color: white;
   padding: 1rem;
   width: 140px;
@@ -327,8 +327,8 @@ const QuestionsBtn = styled.button`
 
 const AnswersBtn = styled.button`
   border: none;
-  background-color: ${props =>
-    props.answersActive === true ? 'rgb(107, 147, 249)' : 'rgb(168, 198, 232)'};
+  background-color: ${(props) =>
+    props.answersActive === true ? "rgb(107, 147, 249)" : "rgb(168, 198, 232)"};
   color: white;
   padding: 1rem;
   width: 140px;
@@ -598,16 +598,17 @@ function MyPage({
   setAnswersActive,
   questionsActive,
   answersActive,
+  setUserId,
+  userId,
 }) {
-
-  const [userName, setUsersName] = useState('');
+  const [userName, setUsersName] = useState("");
   const [secession, setSecession] = useState(false);
   const [secessionAlert, setSecessionAlert] = useState(false);
   const [correction, setCorrection] = useState(false);
-  const [name, setName] = useState('');
-  const [password, setPassword] = useState('g');
+  const [name, setName] = useState("");
+  const [password, setPassword] = useState("g");
   const [lengthConfirm, setLengthConfirm] = useState(false);
-  const [rePassword, setRePassword] = useState('');
+  const [rePassword, setRePassword] = useState("");
   const [confirm, setConfirm] = useState(false);
   const [id, setId] = useState(1);
   const [questions, setQuestions] = useState([]);
@@ -619,28 +620,27 @@ function MyPage({
   const token = localStorage.getItem("Authorization");
 
   useEffect(() => {
-    fetch(
-      `${URL}/users/1`, {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${token}`
+    fetch(`${URL}/users/1`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
       },
-      })
-      .then(res => {
+    })
+      .then((res) => {
         if (!res.ok) {
-          throw Error('could not fetch the data for that resource');
+          throw Error("could not fetch the data for that resource");
         }
         return res.json();
       })
-      .then(data => {
+      .then((data) => {
         setIsPending(true);
         console.log(data);
         setQuestions(data.questions);
         console.log("questions:", questions);
-        setAnswers(data.answers)
+        setAnswers(data.answers);
         setUsersName(data.name);
       })
-      .catch(err => {
+      .catch((err) => {
         setIsPending(false);
         console.log(err);
       });
@@ -648,17 +648,17 @@ function MyPage({
 
   function deleteUser() {
     fetch(`${URL}/users/1`, {
-      method: 'DELETE',
+      method: "DELETE",
       headers: {
-        ContentType: 'application/json',
+        ContentType: "application/json",
         Authorization: `Bearer ${token}`,
       },
     })
-      .then(response => {
+      .then((response) => {
         setSecessionAlert(false);
-        navigate('/');
+        navigate("/");
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   }
@@ -734,20 +734,20 @@ function MyPage({
 
   const onChangePut = () => {
     if (!confirm) {
-      alert('비밀번호를 확인해주세요!');
+      alert("비밀번호를 확인해주세요!");
     } else {
       fetch(`${URL}/users/1`, {
-        method: 'PUT',
+        method: "PUT",
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ name, answers })
+        body: JSON.stringify({ name, answers }),
       })
         .then(() => {
           console.log(userName);
         })
-        .catch(err => console.log(err));
+        .catch((err) => console.log(err));
 
       window.location.reload();
     }
@@ -795,56 +795,56 @@ function MyPage({
         </TabBox>
         {questionsActive ? (
           <QuestionsBox>
-            {questions.length
-              && questions.map(question => {
-                  return (
-                    <div key={question.questionId} className="questionBox">
-                      <div className="detailBox">
-                        <span className="likes">{question.likes} likes</span>
-                        <span className="answerCnt">
-                          {question.answer_cnt} answers
-                        </span>
-                        <span className="views">{question.views} views</span>
-                      </div>
-                      <div className="title">{question.title}</div>
-                      {/* <div className="tagsBox">
+            {questions.length &&
+              questions.map((question) => {
+                return (
+                  <div key={question.questionId} className="questionBox">
+                    <div className="detailBox">
+                      <span className="likes">{question.likes} likes</span>
+                      <span className="answerCnt">
+                        {question.answer_cnt} answers
+                      </span>
+                      <span className="views">{question.views} views</span>
+                    </div>
+                    <div className="title">{question.title}</div>
+                    {/* <div className="tagsBox">
                         {question.tagsList.map(tag => {
                           return <div className="tag"> {tag.label} </div>;
                         })}
                       </div> */}
-                      <div className="createdAt">
-                        asked &nbsp;{question.created_at}
-                      </div>
+                    <div className="createdAt">
+                      asked &nbsp;{question.created_at}
                     </div>
-                  );
-                })}
+                  </div>
+                );
+              })}
           </QuestionsBox>
         ) : null}
         {answersActive ? (
           <AnswersBox>
-            {answers.length
-              && answers.map(answer => {
-                  return (
-                    <div key={answer.questionId} className="questionBox">
-                      <div className="detailBox">
-                        <span className="likes">{answer.likes} likes</span>
-                        <span className="answerCnt">
-                          {answer.answer_cnt} answers
-                        </span>
-                        <span className="views">{answer.views} views</span>
-                      </div>
-                      <div className="title">{answer.title}</div>
-                      {/* <div className="tagsBox">
+            {answers.length &&
+              answers.map((answer) => {
+                return (
+                  <div key={answer.questionId} className="questionBox">
+                    <div className="detailBox">
+                      <span className="likes">{answer.likes} likes</span>
+                      <span className="answerCnt">
+                        {answer.answer_cnt} answers
+                      </span>
+                      <span className="views">{answer.views} views</span>
+                    </div>
+                    <div className="title">{answer.title}</div>
+                    {/* <div className="tagsBox">
                         {answer.tagsList.map(tag => {
                           return <div className="tag"> {tag.label} </div>;
                         })}
                       </div> */}
-                      <div className="createdAt">
-                        asked &nbsp;{answer.created_at}
-                      </div>
+                    <div className="createdAt">
+                      asked &nbsp;{answer.created_at}
                     </div>
-                  );
-                })}
+                  </div>
+                );
+              })}
           </AnswersBox>
         ) : null}
       </ContentBox>
@@ -885,7 +885,7 @@ function MyPage({
                     type="text"
                     name="name"
                     defaultValue={userName}
-                    onChange={e => changeName(e)}
+                    onChange={(e) => changeName(e)}
                   />
                 </div>
                 <div className="passwordBox">
@@ -894,7 +894,7 @@ function MyPage({
                     className="passwordInput"
                     type="password"
                     name="password"
-                    onChange={e => changePassword(e)}
+                    onChange={(e) => changePassword(e)}
                   />
                 </div>
                 {lengthConfirm ? (
@@ -910,7 +910,7 @@ function MyPage({
                     className="rePasswordInput"
                     type="password"
                     name="password"
-                    onChange={e => changeRePassword(e)}
+                    onChange={(e) => changeRePassword(e)}
                   />
                 </div>
                 {confirm ? (
@@ -942,6 +942,5 @@ function MyPage({
     </MypageBox>
   );
 }
-
 
 export default MyPage;
