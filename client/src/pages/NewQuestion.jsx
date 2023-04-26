@@ -148,8 +148,8 @@ function NewQuestion({questionId, lastSegment, setLastSegment  }) {
                 .then(function (response) {
                   // console.log(response.headers.get("Location"));
                   console.log(`나와랑 ! ${response.request['responseURL']}`);
-                  const navUrl = response.request['responseURL'];
-                  const urlSegments = navUrl.split('/');
+                  // const navUrl = response.request['responseURL'];
+                  // const urlSegments = navUrl.split('/');
                   // setLastSegment(urlSegments[urlSegments.length - 1]);
                   navigate(`/all-questions`);
                 })
