@@ -138,7 +138,9 @@ function NewQuestion() {
                 },
                 body: JSON.stringify(data),
               })
-                .then(function (response) {})
+                .then(function (response) {
+                  navigate("/all-questions");
+                })
                 .catch(function (error) {
                   console.log(error);
                   alert("질문 등록에 실패했습니다.");

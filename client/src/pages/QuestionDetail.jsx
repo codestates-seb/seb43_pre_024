@@ -4,7 +4,6 @@ import styled from "styled-components";
 import MDEditor from "@uiw/react-md-editor";
 import AnswerList from "../components/AnswerList";
 import QuestionInfo from "../components/QuestionInfo";
-import { apiClient } from "../api";
 
 const DetailPageStyle = styled.div`
   width: 80%;
@@ -37,7 +36,7 @@ function QuestionDetail() {
   const URL = process.env.REACT_APP_FRONT;
 
   function fetchQuestionDetail() {
-    fetch(`${URL}/questions/${id}`)
+    fetch(`${process.env.REACT_APP_FRONT}/questions/${id}`)
       .then((res) => {
         if (!res.ok) {
           throw Error("could not fetch the data for that resource");
@@ -119,21 +118,6 @@ function NewAnswerInput({ questionId }) {
               alert("답변 등록에 실패했습니다.");
             });
         }}
-        // apiClient
-        //   .post(`questions/${questionId}/answer`, {
-        //     //TODO : 로그인 기능 구현 후, 로그인한 사용자의 email을 넣어야 함
-        //     email: "abc@gmail.com",
-        //     content: value,
-        //   })
-        //   .then(function (response) {
-        //     console.log(response);
-        //     /* eslint-disable no-restricted-globals */
-        //     location.reload();
-        //   })
-        //   .catch(function (error) {
-        //     console.log(error);
-        //     alert("답변 등록에 실패했습니다.");
-        //   });
       >
         Post Your Answer
       </PostButtonStyle>
