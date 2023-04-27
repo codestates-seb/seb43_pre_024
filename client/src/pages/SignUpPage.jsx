@@ -55,7 +55,7 @@ const InputBox = styled.div`
 
   .inputContainer {
     position: relative;
-    height: 340px;
+    height: 360px;
     background: #fff;
     padding: 40px 30px;
     border-radius: 5px;
@@ -161,7 +161,9 @@ function SignUpPage() {
   const [pwErrorMessage, setPwErrorMessage] = useState(
     "7자에서 20자 이내로 비밀번호를 입력해주세요."
   );
-  const [pwCheckErrorMessage, setPwCheckErrorMessage] = useState("");
+  const [pwCheckErrorMessage, setPwCheckErrorMessage] = useState(
+    "비밀번호를 다시 한번 확인해주세요."
+  );
   const navigate = useNavigate();
   // display name input 클릭 시 div 포커스 효과
   const nameHandleFocus = () => {
