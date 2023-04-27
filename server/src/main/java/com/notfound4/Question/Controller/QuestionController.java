@@ -14,6 +14,7 @@ import com.notfound4.Question.Entity.Question;
 import com.notfound4.Question.Mapper.QuestionMapper;
 import com.notfound4.Question.Service.QuestionLikeService;
 import com.notfound4.Question.Service.QuestionService;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,6 +26,7 @@ import java.net.URI;
 import java.util.List;
 
 @Slf4j
+@AllArgsConstructor
 @RestController
 @RequestMapping("/questions")
 public class QuestionController {
@@ -42,25 +44,9 @@ public class QuestionController {
     @Autowired
     private final AnswerService answerService;
     @Autowired
-    private final QuestionLikeService questionLikeService;
-
-    @Autowired
     private final CommentService commentService;
     @Autowired
     private final CommentMapper commentMapper;
-
-
-    public QuestionController(QuestionMapper mapper, AnswerMapper answerMapper, QuestionService questionService, MemberService memberService, QuestionLikeService likeService, AnswerService answerService, QuestionLikeService questionLikeService, CommentService commentService, CommentMapper commentMapper) {
-        this.mapper = mapper;
-        this.answerMapper = answerMapper;
-        this.questionService = questionService;
-        this.memberService = memberService;
-        this.likeService = likeService;
-        this.answerService = answerService;
-        this.questionLikeService = questionLikeService;
-        this.commentService = commentService;
-        this.commentMapper = commentMapper;
-    }
 
     // 질문 리스트 조회
     @GetMapping
@@ -101,9 +87,7 @@ public class QuestionController {
 
         // 해당 질문 답변 리스트 가져오기
         List<Answer> answerList = answerService.findAnswers(questionId);
-        // 리턴 할 Dto 로 답변 리스트 매핑 (TODO: 나중에 삭제)
-        //List<AnswerDto.Response> answerListResponse = answerMapper.answerToAnswerListResponse(answerList);
-
+        // 리턴 할 Dto 로 답변 리스트 매핑
         List<AnswerDto.Response> answerListResponse = answerMapper.answerToAnswerListResponse(answerList, commentService, commentMapper);
 
         // 리턴할 질문 확인 조회 Dto 로 매핑
@@ -118,9 +102,6 @@ public class QuestionController {
     @PatchMapping("/{question_id}/edit")
     public ResponseEntity patchQuestion(@PathVariable("question_id") long questionId,
                                         @RequestBody QuestionDto.Patch patchQuestion) {
-        // TODO :  질문한 사람만 질문 내용 수정할 수 있도록 Security 적용해야함
-        // 추후 email로 확인하는 절차 삭제해야함
-
 
         // 질문 수정 리퀘스트 바디로 데이터 받아서 question 매핑
         Question question = mapper.patchQuestionToQuestion(patchQuestion);
@@ -139,7 +120,6 @@ public class QuestionController {
     // 질문 삭제
     @DeleteMapping("/{question_id}")
     public ResponseEntity deleteQuestion(@PathVariable("question_id") long questionId) {
-        // TODO: 질문한 사람만 삭제할 수 있도록 Security 적용
 
         questionService.deleteQuestion(questionId);
 
@@ -193,13 +173,6 @@ public class QuestionController {
     @PostMapping("/{questionId}")
     public ResponseEntity<?> chooseAnswer(@PathVariable Long questionId, @RequestParam(required = false) Long answerId) {
         Long memberId = questionService.getMemberIdByQuestionId(questionId);
-        // 질문한 사람만 답변할 수 있도록 Security 적용
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        String currentUserName = authentication.getName();
-//
-//        if (!currentUserName.equals(memberId.toString())) {
-//            throw new UnauthorizedException("You are not authorized to perform this action");
-//        }
 
         questionService.chooseAnswer(questionId, answerId);
 
@@ -212,7 +185,6 @@ public class QuestionController {
         return ResponseEntity.status(HttpStatus.FOUND)
                 .location(location)
                 .build();
-
     }
 }
 

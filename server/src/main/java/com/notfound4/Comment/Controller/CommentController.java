@@ -8,6 +8,7 @@ import com.notfound4.Comment.Mapper.CommentMapper;
 import com.notfound4.Comment.Service.CommentService;
 import com.notfound4.Member.Entity.Member;
 import com.notfound4.Member.Service.MemberService;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,7 @@ import javax.validation.constraints.Positive;
 import java.net.URI;
 
 @Slf4j
+@AllArgsConstructor
 @RestController
 @RequestMapping("/questions")
 public class CommentController {
@@ -26,13 +28,6 @@ public class CommentController {
     private final CommentService service;
     private final MemberService memberService;
     private final AnswerService answerService;
-
-    public CommentController(CommentMapper mapper, CommentService service, MemberService memberService, AnswerService answerService) {
-        this.mapper = mapper;
-        this.service = service;
-        this.memberService = memberService;
-        this.answerService = answerService;
-    }
 
     @PostMapping("/{question_id}/answer/{answer_id}/comment")
     public ResponseEntity postComment(@PathVariable("question_id") @Positive long questionId,

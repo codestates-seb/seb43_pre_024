@@ -6,6 +6,7 @@ import com.notfound4.Comment.Entity.Comment;
 import com.notfound4.Comment.Repository.CommentRepository;
 import com.notfound4.Question.Entity.Question;
 import com.notfound4.Question.Repository.QuestionRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,17 +15,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Transactional
+@AllArgsConstructor
 @Service
 public class AnswerService {
     private final AnswerRepository repository;
     private final QuestionRepository questionRepository;
     private final CommentRepository commentRepository;
-
-    public AnswerService(AnswerRepository repository, QuestionRepository questionRepository, CommentRepository commentRepository) {
-        this.repository = repository;
-        this.questionRepository = questionRepository;
-        this.commentRepository = commentRepository;
-    }
 
     // 답변 등록
     public void createAnswer(Answer answer) {

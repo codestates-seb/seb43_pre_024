@@ -27,7 +27,6 @@ public interface QuestionMapper {
         getQuestion.setName(question.getMember().getName());
         getQuestion.setLikes(likeService.likes(question));
         getQuestion.setAnswer_cnt(answerService.answers(question));
-        //getQuestion.setAccepted_answer(question.getAcceptedAnswerId()!=null);
         getQuestion.setViews(question.getViews());
         getQuestion.setCreated_at(question.getCreatedAt());
         return getQuestion;

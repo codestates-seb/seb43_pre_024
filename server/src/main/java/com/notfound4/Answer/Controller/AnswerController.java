@@ -8,6 +8,7 @@ import com.notfound4.Member.Entity.Member;
 import com.notfound4.Member.Service.MemberService;
 import com.notfound4.Question.Entity.Question;
 import com.notfound4.Question.Service.QuestionService;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -20,6 +21,7 @@ import java.net.URI;
 
 @Slf4j
 @Validated
+@AllArgsConstructor
 @RestController
 @RequestMapping("/questions")
 public class AnswerController {
@@ -29,13 +31,6 @@ public class AnswerController {
     private final AnswerService service;
     private final MemberService memberService;
     private final QuestionService questionService;
-
-    public AnswerController(AnswerMapper mapper, AnswerService service, MemberService memberService, QuestionService questionService) {
-        this.mapper = mapper;
-        this.service = service;
-        this.memberService = memberService;
-        this.questionService = questionService;
-    }
 
     // 답변 등록
     @PostMapping("/{question_id}/answer")

@@ -22,7 +22,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -35,7 +34,6 @@ public class QuestionService {
     private final AnswerRepository answerRepository;
     @Autowired
     private final LikeRepository likeRepository;
-
     @Autowired
     private QuestionLikeService likeService;
     @Autowired

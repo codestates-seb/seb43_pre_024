@@ -1,29 +1,14 @@
-# ?? app??? ? ?? ??? default? ? ? ??
+# run as local environment
 spring:
   profiles:
     active: local # default
-    group:  # group?? ??
-      local:
-        - common
-      prod:
-        - common
----
-# ???? ??? ???
-spring:
-  config:
-    activate:
-      on-profile: common
----
-# run as local environment
-spring:
-  config:
-    activate:
-      on-profile: local
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
     url: jdbc:mariadb://localhost:3307/notfound
-    username: ${SPRING_DATASOURCE_USERNAME}
-    password: ${SPRING_DATASOURCE_PASSWORD}
+    #username: ${SPRING_DATASOURCE_USERNAME}
+    username: root
+    #password: ${SPRING_DATASOURCE_PASSWORD}
+    password: root
   redis:
     host: 127.0.0.1
     port: 6379
@@ -36,24 +21,21 @@ spring:
       client:
         registration:
           google:
-            clientId: ${GOOGLE_CLIENT_ID}
-            clientSecret: ${GOOGLE_CLIENT_SECRET}
+            #clientId: ${GOOGLE_CLIENT_ID}
+            clientId: 473897337959-hntpu25giphvku4oaseqsv6akmp8u80l.apps.googleusercontent.com
+            #clientSecret: ${GOOGLE_CLIENT_SECRET}
+            clientSecret: CSPX-r7hU24vUD45atBvdIb0rG5FCSFBg
             scope:
               - email
               - profile
           github:
-            client-id: ${GITHUB_CLIENT_ID}
-            client-secret: ${GITHUB_CLIENT_SECRET}
+            #client-id: ${GITHUB_CLIENT_ID}
+            client-id: 65696c6efadea90b0f7f
+            #client-secret: ${GITHUB_CLIENT_SECRET}
+            client-secret: 5d1538169ed9ac0c45c54c84da9988847db746bc
             scope: name,email,avatar_url
 jwt:
-  key: ${JWT_SECRET_KEY}  # token secret key
+  #key: ${JWT_SECRET_KEY}  # token secret key
+  key: mogu1231241231241231726412698371298471928739127481241251214
   access-token-expiration-minutes: 30  # access-token 만료시간
   refresh-token-expiration-minutes: 420 # refresh-token 만료시간
-
----
-# run as prod environment
-spring:
-  config:
-    activate:
-      on-profile: prod
-

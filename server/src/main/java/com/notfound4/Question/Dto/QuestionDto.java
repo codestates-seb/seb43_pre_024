@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.xml.stream.events.Comment;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -42,7 +41,6 @@ public class QuestionDto {
         private String name;
         private int likes;
         private int answer_cnt;
-        //private boolean accepted_answer;
         private int views;
         private LocalDateTime created_at;
     }
@@ -66,5 +64,4 @@ public class QuestionDto {
         private List<AnswerDto.Response> answerList;
 
     }
-
 }
