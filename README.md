@@ -51,8 +51,8 @@
 
 <br/>
 
-## 🌟 Pages & Features
-
+## 🌟 화면정의서
+[화면정의서](https://www.notion.so/b097bc36f56b4a1eb820f79513e3f468?v=cc450bfef14744409b7179e1e71116ce)
 
 
 
