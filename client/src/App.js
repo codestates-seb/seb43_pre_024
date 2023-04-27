@@ -24,6 +24,21 @@ function App() {
   }
 
   useEffect(() => {
+    if (window.location.href.includes("Authorization=Bearer%")) {
+      const redirectedUrl = window.location.href;
+
+      const searchString = "Authorization=Bearer%";
+      const startIndex = redirectedUrl.indexOf(searchString);
+
+      if (startIndex !== -1) {
+        const textAfterSearchString = redirectedUrl.substring(
+          startIndex + searchString.length
+        );
+        localStorage.setItem("Authorization", textAfterSearchString);
+      } else {
+        console.log("Search string not found");
+      }
+    }
     const token = localStorage.getItem("Authorization");
     if (token) {
       setLogin(true);

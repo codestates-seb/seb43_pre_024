@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { useState } from "react";
 import { AiFillHeart } from "react-icons/ai";
 import { addLike, apiClient } from "../api";
+import { useNavigate } from "react-router-dom";
 
 const HeartButtonStyle = styled.div`
   display: flex;
@@ -10,6 +11,7 @@ const HeartButtonStyle = styled.div`
 `;
 
 function AnswerList({ questionDetail, fetchQuestionDetail, questionId }) {
+  const navigate = useNavigate();
   function onClickHeartButton({ answerId }) {
     // 로그인한 유저가 이 답변에 좋아요를 눌렀는지 서버에서 알려줘야 좋아요 해제가 가능함
     const token = localStorage.getItem("Authorization");
@@ -65,18 +67,25 @@ function AnswerList({ questionDetail, fetchQuestionDetail, questionId }) {
               <button
                 //  로그인 구현이 끝나야 채택하기가 가능함. 로그인이 되어있고, 질문 작성자가 맞으면 채택하기 버튼이 보이도록 구현해야함
                 onClick={() => {
-                  // TODO: 채택하기 API 연동
-                  // if(isLogin && isAuthor) {
-                  // }
-                  //   apiClient
-                  //     .post(`questions/${questionId}`, {
-                  //       // answerId: answer_id,
-                  //     })
-                  //     .then(() => {})
-                  //     .catch(() => {});
+                  fetch(
+                    `${process.env.REACT_APP_FRONT}/questions/${questionId}/answer/{answer_id}`,
+                    {
+                      method: "DELETE",
+                      headers: {
+                        "Content-Type": "application/json",
+                        // Authorization: `Bearer ${token}`,
+                      },
+                    }
+                  )
+                    .then((response) => {
+                      navigate("/");
+                    })
+                    .catch((err) => {
+                      console.log(err);
+                    });
                 }}
               >
-                채택하기
+                ⛔️삭제하기
               </button>
             </div>
           </div>

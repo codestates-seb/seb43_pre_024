@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import QuestionInputBox from "../components/QuestionInputBox";
 import { useNavigate } from "react-router-dom";
 import Confirm from "../components/Confirm";
@@ -83,6 +83,33 @@ function NewQuestion() {
       setCurrentStep(currentStep + 1);
     }
   }
+  const [email, setEmail] = useState("");
+  const [isPending, setIsPending] = useState(false);
+  const memberId = localStorage.getItem("member-id");
+  const token = localStorage.getItem("Authorization");
+  useEffect(() => {
+    fetch(`${process.env.REACT_APP_FRONT}/users/${memberId}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw Error("could not fetch the data for that resource");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        setIsPending(true);
+        setEmail(data.email);
+        console.log(email);
+      })
+      .catch((err) => {
+        setIsPending(false);
+        console.log(err);
+      });
+  }, [isPending]);
 
   return (
     <>
@@ -124,7 +151,7 @@ function NewQuestion() {
             type="button"
             onClick={() => {
               const data = {
-                email: "aaa@naver.com",
+                email: email,
                 title: title,
                 content: body,
               };
@@ -138,7 +165,9 @@ function NewQuestion() {
                 },
                 body: JSON.stringify(data),
               })
-                .then(function (response) {})
+                .then(function (response) {
+                  navigate("/all-questions");
+                })
                 .catch(function (error) {
                   console.log(error);
                   alert("질문 등록에 실패했습니다.");
