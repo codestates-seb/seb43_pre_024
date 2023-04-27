@@ -73,10 +73,13 @@ function QuestionInfo({ questionDetail, fetchQuestionDetail, questionId }) {
   // TODO: API 연동
   const tags = ["javascript", "react", "java", "python", "c++"];
 
+  const [value, setValue] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const [isFilled, setIsFilled] = useState(false);
   const [count, setCount] = useState(0);
   const [isLogin, setIsLogin] = useState(false);
+  const token = localStorage.getItem("Authorization");
+  const memberId = localStorage.getItem("member-id");
 
   function onClickHeartButton() {
     setIsFilled(!isFilled);
@@ -142,24 +145,32 @@ function QuestionInfo({ questionDetail, fetchQuestionDetail, questionId }) {
             onClick={() => {
               // TODO: 로그인 여부에 따라 다르게 동작하도록 수정 (로그인 여부를 이 컴포넌트에서 확인할 수 있게 해야힘)
               if (isLogin === false) {
-                navigate("/login");
+                // navigate("/login");
               }
               if (isEditing === true) {
                 // 저장하기가 눌렸음
                 setIsEditing(false);
-
-                apiClient
-                  .patch(`questions/${questionId}/edit`, {
-                    title: questionDetail.title,
-                    content: questionContent,
-                  })
+                fetch(
+                  `${process.env.REACT_APP_FRONT}/questions/${questionId}/edit`,
+                  {
+                    method: "PATCH",
+                    headers: {
+                      "Content-Type": "application/json",
+                      Authorization: `Bearer ${token}`,
+                    },
+                    body: JSON.stringify({
+                      title: questionDetail.title,
+                      content: questionContent,
+                    }),
+                  }
+                )
                   .then(() => {
                     fetchQuestionDetail();
                   })
-                  .catch(() => {
-                    alert("수정 실패");
-                  });
-              } else {
+                  .catch((err) => console.log(err));
+              }
+              // window.location.reload();
+              else {
                 // 수정하기가 눌렸음
                 setIsEditing(true);
               }
@@ -174,15 +185,23 @@ function QuestionInfo({ questionDetail, fetchQuestionDetail, questionId }) {
               // TODO: 로그인 되어 있는지 확인, 작성자인지 확인
               if (isLogin === false) {
                 navigate("/login");
+                fetch(
+                  `${process.env.REACT_APP_FRONT}/questions/${questionId}`,
+                  {
+                    method: "DELETE",
+                    headers: {
+                      "Content-Type": "application/json",
+                      Authorization: `Bearer ${token}`,
+                    },
+                  }
+                )
+                  .then((response) => {
+                    navigate("/");
+                  })
+                  .catch((err) => {
+                    console.log(err);
+                  });
               }
-              apiClient
-                .delete(`questions/${questionId}`)
-                .then(() => {
-                  navigate("/");
-                })
-                .catch(() => {
-                  alert("삭제 실패");
-                });
             }}
           >
             Delete

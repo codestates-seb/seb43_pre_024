@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import profileImg from "../images/profileImg.jpeg";
-import {FaRegSadCry} from 'react-icons/fa';
+import { FaRegSadCry } from "react-icons/fa";
 
 const MypageBox = styled.div`
   width: 100%;
@@ -812,7 +812,7 @@ function MyPage({
         </TabBox>
         {questionsActive ? (
           <QuestionsBox>
-            {pageData ?
+            {pageData ? (
               pageData.map((question) => {
                 return (
                   <div key={question.questionId} className="questionBox">
@@ -823,18 +823,29 @@ function MyPage({
                       </span>
                       <span className="views">{question.views} views</span>
                     </div>
-                    <div className="title" onClick={() => toNavigate(question.questionId)}>{question.title}</div>
+                    <div
+                      className="title"
+                      onClick={() => toNavigate(question.questionId)}
+                    >
+                      {question.title}
+                    </div>
                     <div className="createdAt">
                       asked &nbsp;{question.created_at}
                     </div>
                   </div>
                 );
-              }) : <div className="noData">No Questions...<FaRegSadCry /></div>}
+              })
+            ) : (
+              <div className="noData">
+                No Questions...
+                <FaRegSadCry />
+              </div>
+            )}
           </QuestionsBox>
         ) : null}
         {answersActive ? (
           <AnswersBox>
-            {pageAnswersData ?
+            {pageAnswersData ? (
               pageAnswersData.map((answer) => {
                 return (
                   <div key={answer.questionId} className="questionBox">
@@ -845,13 +856,24 @@ function MyPage({
                       </span>
                       <span className="views">{answer.views} views</span>
                     </div>
-                    <div className="title" onClick={() => toNavigate(answer.questionId)}>{answer.title}</div>
+                    <div
+                      className="title"
+                      onClick={() => toNavigate(answer.questionId)}
+                    >
+                      {answer.title}
+                    </div>
                     <div className="createdAt">
                       asked &nbsp;{answer.created_at}
                     </div>
                   </div>
                 );
-              }) : <div className="noData">No Answers...<FaRegSadCry /></div>}
+              })
+            ) : (
+              <div className="noData">
+                No Answers...
+                <FaRegSadCry />
+              </div>
+            )}
           </AnswersBox>
         ) : null}
       </ContentBox>

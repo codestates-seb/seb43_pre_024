@@ -76,6 +76,33 @@ function QuestionDetail() {
 
 function NewAnswerInput({ questionId }) {
   const [value, setValue] = useState("");
+  const [email, setEmail] = useState("");
+  const [isPending, setIsPending] = useState(false);
+  const memberId = localStorage.getItem("member-id");
+  const token = localStorage.getItem("Authorization");
+  useEffect(() => {
+    fetch(`${process.env.REACT_APP_FRONT}/users/${memberId}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw Error("could not fetch the data for that resource");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        setIsPending(true);
+        setEmail(data.email);
+        console.log(email);
+      })
+      .catch((err) => {
+        setIsPending(false);
+        console.log(err);
+      });
+  }, [isPending]);
   return (
     <div>
       <span
@@ -93,25 +120,30 @@ function NewAnswerInput({ questionId }) {
           setValue(e);
         }}
       />
+
       <PostButtonStyle
         type="button"
         onClick={() => {
           const data = {
-            email: "aaa@naver.com",
+            email,
             content: value,
           };
-          const token = localStorage.getItem("Authorization");
-          fetch(`${process.env.REACT_APP_FRONT}/questions/answer`, {
-            method: "POST",
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data),
-          })
+
+          fetch(
+            `${process.env.REACT_APP_FRONT}/questions/${questionId}/answer`,
+            {
+              method: "POST",
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(data),
+            }
+          )
             .then(function (response) {
               console.log(data);
               console.log(response);
+              window.location.reload();
             })
             .catch(function (error) {
               console.log(error);
