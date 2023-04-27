@@ -1,6 +1,6 @@
 /* eslint-disable consistent-return */
 import styled from "styled-components";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { ReactComponent as GoogleLogo } from "../images/googleLogo.svg";
 import { ReactComponent as GitLogo } from "../images/gitLogo.svg";
