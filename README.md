@@ -12,7 +12,7 @@
 - **`프로젝트 명` :** 우리만의 Stack overflow 만들기
 - **`프로젝트 기간` :** 2023.04.11 ~ 2023.04.27
 - `팀원` : 김지은(팀장), 김미리, 오다경, 양도열(팀장), 김태진, 김예진
-- **`배포 링크` :** 
+- **`배포 링크` :** [배포링크](http://notfound404test.s3-website.ap-northeast-2.amazonaws.com/)
 
 <br/>
 
@@ -51,8 +51,8 @@
 
 <br/>
 
-## 🌟 Pages & Features
-
+## 🌟 화면정의서
+[화면정의서](https://www.notion.so/b097bc36f56b4a1eb820f79513e3f468?v=cc450bfef14744409b7179e1e71116ce)
 
 
 
