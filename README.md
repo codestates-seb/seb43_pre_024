@@ -12,16 +12,14 @@
 - **`프로젝트 명` :** 우리만의 Stack overflow 만들기
 - **`프로젝트 기간` :** 2023.04.11 ~ 2023.04.27
 - `팀원` : 김지은(팀장), 김미리, 오다경, 양도열(팀장), 김태진, 김예진
-- **`배포 링크` :** [배포링크](http://notfound404test.s3-website.ap-northeast-2.amazonaws.com/)
+- **`배포 링크` :** [배포링크](http://codestates-redhood.s3-website.ap-northeast-2.amazonaws.com/boards)
 
 <br/>
 
 ## 🧑‍💻 Member
 
 
-| [김지은<br>(FE, 팀장)] | [김미리<br>(FE)] | [오다경<br>(FE)]| [양도열<br>(BE, 팀장)] | [김태진<br>(BE)] | [김예진<br>(BE)] |
-| :---: | :---: | :---: | :---: | :---: | :---: |
-|<img src="https://user-images.githubusercontent.com/77611460/231422765-ef24ec68-6325-473f-85e6-47c4c760c77a.jpg" alt="jieun" width="120">| <img src="https://user-images.githubusercontent.com/77611460/231429581-4ef417fa-5720-4d00-9ed3-58b51d11b525.jpeg" alt="miri" width="110">| <img src="https://user-images.githubusercontent.com/77611460/231429591-9f53ecd2-bfaa-4c18-a6d8-56cec1138c88.png" alt="dakyung" width="90">| <img src="https://user-images.githubusercontent.com/77611460/231429574-905d745f-283a-4f48-b7ce-47aba042ccde.jpg" alt="doyeol" width="110">| <img src="https://user-images.githubusercontent.com/77611460/231429579-695eac59-f86e-4354-a2a8-03a674c6a343.jpg" alt="taejin" width="110">| <img src="https://user-images.githubusercontent.com/77611460/231439519-312c1842-9e81-4524-919c-88a7f062c238.png" alt="yejin" width="130">
+| [강수암<br>(FE, 팀장)] | [오다경<br>(FE)] | [최예슬<br>(FE)]| [남지훈<br>(BE, 팀장)] | [백철현<br>(BE)] | [전지영<br>(BE)] |
 
 
 
